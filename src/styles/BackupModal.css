@@ -1,0 +1,328 @@
+.backup-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-overlay-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.backup-modal {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+  animation: slideUp 0.3s ease-out;
+}
+
+.backup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.backup-header h2 {
+  color: var(--text-primary);
+  font-size: 24px;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--border-color);
+  font-size: 28px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.close-btn:hover {
+  color: var(--text-primary);
+  transform: scale(1.2);
+}
+
+/* Backup Section */
+.backup-section {
+  margin-bottom: 30px;
+}
+
+.backup-section h3 {
+  color: var(--text-primary);
+  font-size: 18px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.backup-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.backup-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 12px 20px;
+  border: 2px solid var(--border-color);
+  background: var(--bg-overlay-primary);
+  color: var(--text-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+  font-size: 14px;
+}
+
+.backup-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--bg-overlay-secondary);
+  background: var(--bg-overlay-secondary);
+}
+
+.backup-btn.export {
+  border-color: var(--accent-green);
+  background: var(--bg-overlay-tertiary);
+  color: var(--accent-green);
+}
+
+.backup-btn.export:hover {
+  box-shadow: 0 4px 15px var(--bg-overlay-secondary);
+  background: var(--bg-overlay-tertiary);
+}
+
+/* Saved Backups List */
+.saved-backups {
+  background: var(--bg-overlay-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.saved-backups h4 {
+  color: var(--text-primary);
+  margin: 0 0 15px 0;
+  font-size: 16px;
+}
+
+.backups-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.backup-item {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.backup-item:hover {
+  box-shadow: 0 2px 10px var(--bg-overlay-secondary);
+  border-color: var(--accent-gold);
+}
+
+.backup-info {
+  flex: 1;
+}
+
+.backup-name {
+  color: var(--text-primary);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.backup-date {
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.backup-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.backup-action-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--accent-gold);
+  background: var(--bg-overlay-tertiary);
+  color: var(--accent-gold);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.backup-action-btn:hover {
+  background: var(--bg-overlay-tertiary);
+  box-shadow: 0 2px 8px var(--bg-overlay-tertiary);
+}
+
+.backup-action-btn.delete {
+  border-color: var(--accent-red);
+  background: var(--bg-overlay-tertiary);
+  color: var(--accent-red);
+}
+
+.backup-action-btn.delete:hover {
+  background: var(--bg-overlay-tertiary);
+  box-shadow: 0 2px 8px var(--bg-overlay-tertiary);
+}
+
+/* Import File */
+.import-file-section {
+  margin-bottom: 20px;
+}
+
+.file-input-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+.file-input-wrapper input[type="file"] {
+  position: absolute;
+  left: -9999px;
+}
+
+.file-input-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px;
+  border: 2px dashed var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-overlay-tertiary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+}
+
+.file-input-label:hover {
+  border-color: var(--accent-gold);
+  background: var(--bg-overlay-primary);
+  color: var(--accent-gold);
+}
+
+.file-name {
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* Info/Warning Messages */
+.backup-info-box {
+  background: var(--bg-overlay-tertiary);
+  border-left: 4px solid var(--accent-green);
+  padding: 12px;
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.backup-warning-box {
+  background: var(--bg-overlay-tertiary);
+  border-left: 4px solid var(--accent-red);
+  padding: 12px;
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .backup-modal {
+    padding: 20px;
+  }
+
+  .backup-header h2 {
+    font-size: 20px;
+  }
+
+  .backup-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .backup-actions {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .backup-action-btn {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .backup-modal {
+    padding: 15px;
+    width: 95%;
+  }
+
+  .backup-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .backup-btn {
+    min-width: 100px;
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+
+  .backup-section h3 {
+    font-size: 16px;
+  }
+}

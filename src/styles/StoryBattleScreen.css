@@ -1,0 +1,200 @@
+.story-battle-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+}
+
+.story-battle-container {
+  width: 100%;
+  max-width: 900px;
+}
+
+.story-progress {
+  text-align: center;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.story-question-card {
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px;
+}
+
+.story-question-text {
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.story-code-block {
+  background: var(--bg-overlay-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 15px;
+  font-family: 'Courier New', monospace;
+  color: var(--accent-green);
+  font-size: 12px;
+  overflow-x: auto;
+  margin: 15px 0;
+}
+
+.story-answers-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.story-answer-option {
+  padding: 15px;
+  border: 2px solid var(--border-color);
+  background: var(--bg-overlay-primary);
+  color: var(--text-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.story-answer-option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--bg-overlay-secondary);
+  border-color: var(--accent-gold);
+  background: var(--bg-overlay-secondary);
+}
+
+.story-answer-option.correct {
+  border-color: var(--accent-green);
+  background: var(--bg-overlay-secondary);
+  color: var(--accent-green);
+}
+
+.story-answer-option.incorrect {
+  border-color: var(--accent-red);
+  background: var(--bg-overlay-secondary);
+  color: var(--accent-red);
+}
+
+.story-feedback {
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.story-feedback.correct {
+  background: var(--bg-overlay-tertiary);
+  border: 1px solid var(--accent-green);
+  color: var(--accent-green);
+}
+
+.story-feedback.incorrect {
+  background: var(--bg-overlay-tertiary);
+  border: 1px solid var(--accent-red);
+  color: var(--accent-red);
+}
+
+.story-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.story-btn {
+  padding: 12px 24px;
+  border: 2px solid var(--border-color);
+  background: var(--bg-overlay-primary);
+  color: var(--text-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.story-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--bg-overlay-secondary);
+  background: var(--bg-overlay-secondary);
+}
+
+.story-btn-back {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+  background: var(--bg-overlay-tertiary);
+}
+
+.story-btn-back:hover:not(:disabled) {
+  box-shadow: 0 4px 15px var(--bg-overlay-secondary);
+  background: var(--bg-overlay-tertiary);
+}
+
+.story-btn-next {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+  background: var(--bg-overlay-tertiary);
+}
+
+.story-btn-next:hover:not(:disabled) {
+  box-shadow: 0 4px 15px var(--bg-overlay-secondary);
+  background: var(--bg-overlay-tertiary);
+}
+
+.story-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .story-question-card {
+    padding: 15px;
+  }
+
+  .story-question-text {
+    font-size: 16px;
+  }
+
+  .story-answer-option {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .story-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .story-answers-list {
+    grid-template-columns: 1fr;
+  }
+
+  .story-answer-option {
+    padding: 10px;
+  }
+
+  .story-btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .story-buttons {
+    gap: 10px;
+  }
+
+  .story-code-block {
+    font-size: 11px;
+  }
+}
