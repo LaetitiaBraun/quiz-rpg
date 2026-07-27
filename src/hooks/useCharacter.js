@@ -92,6 +92,15 @@ export const useCharacter = () => {
       character.completedQuestions = {};
     }
 
+    // Initialiser daily quests progress s'il n'existe pas
+    if (!character.dailyQuests) {
+      character.dailyQuests = {
+        lastReset: new Date().toDateString(),
+        completed: [],
+        progress: { correctAnswers: 0, storyAnswers: 0, codeAnswers: 0, animeAnswers: 0 }
+      };
+    }
+
     const questionKey = `${universe}_${questionId}`;
     const alreadyCompleted = character.completedQuestions[questionKey];
 
@@ -145,6 +154,20 @@ export const useCharacter = () => {
         };
       }
 
+      // Tracker les daily quests
+      const newDailyProgress = {
+        ...character.dailyQuests.progress,
+        correctAnswers: (character.dailyQuests.progress.correctAnswers || 0) + 1
+      };
+
+      if (universe === 'story') {
+        newDailyProgress.storyAnswers = (newDailyProgress.storyAnswers || 0) + 1;
+      } else if (universe === 'programming') {
+        newDailyProgress.codeAnswers = (newDailyProgress.codeAnswers || 0) + 1;
+      } else if (universe === 'anime') {
+        newDailyProgress.animeAnswers = (newDailyProgress.animeAnswers || 0) + 1;
+      }
+
       // Nouveau personnage avec tracking
       const updatedCharacter = {
         ...character,
@@ -159,7 +182,11 @@ export const useCharacter = () => {
           ...character.completedQuestions,
           [questionKey]: true
         },
-        progress: updatedProgress
+        progress: updatedProgress,
+        dailyQuests: {
+          ...character.dailyQuests,
+          progress: newDailyProgress
+        }
       };
 
       // Vérifier et débloquer les badges

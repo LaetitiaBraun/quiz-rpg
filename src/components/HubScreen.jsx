@@ -2,7 +2,7 @@ import '../styles/HubScreen.css';
 import QuestCard from './QuestCard';
 import CharacterCard from './CharacterCard';
 
-export default function HubScreen({ character, onStartQuest, equipmentStats, onOpenEquipment, onOpenBadges, onOpenLeaderboard, onOpenArena, onEditName }) {
+export default function HubScreen({ character, onStartQuest, equipmentStats, onOpenEquipment, onOpenBadges, onOpenLeaderboard, onOpenDailyQuests, onOpenArena, onEditName }) {
   const handleQuestCardClick = (universe) => {
     if (universe === 'arena') {
       onOpenArena();
@@ -27,6 +27,9 @@ export default function HubScreen({ character, onStartQuest, equipmentStats, onO
         </button>
         <button className="button button-leaderboard" onClick={onOpenLeaderboard}>
           🏅 Classement
+        </button>
+        <button className="button button-daily-quests" onClick={onOpenDailyQuests}>
+          📅 Quêtes Quotidiennes
         </button>
       </div>
       

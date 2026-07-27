@@ -16,6 +16,7 @@ import './styles/LegalScreen.css';
 import './styles/ArenaScreen.css';
 import './styles/ArenaBattle.css';
 import './styles/ComboDisplay.css';
+import './styles/DailyQuestsScreen.css';
 import { useCharacter } from './hooks/useCharacter';
 import { QUESTIONS_DB } from './data/questionsDB';
 import { SoundSystem } from './utils/SoundSystem';
@@ -30,6 +31,7 @@ import EditNameModal from './components/EditNameModal';
 import LegalScreen from './components/LegalScreen';
 import ArenaScreen from './components/ArenaScreen';
 import ArenaBattle from './components/ArenaBattle';
+import DailyQuestsScreen from './components/DailyQuestsScreen';
 
 export default function App() {
   const { character, setCharacter, addXP, equipItem, unequipItem, getEquipmentStats } = useCharacter();
@@ -67,6 +69,9 @@ export default function App() {
   });
   const [legalPage, setLegalPage] = useState(() => {
     return localStorage.getItem('quiz-rpg-legalpage') || null;
+  });
+  const [showDailyQuests, setShowDailyQuests] = useState(() => {
+    return localStorage.getItem('quiz-rpg-showdailyquests') === 'true';
   });
 
   const equipmentStats = getEquipmentStats();
@@ -127,6 +132,11 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('quiz-rpg-shownarrative', showNarrative.toString());
   }, [showNarrative]);
+
+  // Sauvegarder showDailyQuests
+  useEffect(() => {
+    localStorage.setItem('quiz-rpg-showdailyquests', showDailyQuests.toString());
+  }, [showDailyQuests]);
 
   // Nettoyer localStorage si on est au hub
   useEffect(() => {
@@ -215,6 +225,7 @@ export default function App() {
     setShowLeaderboard(false);
     setShowLegal(false);
     setShowNarrative(true);
+    setShowDailyQuests(false);
     // Nettoyer le localStorage
     localStorage.removeItem('quiz-rpg-universe');
     localStorage.removeItem('quiz-rpg-questionindex');
@@ -224,6 +235,43 @@ export default function App() {
     localStorage.removeItem('quiz-rpg-showlegal');
     localStorage.removeItem('quiz-rpg-legalpage');
     localStorage.removeItem('quiz-rpg-shownarrative');
+    localStorage.removeItem('quiz-rpg-showdailyquests');
+  };
+
+  const handleClaimDailyReward = (quest) => {
+    // Ajouter XP
+    const newXP = character.xp + quest.reward;
+    let levelUp = false;
+    let newMaxXp = character.maxXp;
+    let newLevel = character.level;
+    let finalXp = newXP;
+
+    if (newXP >= character.maxXp) {
+      newLevel += 1;
+      levelUp = true;
+      newMaxXp = Math.floor(character.maxXp * 1.1);
+      finalXp = newXP - character.maxXp;
+    }
+
+    // Mettre à jour le character
+    const updatedCharacter = {
+      ...character,
+      xp: finalXp,
+      level: newLevel,
+      maxXp: newMaxXp,
+      totalXP: (character.totalXP || 0) + quest.reward,
+      dailyQuests: {
+        ...character.dailyQuests,
+        completed: [...(character.dailyQuests?.completed || []), quest.id]
+      }
+    };
+
+    setCharacter(updatedCharacter);
+
+    if (levelUp) {
+      setShowLevelUp(true);
+      setNewLevel(newLevel);
+    }
   };
 
   const openEquipment = () => {
@@ -312,6 +360,12 @@ export default function App() {
           character={character}
           onBack={() => setShowLeaderboard(false)}
         />
+      ) : showDailyQuests ? (
+        <DailyQuestsScreen 
+          character={character}
+          onBack={() => setShowDailyQuests(false)}
+          onClaimReward={handleClaimDailyReward}
+        />
       ) : gameState === 'hub' ? (
         <HubScreen 
           character={character}
@@ -320,6 +374,7 @@ export default function App() {
           onOpenEquipment={openEquipment}
           onOpenBadges={() => setShowBadges(true)}
           onOpenLeaderboard={() => setShowLeaderboard(true)}
+          onOpenDailyQuests={() => setShowDailyQuests(true)}
           onOpenArena={handleOpenArena}
           onEditName={() => setShowEditName(true)}
         />

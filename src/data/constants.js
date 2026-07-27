@@ -51,9 +51,14 @@ export const INITIAL_CHARACTER = {
   completedQuestions: {},
   unlockedBadges: [],
   dailyQuests: {
-    lastReset: null,
+    lastReset: new Date().toDateString(),
     completed: [],
-    available: []
+    progress: {
+      correctAnswers: 0,
+      storyAnswers: 0,
+      codeAnswers: 0,
+      animeAnswers: 0
+    }
   }
 };
 
