@@ -202,6 +202,7 @@
 .button-badges:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 20px rgba(201, 169, 97, 0.5);
+  color: white;
 }
 
 .button-leaderboard {
