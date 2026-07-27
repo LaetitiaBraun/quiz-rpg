@@ -29,7 +29,7 @@ import EditNameModal from './components/EditNameModal';
 import LegalScreen from './components/LegalScreen';
 
 export default function App() {
-  const { character, addXP, equipItem, unequipItem, getEquipmentStats } = useCharacter();
+  const { character, setCharacter, addXP, equipItem, unequipItem, getEquipmentStats } = useCharacter();
   const [gameState, setGameState] = useState('hub');
   const [currentUniverse, setCurrentUniverse] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -124,15 +124,7 @@ export default function App() {
   };
 
   const handleEditName = (newName) => {
-    // Update character name in the hook
-    const updatedCharacter = { ...character, name: newName };
-    // This triggers useCharacter to update and save
-    const characterWithUpdates = {
-      ...character,
-      name: newName
-    };
-    // Force re-render by updating through character state
-    window.dispatchEvent(new CustomEvent('characterUpdate', { detail: characterWithUpdates }));
+    setCharacter({ ...character, name: newName });
   };
 
   const handleOpenLegal = (page) => {

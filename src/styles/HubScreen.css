@@ -215,6 +215,17 @@
   box-shadow: 0 6px 20px rgba(216, 90, 48, 0.5);
 }
 
+.hub-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @media (max-width: 768px) {
   .hub-buttons {
     gap: 10px;
