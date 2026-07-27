@@ -15,6 +15,8 @@ import BattleScreen from './components/BattleScreen';
 import StoryBattleScreen from './components/StoryBattleScreen';
 import EquipmentScreen from './components/EquipmentScreen';
 import LevelUpAnimation from './components/LevelUpAnimation';
+import BadgesScreen from './components/BadgesScreen';
+import LeaderboardScreen from './components/LeaderboardScreen';
 
 export default function App() {
   const { character, addXP, equipItem, unequipItem, getEquipmentStats } = useCharacter();
@@ -26,6 +28,8 @@ export default function App() {
   const [showNarrative, setShowNarrative] = useState(true);
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [newLevel, setNewLevel] = useState(null);
+  const [showBadges, setShowBadges] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
 
   const equipmentStats = getEquipmentStats();
 
@@ -112,12 +116,24 @@ export default function App() {
       />
       
       <div className="app-container">
-        {gameState === 'hub' ? (
+        {showBadges ? (
+          <BadgesScreen 
+            character={character}
+            onBack={() => setShowBadges(false)}
+          />
+        ) : showLeaderboard ? (
+          <LeaderboardScreen 
+            character={character}
+            onBack={() => setShowLeaderboard(false)}
+          />
+        ) : gameState === 'hub' ? (
           <HubScreen 
             character={character}
             onStartQuest={handleStartQuest}
             equipmentStats={equipmentStats}
             onOpenEquipment={openEquipment}
+            onOpenBadges={() => setShowBadges(true)}
+            onOpenLeaderboard={() => setShowLeaderboard(true)}
           />
         ) : gameState === 'equipment' ? (
           <EquipmentScreen 

@@ -158,9 +158,68 @@
   margin-top: 10px;
 }
 
+.hub-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.button-equipment,
+.button-badges,
+.button-leaderboard {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  font-size: 14px;
+}
+
 .button-equipment {
-  align-self: center;
-  padding: 12px 30px;
-  font-size: 16px;
-  margin-top: 10px;
+  background: linear-gradient(135deg, #7f77dd, #b8a8d8);
+  color: white;
+  box-shadow: 0 4px 15px rgba(127, 119, 221, 0.3);
+}
+
+.button-equipment:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(127, 119, 221, 0.5);
+}
+
+.button-badges {
+  background: linear-gradient(135deg, #c9a961, #dab86f);
+  color: #0f0a1f;
+  box-shadow: 0 4px 15px rgba(201, 169, 97, 0.3);
+}
+
+.button-badges:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(201, 169, 97, 0.5);
+}
+
+.button-leaderboard {
+  background: linear-gradient(135deg, #1d9e75, #2fbf8f);
+  color: white;
+  box-shadow: 0 4px 15px rgba(29, 158, 117, 0.3);
+}
+
+.button-leaderboard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(29, 158, 117, 0.5);
+}
+
+@media (max-width: 768px) {
+  .hub-buttons {
+    gap: 10px;
+  }
+
+  .button-equipment,
+  .button-badges,
+  .button-leaderboard {
+    padding: 10px 16px;
+    font-size: 12px;
+  }
 }

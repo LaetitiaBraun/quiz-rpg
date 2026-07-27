@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { INITIAL_CHARACTER } from '../data/constants';
+import { checkAndUnlockBadges } from '../data/badgesDB';
 import { getEquipmentById } from '../data/equipmentDB';
 
 export const useCharacter = () => {
@@ -28,7 +29,7 @@ export const useCharacter = () => {
   }, [character]);
 
   // Ajoute XP et gère la montée de niveau (une seule fois par question)
-  const addXP = (xpAmount, universe, questionId) => {
+  const addXP = (xpAmount, universe, questionId, isCorrect = true) => {
     // Initialise completedQuestions si n'existe pas
     if (!character.completedQuestions) {
       character.completedQuestions = {};
@@ -39,9 +40,10 @@ export const useCharacter = () => {
 
     let newXp = character.xp;
     let levelUp = false;
+    let newStreak = (character.perfectStreak || 0);
 
     // Ajoute XP seulement si première fois que la question est réussie
-    if (!alreadyCompleted) {
+    if (!alreadyCompleted && isCorrect) {
       newXp = character.xp + xpAmount;
       
       let newLevel = character.level;
@@ -54,11 +56,19 @@ export const useCharacter = () => {
         newXp = newXp - character.maxXp;
       }
 
-      setCharacter({
+      // Track perfect streak
+      if (isCorrect) {
+        newStreak = (character.perfectStreak || 0) + 1;
+      }
+
+      // Nouveau personnage avec tracking
+      const updatedCharacter = {
         ...character,
         xp: newXp,
         level: newLevel,
         maxXp: newMaxXp,
+        totalXP: (character.totalXP || 0) + xpAmount,
+        perfectStreak: newStreak,
         completedQuestions: {
           ...character.completedQuestions,
           [questionKey]: true
@@ -70,9 +80,29 @@ export const useCharacter = () => {
             completed: character.progress[universe].completed + 1
           }
         }
+      };
+
+      // Vérifier et débloquer les badges
+      const newBadges = checkAndUnlockBadges(updatedCharacter);
+      const unlockedBadges = character.unlockedBadges || [];
+      newBadges.forEach(badge => {
+        if (!unlockedBadges.includes(badge.id)) {
+          unlockedBadges.push(badge.id);
+        }
+      });
+
+      updatedCharacter.unlockedBadges = unlockedBadges;
+      updatedCharacter.newlyUnlockedBadges = newBadges;
+
+      setCharacter(updatedCharacter);
+    } else if (!isCorrect) {
+      // Reset streak on wrong answer
+      setCharacter({
+        ...character,
+        perfectStreak: 0
       });
     } else {
-      // Question déjà complétée - pas d'XP, juste un message
+      // Question déjà complétée - pas d'XP
       setCharacter({
         ...character,
         completedQuestions: character.completedQuestions
@@ -83,7 +113,8 @@ export const useCharacter = () => {
       newLevel: character.level, 
       levelUp,
       alreadyCompleted,
-      xpGained: alreadyCompleted ? 0 : xpAmount
+      xpGained: (alreadyCompleted || !isCorrect) ? 0 : xpAmount,
+      newStreak
     };
   };
 

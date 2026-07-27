@@ -30,8 +30,10 @@ export const INITIAL_CHARACTER = {
   level: 1,
   xp: 0,
   maxXp: 100,
+  totalXP: 0,
   health: 100,
   maxHealth: 100,
+  perfectStreak: 0,
   stats: { strength: 10, intelligence: 12, wisdom: 10 },
   progress: {
     anime: { completed: 0, difficulty: 1 },
@@ -44,7 +46,8 @@ export const INITIAL_CHARACTER = {
     armor: 'armor_leather',
     accessory: null
   },
-  completedQuestions: {}
+  completedQuestions: {},
+  unlockedBadges: []
 };
 
 
