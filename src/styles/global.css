@@ -9,10 +9,17 @@ body {
   background: linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%);
   color: #e0d7f7;
   min-height: 100vh;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 #root {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .app-container {
