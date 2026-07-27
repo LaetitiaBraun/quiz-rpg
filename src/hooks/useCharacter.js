@@ -3,6 +3,16 @@ import { INITIAL_CHARACTER } from '../data/constants';
 import { checkAndUnlockBadges } from '../data/badgesDB';
 import { storageManager } from '../utils/StorageManager';
 import { getEquipmentById } from '../data/equipmentDB';
+import { QUESTIONS_DB } from '../data/questionsDB';
+
+// Calcule le chapitre en fonction de l'acte max complété
+const getChapterFromAct = (universe) => {
+  if (!QUESTIONS_DB[universe]) return 1;
+  
+  const questions = QUESTIONS_DB[universe];
+  const maxAct = Math.max(...questions.map(q => q.act || 1));
+  return maxAct;
+};
 
 export const useCharacter = () => {
   const [character, setCharacter] = useState(INITIAL_CHARACTER);
@@ -76,7 +86,7 @@ export const useCharacter = () => {
   }, [character, isLoaded]);
 
   // Ajoute XP et gère la montée de niveau (une seule fois par question)
-  const addXP = (xpAmount, universe, questionId, isCorrect = true) => {
+  const addXP = (xpAmount, universe, questionId, isCorrect = true, questionAct = null) => {
     // Initialise completedQuestions si n'existe pas
     if (!character.completedQuestions) {
       character.completedQuestions = {};
@@ -108,6 +118,23 @@ export const useCharacter = () => {
         newStreak = (character.perfectStreak || 0) + 1;
       }
 
+      // Calculer le nouveau chapitre si story quest
+      let updatedProgress = {
+        ...character.progress,
+        [universe]: {
+          ...character.progress[universe],
+          completed: character.progress[universe].completed + 1
+        }
+      };
+
+      // Mettre à jour le chapitre pour story quest basé sur l'acte
+      if (universe === 'story' && questionAct) {
+        updatedProgress.story = {
+          ...updatedProgress.story,
+          chapter: Math.max(updatedProgress.story.chapter || 1, questionAct)
+        };
+      }
+
       // Nouveau personnage avec tracking
       const updatedCharacter = {
         ...character,
@@ -120,13 +147,7 @@ export const useCharacter = () => {
           ...character.completedQuestions,
           [questionKey]: true
         },
-        progress: {
-          ...character.progress,
-          [universe]: {
-            ...character.progress[universe],
-            completed: character.progress[universe].completed + 1
-          }
-        }
+        progress: updatedProgress
       };
 
       // Vérifier et débloquer les badges

@@ -565,6 +565,62 @@ export const QUESTIONS_DB = {
       npc: "Le Roi Libéré",
       narrative_before: "Une silhouette dorée émerge du cristal qui se brise.",
       narrative_after: "Le Roi sourit. 'Une réponse digne d'un vrai héros. Le monde a besoin de cœurs comme le tien.'"
+    },
+
+    // ===== ACTE 6: LA RECONSTRUCTION =====
+    {
+      id: 12,
+      act: 6,
+      scene: 0,
+      question: "Le Roi et Eldara te proposent de retourner dans le Village des Anciens pour le reconstruire. En chemin, vous rencontrez des survivants cachés. Que fais-tu?",
+      answers: ["Les forcer à nous aider", "Leur expliquer la situation", "Les ignorer et continuer", "Leur offrir refuge et protection"],
+      correct: 3,
+      difficulty: 1,
+      xp: 90,
+      npc: "Le Roi + Eldara",
+      narrative_before: "Vous quittez la Forêt Maudite. L'air est plus léger maintenant. La malédiction est brisée.",
+      narrative_after: "Les survivants vous font confiance et vous rejoignent. Ensemble, vous formez une nouvelle communauté!"
+    },
+    {
+      id: 13,
+      act: 6,
+      scene: 1,
+      question: "Au Village, des tensions surgissent. Un ancien chef veut le pouvoir absolu. Eldara te regarde, tu dois décider. Comment résous-tu ce conflit?",
+      answers: ["Imposer l'autorité du Roi", "Proposer un conseil démocratique", "Laisser Eldara décider", "Combattre le chef"],
+      correct: 1,
+      difficulty: 2,
+      xp: 110,
+      npc: "Le Roi Libéré",
+      narrative_before: "Pendant la reconstruction, les anciennes rivalités resurgissent.",
+      narrative_after: "Un nouveau gouvernement se forme, basé sur la justice et l'équité. Le Roi devient le garant de cette harmonie."
+    },
+
+    // ===== ACTE 7: LA NOUVELLE ÈRE =====
+    {
+      id: 14,
+      act: 7,
+      scene: 0,
+      question: "Un an après, le village prospère. Mais une nouvelle menace apparaît au loin - une armée de créatures sombres. Que proposes-tu?",
+      answers: ["Préparer une armée pour la défense", "Chercher à dialoguer avec les créatures", "Consulter les anciennes prophéties", "Tous ces approches"],
+      correct: 3,
+      difficulty: 2,
+      xp: 120,
+      npc: "Le Roi + Eldara",
+      narrative_before: "La paix semble fragile. Ton instinct te dit que ce n'est que le début.",
+      narrative_after: "En combinant force, diplomatie et sagesse, tu comprends que les créatures sont aussi des victimes de la corruption ancienne."
+    },
+    {
+      id: 15,
+      act: 7,
+      scene: 1,
+      question: "Tu discovers que les créatures sont ensorcelées. Avec Eldara et le Roi, vous devez créer un rituel de purification. Quel est ton rôle?",
+      answers: ["Être le lien entre mondes", "Canaliser l'énergie vitale", "Garder l'équilibre de la magie", "Tout donner pour sauver les créatures"],
+      correct: 3,
+      difficulty: 3,
+      xp: 150,
+      npc: "Eldara la Sage + Le Roi + Créatures",
+      narrative_before: "Le rituel commence. L'énergie monte à des niveaux sans précédent.",
+      narrative_after: "Tu te sacrifies temporellement, ton énergie vitale brille comme mille soleils. Les créatures sont libérées!"
     }
   ]
 };

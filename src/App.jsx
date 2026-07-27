@@ -165,7 +165,7 @@ export default function App() {
     const isCorrect = selectedIndex === currentQuestion.correct;
 
     const xpGain = isCorrect ? currentQuestion.xp : Math.floor(currentQuestion.xp * 0.3);
-    const result = addXP(xpGain, currentUniverse, currentQuestion.id);
+    const result = addXP(xpGain, currentUniverse, currentQuestion.id, isCorrect, currentQuestion.act);
 
     // Trigger sound on click
     SoundSystem.playClick();
