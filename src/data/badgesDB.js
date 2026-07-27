@@ -119,8 +119,8 @@ export const BADGES_DB = {
   },
 
   // Milestone Badges
-  100_questions: {
-    id: '100_questions',
+  questions_100: {
+    id: 'questions_100',
     name: 'Chercheur de Savoir',
     description: 'Réponds à 100 questions',
     emoji: '📚',
