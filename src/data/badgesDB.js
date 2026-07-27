@@ -1,5 +1,4 @@
 export const BADGES_DB = {
-  // Progression Badges
   first_victory: {
     id: 'first_victory',
     name: 'Première Victoire',
@@ -8,7 +7,6 @@ export const BADGES_DB = {
     color: '#1d9e75',
     rarity: 'common',
     unlockCriteria: (character) => {
-      // Vérifier si au moins une question est complétée correctement
       return Object.keys(character.completedQuestions || {}).length >= 1;
     }
   },
@@ -43,7 +41,6 @@ export const BADGES_DB = {
     unlockCriteria: (character) => character.level >= 20
   },
 
-  // Quest Completion Badges
   anime_master: {
     id: 'anime_master',
     name: 'Maître Anime',
@@ -83,7 +80,6 @@ export const BADGES_DB = {
     }
   },
 
-  // Challenge Badges
   perfect_streak_10: {
     id: 'perfect_streak_10',
     name: 'Concentration Totale',
@@ -104,7 +100,6 @@ export const BADGES_DB = {
     unlockCriteria: (character) => (character.perfectStreak || 0) >= 25
   },
 
-  // Equipment Badges
   fully_equipped: {
     id: 'fully_equipped',
     name: 'Équipement Complet',
@@ -118,9 +113,8 @@ export const BADGES_DB = {
     }
   },
 
-  // Milestone Badges
-  questions_100: {
-    id: 'questions_100',
+  questions_hundred: {
+    id: 'questions_hundred',
     name: 'Chercheur de Savoir',
     description: 'Réponds à 100 questions',
     emoji: '📚',
@@ -135,7 +129,7 @@ export const BADGES_DB = {
   xp_milestone: {
     id: 'xp_milestone',
     name: 'Accumulateur d\'Expérience',
-    description: 'Accumule 10,000 XP au total',
+    description: 'Accumule 10000 XP au total',
     emoji: '✨',
     color: '#c9a961',
     rarity: 'rare',
@@ -145,7 +139,6 @@ export const BADGES_DB = {
 
 export const ALL_BADGES = Object.values(BADGES_DB);
 
-// Fonction pour débloquer les badges automatiquement
 export const checkAndUnlockBadges = (character) => {
   const unlockedBadges = character.unlockedBadges || [];
   const newlyUnlocked = [];
