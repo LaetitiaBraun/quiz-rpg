@@ -6,11 +6,13 @@
 
 html {
   scroll-behavior: smooth;
-  overflow: auto;
-  overflow-x: hidden;
-  transform: none;
-  filter: none;
-  opacity: 1;
+  overflow: auto !important;
+  overflow-x: hidden !important;
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  will-change: auto !important;
+  perspective: none !important;
 }
 
 body {
@@ -18,17 +20,23 @@ body {
   background: linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%);
   color: #e0d7f7;
   min-height: 100vh;
-  overflow: auto;
-  transform: none;
-  filter: none;
-  opacity: 1;
+  overflow: auto !important;
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  will-change: auto !important;
+  perspective: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 #root {
   min-height: 100vh;
-  transform: none;
-  filter: none;
-  opacity: 1;
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  will-change: auto !important;
+  perspective: none !important;
 }
 
 .app-container {
