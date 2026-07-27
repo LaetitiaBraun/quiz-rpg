@@ -130,8 +130,9 @@ export default function App() {
   return (
     <>
       <Header />
+      <div style={{ height: '120px' }} />
       
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)', paddingTop: '120px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 120px)', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' }}>
         <LevelUpAnimation 
           level={newLevel} 
           show={showLevelUp} 

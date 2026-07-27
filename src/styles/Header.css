@@ -1,17 +1,18 @@
-.app-header {
-  background: linear-gradient(135deg, rgba(31, 20, 76, 0.9), rgba(42, 25, 95, 0.9));
+header.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 9999;
+  background: linear-gradient(135deg, rgba(31, 20, 76, 0.95), rgba(42, 25, 95, 0.95));
   border-bottom: 2px solid #c9a961;
   padding: 20px 0;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 9999 !important;
-  width: 100% !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  margin: 0;
 }
 
-.header-content {
+header.app-header .header-content {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
@@ -20,14 +21,14 @@
   justify-content: center;
 }
 
-.header-logo {
+header.app-header .header-logo {
   display: flex;
   align-items: center;
   gap: 15px;
   text-align: center;
 }
 
-.logo-icon {
+header.app-header .logo-icon {
   font-size: 36px;
   animation: float 3s ease-in-out infinite;
 }
@@ -41,33 +42,39 @@
   }
 }
 
-.header-logo h1 {
+header.app-header .header-logo h1 {
   color: #c9a961;
   font-size: 32px;
   margin: 0;
+  padding: 0;
   text-shadow: 0 0 20px rgba(201, 169, 97, 0.6);
   letter-spacing: 2px;
 }
 
-.logo-subtitle {
+header.app-header .logo-subtitle {
   color: #7f77dd;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-top: 5px;
+  margin: 5px 0 0 0;
+  padding: 0;
   font-style: italic;
 }
 
 @media (max-width: 768px) {
-  .header-logo h1 {
+  header.app-header {
+    padding: 15px 0;
+  }
+
+  header.app-header .header-logo h1 {
     font-size: 24px;
   }
 
-  .logo-icon {
+  header.app-header .logo-icon {
     font-size: 28px;
   }
 
-  .logo-subtitle {
+  header.app-header .logo-subtitle {
     font-size: 10px;
   }
 }
