@@ -140,7 +140,7 @@ export default function App() {
     setShowLegal(true);
   };
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)', paddingTop: '90px' }}>
       <Header />
       
       <LevelUpAnimation 

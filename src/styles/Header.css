@@ -3,9 +3,12 @@
   border-bottom: 2px solid #c9a961;
   padding: 20px 0;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
 }
 
 .header-content {
