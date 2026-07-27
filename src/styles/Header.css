@@ -1,0 +1,70 @@
+.app-header {
+  background: linear-gradient(135deg, rgba(31, 20, 76, 0.9), rgba(42, 25, 95, 0.9));
+  border-bottom: 2px solid #c9a961;
+  padding: 20px 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-align: center;
+}
+
+.logo-icon {
+  font-size: 36px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.header-logo h1 {
+  color: #c9a961;
+  font-size: 32px;
+  margin: 0;
+  text-shadow: 0 0 20px rgba(201, 169, 97, 0.6);
+  letter-spacing: 2px;
+}
+
+.logo-subtitle {
+  color: #7f77dd;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .header-logo h1 {
+    font-size: 24px;
+  }
+
+  .logo-icon {
+    font-size: 28px;
+  }
+
+  .logo-subtitle {
+    font-size: 10px;
+  }
+}

@@ -2,12 +2,15 @@ import '../styles/HubScreen.css';
 import QuestCard from './QuestCard';
 import CharacterCard from './CharacterCard';
 
-export default function HubScreen({ character, onStartQuest, equipmentStats, onOpenEquipment, onOpenBadges, onOpenLeaderboard }) {
+export default function HubScreen({ character, onStartQuest, equipmentStats, onOpenEquipment, onOpenBadges, onOpenLeaderboard, onEditName }) {
   return (
     <div className="hub-screen">
       <CharacterCard character={character} equipmentStats={equipmentStats} />
       
       <div className="hub-buttons">
+        <button className="button button-edit-name" onClick={onEditName}>
+          ✏️ Éditer Nom
+        </button>
         <button className="button button-equipment" onClick={onOpenEquipment}>
           ⚔️ Équipement
         </button>

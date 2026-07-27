@@ -7,6 +7,12 @@ import './styles/EquipmentScreen.css';
 import './styles/animations.css';
 import './styles/LevelUpAnimation.css';
 import './styles/FeedbackAnimation.css';
+import './styles/BadgesScreen.css';
+import './styles/LeaderboardScreen.css';
+import './styles/Header.css';
+import './styles/Footer.css';
+import './styles/EditNameModal.css';
+import './styles/LegalScreen.css';
 import { useCharacter } from './hooks/useCharacter';
 import { QUESTIONS_DB } from './data/questionsDB';
 import { SoundSystem } from './utils/SoundSystem';
@@ -17,6 +23,10 @@ import EquipmentScreen from './components/EquipmentScreen';
 import LevelUpAnimation from './components/LevelUpAnimation';
 import BadgesScreen from './components/BadgesScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import EditNameModal from './components/EditNameModal';
+import LegalScreen from './components/LegalScreen';
 
 export default function App() {
   const { character, addXP, equipItem, unequipItem, getEquipmentStats } = useCharacter();
@@ -30,6 +40,13 @@ export default function App() {
   const [newLevel, setNewLevel] = useState(null);
   const [showBadges, setShowBadges] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [showEditName, setShowEditName] = useState(false);
+  const [showLegal, setShowLegal] = useState(false);
+  const [legalPage, setLegalPage] = useState(null);
+
+  const setCharacter = (updatedCharacter) => {
+    // This will be called from useCharacter hook
+  };
 
   const equipmentStats = getEquipmentStats();
 
@@ -106,17 +123,47 @@ export default function App() {
     setGameState('equipment');
   };
 
-  // ===== RENDER =====
+  const handleEditName = (newName) => {
+    // Update character name in the hook
+    const updatedCharacter = { ...character, name: newName };
+    // This triggers useCharacter to update and save
+    const characterWithUpdates = {
+      ...character,
+      name: newName
+    };
+    // Force re-render by updating through character state
+    window.dispatchEvent(new CustomEvent('characterUpdate', { detail: characterWithUpdates }));
+  };
+
+  const handleOpenLegal = (page) => {
+    setLegalPage(page);
+    setShowLegal(true);
+  };
   return (
-    <div style={{ background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' }}>
+      <Header />
+      
       <LevelUpAnimation 
         level={newLevel} 
         show={showLevelUp} 
         onComplete={() => setShowLevelUp(false)} 
       />
+
+      {showEditName && (
+        <EditNameModal 
+          currentName={character.name}
+          onSave={handleEditName}
+          onClose={() => setShowEditName(false)}
+        />
+      )}
       
-      <div className="app-container">
-        {showBadges ? (
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        {showLegal ? (
+          <LegalScreen 
+            page={legalPage}
+            onBack={() => setShowLegal(false)}
+          />
+        ) : showBadges ? (
           <BadgesScreen 
             character={character}
             onBack={() => setShowBadges(false)}
@@ -134,6 +181,7 @@ export default function App() {
             onOpenEquipment={openEquipment}
             onOpenBadges={() => setShowBadges(true)}
             onOpenLeaderboard={() => setShowLeaderboard(true)}
+            onEditName={() => setShowEditName(true)}
           />
         ) : gameState === 'equipment' ? (
           <EquipmentScreen 
@@ -170,6 +218,8 @@ export default function App() {
           />
         )}
       </div>
+
+      <Footer onOpenLegal={handleOpenLegal} />
     </div>
   );
 }

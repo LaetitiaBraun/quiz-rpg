@@ -158,17 +158,10 @@
   margin-top: 10px;
 }
 
-.hub-buttons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
 .button-equipment,
 .button-badges,
-.button-leaderboard {
+.button-leaderboard,
+.button-edit-name {
   padding: 12px 20px;
   border-radius: 8px;
   border: none;
@@ -176,6 +169,17 @@
   transition: all 0.3s ease;
   font-weight: bold;
   font-size: 14px;
+}
+
+.button-edit-name {
+  background: linear-gradient(135deg, #1d9e75, #2fbf8f);
+  color: white;
+  box-shadow: 0 4px 15px rgba(29, 158, 117, 0.3);
+}
+
+.button-edit-name:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(29, 158, 117, 0.5);
 }
 
 .button-equipment {
@@ -201,14 +205,14 @@
 }
 
 .button-leaderboard {
-  background: linear-gradient(135deg, #1d9e75, #2fbf8f);
+  background: linear-gradient(135deg, #d85a30, #f07a42);
   color: white;
-  box-shadow: 0 4px 15px rgba(29, 158, 117, 0.3);
+  box-shadow: 0 4px 15px rgba(216, 90, 48, 0.3);
 }
 
 .button-leaderboard:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(29, 158, 117, 0.5);
+  box-shadow: 0 6px 20px rgba(216, 90, 48, 0.5);
 }
 
 @media (max-width: 768px) {
