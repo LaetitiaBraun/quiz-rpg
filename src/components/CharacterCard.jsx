@@ -25,6 +25,21 @@ export default function CharacterCard({ character, equipmentStats }) {
         {character.xp} / {character.maxXp} XP
       </div>
 
+      <div className="streak-combo-section">
+        {character.perfectStreak > 0 && (
+          <div className="streak-badge">
+            <span className="streak-label">🔥 Streak</span>
+            <span className="streak-value">{character.perfectStreak}</span>
+          </div>
+        )}
+        {character.currentCombo > 0 && (
+          <div className="combo-badge">
+            <span className="combo-label">⚡ Combo</span>
+            <span className="combo-value">{character.currentCombo}</span>
+          </div>
+        )}
+      </div>
+
       <div className="equipment-preview">
         <div className="equipped-icons">
           {character.equipment.weapon && <span title="Arme">{getEquipmentEmoji(character.equipment.weapon)}</span>}

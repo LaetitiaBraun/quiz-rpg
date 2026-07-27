@@ -55,6 +55,59 @@
 .xp-text {
   font-size: 12px;
   color: #b8a8d8;
+  margin-bottom: 15px;
+}
+
+.streak-combo-section {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.streak-badge {
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(255, 135, 135, 0.2));
+  border: 1px solid #ff6b6b;
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.streak-label {
+  font-size: 12px;
+  color: #ff8787;
+  font-weight: bold;
+}
+
+.streak-value {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ff6b6b;
+}
+
+.combo-badge {
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.2), rgba(255, 215, 0, 0.2));
+  border: 1px solid #ffd700;
+  border-radius: 6px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.combo-label {
+  font-size: 12px;
+  color: #ffd700;
+  font-weight: bold;
+}
+
+.combo-value {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffc107;
 }
 
 .stats-grid {
