@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './styles/global.css';
 import './styles/HubScreen.css';
 import './styles/BattleScreen.css';
@@ -23,8 +23,6 @@ import EquipmentScreen from './components/EquipmentScreen';
 import LevelUpAnimation from './components/LevelUpAnimation';
 import BadgesScreen from './components/BadgesScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
-import Header from './components/Header';
-import Footer from './components/Footer';
 import EditNameModal from './components/EditNameModal';
 import LegalScreen from './components/LegalScreen';
 
@@ -127,89 +125,94 @@ export default function App() {
     setLegalPage(page);
     setShowLegal(true);
   };
+
+  // Setup footer legal links
+  useEffect(() => {
+    const mentionsLink = document.getElementById('legal-mentions');
+    const politiqueLink = document.getElementById('legal-politique');
+    const cookiesLink = document.getElementById('legal-cookies');
+
+    if (mentionsLink) mentionsLink.addEventListener('click', (e) => { e.preventDefault(); handleOpenLegal('mentions'); });
+    if (politiqueLink) politiqueLink.addEventListener('click', (e) => { e.preventDefault(); handleOpenLegal('politique'); });
+    if (cookiesLink) cookiesLink.addEventListener('click', (e) => { e.preventDefault(); handleOpenLegal('cookies'); });
+  }, []);
+
   return (
-    <>
-      <Header />
-      
-      <div style={{ paddingTop: '120px', paddingBottom: '150px', minHeight: '100vh', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' }}>
-        <LevelUpAnimation 
-          level={newLevel} 
-          show={showLevelUp} 
-          onComplete={() => setShowLevelUp(false)} 
+    <div style={{ paddingTop: '120px', paddingBottom: '150px', minHeight: '100vh', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' }}>
+      <LevelUpAnimation 
+        level={newLevel} 
+        show={showLevelUp} 
+        onComplete={() => setShowLevelUp(false)} 
+      />
+
+      {showEditName && (
+        <EditNameModal 
+          currentName={character.name}
+          onSave={handleEditName}
+          onClose={() => setShowEditName(false)}
         />
-
-        {showEditName && (
-          <EditNameModal 
-            currentName={character.name}
-            onSave={handleEditName}
-            onClose={() => setShowEditName(false)}
-          />
-        )}
-        
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '60vh' }}>
-        {showLegal ? (
-          <LegalScreen 
-            page={legalPage}
-            onBack={() => setShowLegal(false)}
-          />
-        ) : showBadges ? (
-          <BadgesScreen 
-            character={character}
-            onBack={() => setShowBadges(false)}
-          />
-        ) : showLeaderboard ? (
-          <LeaderboardScreen 
-            character={character}
-            onBack={() => setShowLeaderboard(false)}
-          />
-        ) : gameState === 'hub' ? (
-          <HubScreen 
-            character={character}
-            onStartQuest={handleStartQuest}
-            equipmentStats={equipmentStats}
-            onOpenEquipment={openEquipment}
-            onOpenBadges={() => setShowBadges(true)}
-            onOpenLeaderboard={() => setShowLeaderboard(true)}
-            onEditName={() => setShowEditName(true)}
-          />
-        ) : gameState === 'equipment' ? (
-          <EquipmentScreen 
-            character={character}
-            onEquip={equipItem}
-            onUnequip={unequipItem}
-            onBack={goToHub}
-          />
-        ) : currentUniverse === 'story' ? (
-          <StoryBattleScreen 
-            universe={currentUniverse}
-            currentQuestion={QUESTIONS_DB[currentUniverse][currentQuestionIndex]}
-            currentQuestionIndex={currentQuestionIndex}
-            totalQuestions={QUESTIONS_DB[currentUniverse].length}
-            feedback={feedback}
-            answered={answered}
-            onAnswer={handleAnswer}
-            onNext={handleNextQuestion}
-            onBack={goToHub}
-            showNarrative={showNarrative}
-            onContinueNarrative={handleContinueNarrative}
-          />
-        ) : (
-          <BattleScreen 
-            universe={currentUniverse}
-            currentQuestion={QUESTIONS_DB[currentUniverse][currentQuestionIndex]}
-            currentQuestionIndex={currentQuestionIndex}
-            totalQuestions={QUESTIONS_DB[currentUniverse].length}
-            feedback={feedback}
-            answered={answered}
-            onAnswer={handleAnswer}
-            onNext={handleNextQuestion}
-            onBack={goToHub}
-          />
-        )}
-      </div>
-      </div>
-
-      <Footer onOpenLegal={handleOpenLegal} />
-    </>
-  );
+      )}
+      
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '60vh' }}>
+      {showLegal ? (
+        <LegalScreen 
+          page={legalPage}
+          onBack={() => setShowLegal(false)}
+        />
+      ) : showBadges ? (
+        <BadgesScreen 
+          character={character}
+          onBack={() => setShowBadges(false)}
+        />
+      ) : showLeaderboard ? (
+        <LeaderboardScreen 
+          character={character}
+          onBack={() => setShowLeaderboard(false)}
+        />
+      ) : gameState === 'hub' ? (
+        <HubScreen 
+          character={character}
+          onStartQuest={handleStartQuest}
+          equipmentStats={equipmentStats}
+          onOpenEquipment={openEquipment}
+          onOpenBadges={() => setShowBadges(true)}
+          onOpenLeaderboard={() => setShowLeaderboard(true)}
+          onEditName={() => setShowEditName(true)}
+        />
+      ) : gameState === 'equipment' ? (
+        <EquipmentScreen 
+          character={character}
+          onEquip={equipItem}
+          onUnequip={unequipItem}
+          onBack={goToHub}
+        />
+      ) : currentUniverse === 'story' ? (
+        <StoryBattleScreen 
+          universe={currentUniverse}
+          currentQuestion={QUESTIONS_DB[currentUniverse][currentQuestionIndex]}
+          currentQuestionIndex={currentQuestionIndex}
+          totalQuestions={QUESTIONS_DB[currentUniverse].length}
+          feedback={feedback}
+          answered={answered}
+          onAnswer={handleAnswer}
+          onNext={handleNextQuestion}
+          onBack={goToHub}
+          showNarrative={showNarrative}
+          onContinueNarrative={handleContinueNarrative}
+        />
+      ) : (
+        <BattleScreen 
+          universe={currentUniverse}
+          currentQuestion={QUESTIONS_DB[currentUniverse][currentQuestionIndex]}
+          currentQuestionIndex={currentQuestionIndex}
+          totalQuestions={QUESTIONS_DB[currentUniverse].length}
+          feedback={feedback}
+          answered={answered}
+          onAnswer={handleAnswer}
+          onNext={handleNextQuestion}
+          onBack={goToHub}
+        />
+      )}
+    </div>
+    </div>
 }

@@ -5,9 +5,91 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quiz RPG - The Hero's Destiny</title>
+    <style>
+      header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 9999 !important;
+        background: linear-gradient(135deg, rgba(31, 20, 76, 0.95), rgba(42, 25, 95, 0.95)) !important;
+        border-bottom: 2px solid #c9a961 !important;
+        padding: 20px 0 !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
+        margin: 0 !important;
+        height: auto !important;
+        transform: none !important;
+        filter: none !important;
+        opacity: 1 !important;
+      }
+
+      footer {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 9998 !important;
+        background: linear-gradient(135deg, rgba(31, 20, 76, 0.95), rgba(42, 25, 95, 0.95)) !important;
+        border-top: 2px solid #c9a961 !important;
+        padding: 30px 20px 20px !important;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6) !important;
+        color: #b8a8d8 !important;
+        margin: 0 !important;
+        height: auto !important;
+        transform: none !important;
+        filter: none !important;
+        opacity: 1 !important;
+      }
+
+      html, body {
+        overflow: auto !important;
+        transform: none !important;
+        filter: none !important;
+        opacity: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+    </style>
   </head>
   <body>
+    <header class="app-header">
+      <div class="header-content">
+        <div class="header-logo">
+          <span class="logo-icon">🎮</span>
+          <h1>Quiz RPG</h1>
+          <span class="logo-subtitle">The Hero's Destiny</span>
+        </div>
+      </div>
+    </header>
+
     <div id="root"></div>
+    
+    <footer class="app-footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Quiz RPG</h3>
+          <p>Un jeu de quiz immersif avec progression RPG</p>
+        </div>
+        <div class="footer-section">
+          <h3>Liens Rapides</h3>
+          <ul class="footer-links">
+            <li><a href="#" id="legal-mentions">Mentions Légales</a></li>
+            <li><a href="#" id="legal-politique">Politique de Confidentialité</a></li>
+            <li><a href="#" id="legal-cookies">Gestion des Cookies</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact</h3>
+          <p><a href="https://laetitiabraun.eu" target="_blank" rel="noopener noreferrer">Portfolio</a></p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Quiz RPG - Créé par Laetitia Braun</p>
+      </div>
+    </footer>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
