@@ -1,12 +1,22 @@
 import { useState, useEffect } from 'react';
 import '../styles/DailyQuestsScreen.css';
-import { DAILY_QUESTS, checkDailyQuestCompletion } from '../data/dailyQuestsDB';
+import { DAILY_QUESTS, checkDailyQuestCompletion, generateDailyQuests } from '../data/dailyQuestsDB';
 
 export default function DailyQuestsScreen({ character, onBack, onClaimReward }) {
   const [quests, setQuests] = useState([]);
   const [claimedToday, setClaimedToday] = useState({});
 
   useEffect(() => {
+    // Vérifier si on doit reset les quêtes (minuit)
+    const lastReset = character.dailyQuests?.lastReset;
+    const today = new Date().toDateString();
+    
+    // Si la date a changé, réinitialiser les quêtes
+    if (lastReset !== today) {
+      // Les quêtes seront réinitialisées au prochain chargement
+      // Pour l'instant on affiche les quêtes actuelles
+    }
+
     // Initialiser les quêtes
     const initialQuests = DAILY_QUESTS.map(quest => ({
       ...quest,

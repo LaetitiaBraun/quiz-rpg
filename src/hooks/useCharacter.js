@@ -48,6 +48,23 @@ export const useCharacter = () => {
             saved.completedQuestions = {};
           }
 
+          // Vérifier si les quêtes quotidiennes doivent être réinitialisées
+          const today = new Date().toDateString();
+          if (!saved.dailyQuests) {
+            saved.dailyQuests = {
+              lastReset: today,
+              completed: [],
+              progress: { correctAnswers: 0, storyAnswers: 0, codeAnswers: 0, animeAnswers: 0 }
+            };
+          } else if (saved.dailyQuests.lastReset !== today) {
+            // Reset des quêtes - nouvelle journée!
+            saved.dailyQuests = {
+              lastReset: today,
+              completed: [],
+              progress: { correctAnswers: 0, storyAnswers: 0, codeAnswers: 0, animeAnswers: 0 }
+            };
+          }
+
           setCharacter(saved);
         }
       } catch (error) {
