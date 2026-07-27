@@ -66,15 +66,18 @@ body {
 }
 
 .button-back {
-  background: rgba(127, 119, 221, 0.2);
+  background: linear-gradient(135deg, #7f77dd, #b8a8d8);
   border-color: #7f77dd;
-  color: #7f77dd;
+  color: white;
+  border: none;
   margin-bottom: 20px;
+  padding: 12px 24px;
+  box-shadow: 0 4px 15px rgba(127, 119, 221, 0.3);
 }
 
 .button-back:hover {
-  background: rgba(127, 119, 221, 0.3);
-  box-shadow: 0 4px 12px rgba(127, 119, 221, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(127, 119, 221, 0.5);
 }
 
 /* ===== SCROLLBAR CUSTOM ===== */
