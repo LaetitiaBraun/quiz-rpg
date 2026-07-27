@@ -1,56 +1,47 @@
 .daily-quests-screen {
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  min-height: 100vh;
+  align-items: center;
   padding: 20px;
-  max-width: 900px;
-  margin: 0 auto;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+}
+
+.daily-quests-container {
+  width: 100%;
+  max-width: 800px;
 }
 
 .daily-header {
-  text-align: center;
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .daily-header h1 {
-  font-size: 36px;
-  color: #c9a961;
-  margin-bottom: 10px;
-  text-shadow: 0 0 30px rgba(201, 169, 97, 0.5);
-}
-
-.reset-info {
-  color: #7f77dd;
-  font-size: 14px;
-}
-
-.reward-summary {
-  background: linear-gradient(135deg, rgba(93, 202, 165, 0.1), rgba(201, 169, 97, 0.1));
-  border: 2px solid #5dcaa5;
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-}
-
-.total-reward {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.reward-label {
-  font-size: 12px;
-  color: #7f77dd;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.reward-value {
+  color: var(--text-primary);
   font-size: 28px;
+  margin: 0;
+}
+
+.back-btn {
+  padding: 12px 24px;
+  border: 2px solid var(--accent-red);
+  background: var(--bg-overlay-tertiary);
+  color: var(--accent-red);
+  border-radius: 8px;
+  cursor: pointer;
   font-weight: bold;
-  color: #5dcaa5;
-  text-shadow: 0 0 10px rgba(93, 202, 165, 0.3);
+  transition: all 0.3s;
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--bg-overlay-secondary);
+  background: var(--bg-overlay-tertiary);
 }
 
 .quests-list {
@@ -59,26 +50,26 @@
   gap: 15px;
 }
 
-.quest-item {
-  background: rgba(83, 74, 183, 0.15);
-  border: 2px solid #7f77dd;
-  border-radius: 10px;
+.quest-card {
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
   padding: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
-  transition: all 0.3s ease;
+  gap: 15px;
+  transition: all 0.3s;
 }
 
-.quest-item.completed {
-  background: rgba(93, 202, 165, 0.15);
-  border-color: #5dcaa5;
+.quest-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px var(--bg-overlay-secondary);
 }
 
-.quest-item:hover {
-  transform: translateX(5px);
-  box-shadow: 0 4px 15px rgba(127, 119, 221, 0.3);
+.quest-card.completed {
+  opacity: 0.7;
+  border-color: var(--accent-green);
 }
 
 .quest-info {
@@ -86,110 +77,120 @@
 }
 
 .quest-title {
-  font-size: 16px;
+  color: var(--text-primary);
   font-weight: bold;
-  color: #c9a961;
-  margin-bottom: 8px;
+  font-size: 16px;
+  margin-bottom: 5px;
 }
 
 .quest-description {
-  font-size: 14px;
-  color: #b8a8d8;
+  color: var(--text-secondary);
+  font-size: 13px;
   margin-bottom: 8px;
 }
 
-.quest-difficulty {
-  font-size: 12px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
 .quest-reward {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  min-width: 120px;
-}
-
-.reward-amount {
-  font-size: 16px;
-  font-weight: bold;
-  color: #ffd700;
-}
-
-.button-claim {
-  background: linear-gradient(135deg, #5dcaa5, #1d9e75);
-  color: white;
-  padding: 8px 20px;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 13px;
-}
-
-.button-claim:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(93, 202, 165, 0.4);
-}
-
-.claimed-badge {
-  background: rgba(93, 202, 165, 0.3);
-  border: 1px solid #5dcaa5;
-  color: #5dcaa5;
-  padding: 6px 12px;
+  background: var(--bg-overlay-tertiary);
+  border: 1px solid var(--accent-green);
   border-radius: 4px;
+  padding: 4px 8px;
+  color: var(--accent-green);
+  font-weight: bold;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.quest-progress {
+  text-align: center;
+}
+
+.progress-bar {
+  width: 60px;
+  height: 20px;
+  background: var(--bg-overlay-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-green), var(--accent-green));
+  width: 100%;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  color: var(--text-secondary);
   font-size: 12px;
   font-weight: bold;
 }
 
-.incomplete-badge {
-  background: rgba(216, 90, 48, 0.3);
-  border: 1px solid #d85a30;
-  color: #d85a30;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.daily-info {
-  background: rgba(127, 119, 221, 0.1);
-  border-left: 4px solid #7f77dd;
+.claim-btn {
+  padding: 12px 24px;
+  border: 2px solid var(--accent-green);
+  background: var(--bg-overlay-tertiary);
+  color: var(--accent-green);
   border-radius: 8px;
-  padding: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.claim-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--bg-overlay-secondary);
+  background: var(--bg-overlay-tertiary);
+}
+
+.claim-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.reset-timer {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 12px;
   margin-top: 20px;
-}
-
-.daily-info h3 {
-  color: #c9a961;
-  margin-bottom: 10px;
-  font-size: 16px;
-}
-
-.daily-info p {
-  color: #b8a8d8;
-  font-size: 14px;
-  line-height: 1.6;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
 }
 
 @media (max-width: 768px) {
-  .daily-header h1 {
-    font-size: 24px;
+  .quest-card {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .quest-item {
+  .quest-progress {
+    text-align: left;
+    width: 100%;
+  }
+
+  .claim-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .daily-quests-container {
+    padding: 0 10px;
+  }
+
+  .daily-header {
     flex-direction: column;
+    gap: 15px;
     text-align: center;
   }
 
-  .quest-reward {
-    width: 100%;
+  .quest-card {
+    padding: 15px;
   }
 
-  .button-claim {
-    width: 100%;
+  .quest-title {
+    font-size: 14px;
   }
 }

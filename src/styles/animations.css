@@ -19,7 +19,7 @@
     box-shadow: 0 0 0 0 rgba(201, 169, 97, 0.7);
   }
   50% {
-    box-shadow: 0 0 30px 15px rgba(201, 169, 97, 0.3);
+    box-shadow: 0 0 30px 15px var(--bg-overlay-secondary);
   }
   100% {
     box-shadow: 0 0 0 30px rgba(201, 169, 97, 0);
@@ -67,7 +67,7 @@
 
 @keyframes victoryGlow {
   0%, 100% {
-    box-shadow: 0 0 10px rgba(29, 158, 117, 0.3);
+    box-shadow: 0 0 10px var(--bg-overlay-secondary);
   }
   50% {
     box-shadow: 0 0 30px rgba(29, 158, 117, 0.8);
@@ -219,12 +219,12 @@
 }
 
 .floating-text.xp {
-  color: #ffd700;
+  color: var(--accent-gold);
   animation: xpFloat 1.5s ease-out forwards;
 }
 
 .floating-text.level-up {
-  color: #c9a961;
+  color: var(--accent-gold);
   font-size: 32px;
   animation: levelUpText 1.5s ease-out forwards;
 }

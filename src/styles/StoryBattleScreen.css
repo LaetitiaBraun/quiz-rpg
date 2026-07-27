@@ -1,4 +1,4 @@
-.battle-screen {
+.story-battle-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,12 +7,12 @@
   background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
 }
 
-.battle-container {
+.story-battle-container {
   width: 100%;
   max-width: 900px;
 }
 
-.progress-info {
+.story-progress {
   text-align: center;
   color: var(--text-primary);
   font-size: 16px;
@@ -20,7 +20,7 @@
   margin-bottom: 20px;
 }
 
-.question-card {
+.story-question-card {
   background: var(--bg-secondary);
   border: 2px solid var(--border-color);
   border-radius: 12px;
@@ -28,7 +28,7 @@
   margin-bottom: 20px;
 }
 
-.question-text {
+.story-question-text {
   color: var(--text-primary);
   font-size: 18px;
   font-weight: bold;
@@ -36,13 +36,25 @@
   line-height: 1.5;
 }
 
-.answers-list {
+.story-code-block {
+  background: var(--bg-overlay-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 15px;
+  font-family: 'Courier New', monospace;
+  color: var(--accent-green);
+  font-size: 12px;
+  overflow-x: auto;
+  margin: 15px 0;
+}
+
+.story-answers-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 12px;
 }
 
-.answer-option {
+.story-answer-option {
   padding: 15px;
   border: 2px solid var(--border-color);
   background: var(--bg-overlay-primary);
@@ -54,31 +66,26 @@
   text-align: center;
 }
 
-.answer-option:hover {
+.story-answer-option:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 15px var(--bg-overlay-secondary);
   border-color: var(--accent-gold);
   background: var(--bg-overlay-secondary);
 }
 
-.answer-option.correct {
+.story-answer-option.correct {
   border-color: var(--accent-green);
   background: var(--bg-overlay-secondary);
   color: var(--accent-green);
 }
 
-.answer-option.incorrect {
+.story-answer-option.incorrect {
   border-color: var(--accent-red);
   background: var(--bg-overlay-secondary);
   color: var(--accent-red);
 }
 
-.answer-option:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.feedback {
+.story-feedback {
   margin: 20px 0;
   padding: 15px;
   border-radius: 8px;
@@ -86,26 +93,26 @@
   font-weight: bold;
 }
 
-.feedback.correct {
+.story-feedback.correct {
   background: var(--bg-overlay-tertiary);
   border: 1px solid var(--accent-green);
   color: var(--accent-green);
 }
 
-.feedback.incorrect {
+.story-feedback.incorrect {
   background: var(--bg-overlay-tertiary);
   border: 1px solid var(--accent-red);
   color: var(--accent-red);
 }
 
-.action-buttons {
+.story-buttons {
   display: flex;
   gap: 15px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.btn {
+.story-btn {
   padding: 12px 24px;
   border: 2px solid var(--border-color);
   background: var(--bg-overlay-primary);
@@ -116,74 +123,78 @@
   transition: all 0.3s;
 }
 
-.btn:hover:not(:disabled) {
+.story-btn:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 4px 15px var(--bg-overlay-secondary);
   background: var(--bg-overlay-secondary);
 }
 
-.btn-back {
+.story-btn-back {
   border-color: var(--accent-red);
   color: var(--accent-red);
   background: var(--bg-overlay-tertiary);
 }
 
-.btn-back:hover:not(:disabled) {
+.story-btn-back:hover:not(:disabled) {
   box-shadow: 0 4px 15px var(--bg-overlay-secondary);
   background: var(--bg-overlay-tertiary);
 }
 
-.btn-next {
+.story-btn-next {
   border-color: var(--accent-green);
   color: var(--accent-green);
   background: var(--bg-overlay-tertiary);
 }
 
-.btn-next:hover:not(:disabled) {
+.story-btn-next:hover:not(:disabled) {
   box-shadow: 0 4px 15px var(--bg-overlay-secondary);
   background: var(--bg-overlay-tertiary);
 }
 
-.btn:disabled {
+.story-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
 @media (max-width: 768px) {
-  .question-card {
+  .story-question-card {
     padding: 15px;
   }
 
-  .question-text {
+  .story-question-text {
     font-size: 16px;
   }
 
-  .answer-option {
+  .story-answer-option {
     padding: 12px;
     font-size: 14px;
   }
 
-  .btn {
+  .story-btn {
     padding: 10px 20px;
     font-size: 14px;
   }
 }
 
 @media (max-width: 480px) {
-  .answers-list {
+  .story-answers-list {
     grid-template-columns: 1fr;
   }
 
-  .answer-option {
+  .story-answer-option {
     padding: 10px;
   }
 
-  .btn {
+  .story-btn {
     padding: 8px 16px;
     font-size: 12px;
   }
 
-  .action-buttons {
+  .story-buttons {
     gap: 10px;
+  }
+
+  .story-code-block {
+    font-size: 11px;
   }
 }

@@ -42,6 +42,8 @@ import DailyQuestsScreen from './components/DailyQuestsScreen';
 import ProfileScreen from './components/ProfileScreen';
 import DifficultyModal from './components/DifficultyModal';
 import ThemeToggle from './components/ThemeToggle';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 export default function App() {
   const { isDark, toggleTheme } = useTheme();
@@ -374,6 +376,7 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', background: isDark ? 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' : 'linear-gradient(135deg, #f5f3f9 0%, #e8e4f5 100%)' }}>
+      <Header />
       <LevelUpAnimation 
         level={newLevel} 
         show={showLevelUp} 
@@ -519,6 +522,7 @@ export default function App() {
       )}
 
       <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
+      <Footer />
     </div>
     </div>
   );

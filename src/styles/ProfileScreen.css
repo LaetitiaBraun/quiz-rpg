@@ -4,17 +4,17 @@
   align-items: flex-start;
   min-height: 100vh;
   padding: 20px;
-  background: linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%);
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
 }
 
 .profile-container {
   width: 100%;
   max-width: 1000px;
-  background: rgba(15, 10, 31, 0.8);
-  border: 2px solid #7f77dd;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
   border-radius: 12px;
   padding: 30px;
-  box-shadow: 0 10px 40px rgba(127, 119, 221, 0.3);
+  box-shadow: 0 10px 40px var(--bg-overlay-secondary);
 }
 
 .profile-header {
@@ -26,7 +26,7 @@
 }
 
 .profile-back {
-  background: linear-gradient(135deg, #1d9e75, #2fbf8f);
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-green));
   color: white;
   border: 2px solid #1d9e75;
   padding: 10px 20px;
@@ -38,11 +38,11 @@
 
 .profile-back:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(29, 158, 117, 0.4);
+  box-shadow: 0 4px 15px var(--bg-overlay-secondary);
 }
 
 .profile-header h1 {
-  color: #b8a8d8;
+  color: var(--text-primary);
   font-size: 32px;
   margin: 0;
   flex: 1;
@@ -50,11 +50,11 @@
 }
 
 .profile-level {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(201, 169, 97, 0.2));
-  border: 2px solid #ffd700;
+  background: linear-gradient(135deg, var(--bg-overlay-tertiary), var(--bg-overlay-tertiary));
+  border: 2px solid var(--accent-gold);
   border-radius: 8px;
   padding: 12px 20px;
-  color: #ffd700;
+  color: var(--accent-gold);
   font-weight: bold;
   font-size: 16px;
 }
@@ -66,8 +66,8 @@
 
 /* XP Section */
 .profile-xp-section {
-  background: rgba(127, 119, 221, 0.1);
-  border: 1px solid #7f77dd;
+  background: var(--bg-overlay-primary);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 30px;
@@ -77,7 +77,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
-  color: #b8a8d8;
+  color: var(--text-primary);
 }
 
 .xp-label {
@@ -86,24 +86,24 @@
 }
 
 .xp-value {
-  color: #7f77dd;
+  color: var(--border-color);
   font-weight: bold;
 }
 
 .xp-bar {
   width: 100%;
   height: 30px;
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--bg-overlay-tertiary);
   border-radius: 15px;
   overflow: hidden;
-  border: 1px solid #7f77dd;
+  border: 1px solid var(--border-color);
   margin-bottom: 10px;
 }
 
 .xp-fill {
   height: 100%;
-  background: linear-gradient(90deg, #7f77dd, #b8a8d8);
-  transition: width 0.3s ease;
+  background: linear-gradient(90deg, var(--border-color), var(--text-primary));
+  transition: width 0.5s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,7 +115,7 @@
 
 .total-xp {
   text-align: right;
-  color: #7f9d8c;
+  color: var(--text-secondary);
   font-size: 12px;
 }
 
@@ -128,8 +128,8 @@
 }
 
 .stat-card {
-  background: rgba(29, 158, 117, 0.1);
-  border: 2px solid #1d9e75;
+  background: var(--bg-overlay-tertiary);
+  border: 2px solid var(--accent-green);
   border-radius: 8px;
   padding: 20px;
   display: flex;
@@ -140,7 +140,7 @@
 
 .stat-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 20px rgba(29, 158, 117, 0.3);
+  box-shadow: 0 5px 20px var(--bg-overlay-secondary);
 }
 
 .stat-icon {
@@ -154,7 +154,7 @@
 }
 
 .stat-content h3 {
-  color: #5dcaa5;
+  color: var(--accent-green);
   font-size: 14px;
   margin: 0 0 5px 0;
   text-transform: uppercase;
@@ -164,12 +164,12 @@
 .stat-value {
   font-size: 32px;
   font-weight: bold;
-  color: #b8a8d8;
+  color: var(--text-primary);
   margin: 5px 0;
 }
 
 .stat-detail {
-  color: #7f9d8c;
+  color: var(--text-secondary);
   font-size: 12px;
   margin: 0;
 }
@@ -180,11 +180,11 @@
 }
 
 .progress-section h2 {
-  color: #b8a8d8;
+  color: var(--text-primary);
   font-size: 20px;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 2px solid #7f77dd;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .universe-progress {
@@ -194,16 +194,16 @@
 }
 
 .universe-card {
-  background: rgba(31, 20, 76, 0.6);
-  border: 2px solid #7f77dd;
+  background: var(--bg-overlay-secondary);
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   padding: 20px;
   transition: all 0.3s;
 }
 
 .universe-card:hover {
-  background: rgba(31, 20, 76, 0.8);
-  box-shadow: 0 5px 20px rgba(127, 119, 221, 0.3);
+  background: var(--bg-overlay-secondary);
+  box-shadow: 0 5px 20px var(--bg-overlay-secondary);
 }
 
 .universe-header {
@@ -218,13 +218,13 @@
 }
 
 .universe-header h3 {
-  color: #b8a8d8;
+  color: var(--text-primary);
   font-size: 16px;
   margin: 0;
 }
 
 .progress-info {
-  color: #7f9d8c;
+  color: var(--text-secondary);
   font-size: 12px;
   margin-bottom: 10px;
 }
@@ -232,11 +232,11 @@
 .progress-bar {
   width: 100%;
   height: 20px;
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--bg-overlay-tertiary);
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 8px;
-  border: 1px solid #7f77dd;
+  border: 1px solid var(--border-color);
 }
 
 .progress-fill {
@@ -245,20 +245,20 @@
 }
 
 .progress-high .progress-fill {
-  background: linear-gradient(90deg, #1d9e75, #5dcaa5);
+  background: linear-gradient(90deg, var(--accent-green), var(--accent-green));
 }
 
 .progress-medium .progress-fill {
-  background: linear-gradient(90deg, #ffd700, #c9a961);
+  background: linear-gradient(90deg, var(--accent-orange), var(--accent-gold));
 }
 
 .progress-low .progress-fill {
-  background: linear-gradient(90deg, #ff6b6b, #ff8787);
+  background: linear-gradient(90deg, var(--accent-red), var(--accent-red));
 }
 
 .progress-percentage {
   text-align: right;
-  color: #b8a8d8;
+  color: var(--text-primary);
   font-weight: bold;
   font-size: 14px;
 }
@@ -269,11 +269,11 @@
 }
 
 .character-stats-section h2 {
-  color: #b8a8d8;
+  color: var(--text-primary);
   font-size: 20px;
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 2px solid #7f77dd;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .character-stats-grid {
@@ -283,15 +283,15 @@
 }
 
 .char-stat {
-  background: rgba(201, 169, 97, 0.1);
-  border: 2px solid #c9a961;
+  background: var(--bg-overlay-tertiary);
+  border: 2px solid var(--accent-gold);
   border-radius: 8px;
   padding: 20px;
 }
 
 .stat-name {
   display: block;
-  color: #c9a961;
+  color: var(--accent-gold);
   font-weight: bold;
   margin-bottom: 10px;
   font-size: 14px;
@@ -300,23 +300,23 @@
 .stat-bar {
   width: 100%;
   height: 25px;
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--bg-overlay-tertiary);
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 10px;
-  border: 1px solid #c9a961;
+  border: 1px solid var(--accent-gold);
 }
 
 .stat-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #c9a961, #dab86f);
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold));
   transition: width 0.3s ease;
 }
 
 .stat-number {
   display: block;
   text-align: right;
-  color: #dab86f;
+  color: var(--accent-gold);
   font-weight: bold;
   font-size: 16px;
 }

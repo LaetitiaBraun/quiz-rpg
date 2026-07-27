@@ -11,15 +11,17 @@
   
   /* Border & Accent Colors */
   --border-color: #7f77dd;
-  --accent-gold: #ffd700;
-  --accent-green: #5dcaa5;
-  --accent-red: #ff6b6b;
-  --accent-orange: #ffc107;
+  --accent-gold: var(--accent-gold);
+  --accent-green: var(--accent-green);
+  --accent-red: var(--accent-red);
+  --accent-orange: var(--accent-orange);
   
   /* Background Overlays - semi-transparent */
-  --bg-overlay-primary: rgba(127, 119, 221, 0.1);
-  --bg-overlay-secondary: rgba(31, 20, 76, 0.3);
-  --bg-overlay-tertiary: rgba(0, 0, 0, 0.2);
+  --bg-overlay-primary: var(--bg-overlay-primary);
+  --bg-overlay-secondary: var(--bg-overlay-secondary);
+  --bg-overlay-tertiary: var(--bg-overlay-tertiary);
+  --bg-overlay-light: var(--bg-overlay-light);
+  --bg-overlay-medium: var(--bg-overlay-medium);
 }
 
 * {
@@ -133,8 +135,8 @@ body {
 }
 
 .button-backup {
-  border-color: #7f9d8c;
-  color: #7f9d8c;
+  border-color: var(--text-secondary);
+  color: var(--text-secondary);
   background: var(--bg-overlay-primary);
 }
 
@@ -215,63 +217,29 @@ select:focus {
   color: var(--accent-red);
 }
 
-.mt-small {
-  margin-top: 10px;
-}
-
-.mt-medium {
-  margin-top: 20px;
-}
-
-.mt-large {
-  margin-top: 40px;
-}
-
-.mb-small {
-  margin-bottom: 10px;
-}
-
-.mb-medium {
-  margin-bottom: 20px;
-}
-
-.mb-large {
-  margin-bottom: 40px;
-}
+.mt-small { margin-top: 10px; }
+.mt-medium { margin-top: 20px; }
+.mt-large { margin-top: 40px; }
+.mb-small { margin-bottom: 10px; }
+.mb-medium { margin-bottom: 20px; }
+.mb-large { margin-bottom: 40px; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  body {
-    padding: 10px;
-  }
-
-  .button {
-    padding: 10px 16px;
-    font-size: 14px;
-  }
-
+  body { padding: 10px; }
+  .button { padding: 10px 16px; font-size: 14px; }
   input[type="text"],
   input[type="email"],
   input[type="password"],
   textarea,
-  select {
-    padding: 8px 12px;
-    font-size: 14px;
-  }
+  select { padding: 8px 12px; font-size: 14px; }
 }
 
 @media (max-width: 480px) {
-  .button {
-    padding: 8px 12px;
-    font-size: 12px;
-  }
-
+  .button { padding: 8px 12px; font-size: 12px; }
   input[type="text"],
   input[type="email"],
   input[type="password"],
   textarea,
-  select {
-    padding: 8px 10px;
-    font-size: 12px;
-  }
+  select { padding: 8px 10px; font-size: 12px; }
 }

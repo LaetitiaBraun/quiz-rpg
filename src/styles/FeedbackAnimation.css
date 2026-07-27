@@ -21,7 +21,7 @@
 }
 
 .correct-animation .feedback-text {
-  color: #5dcaa5;
+  color: var(--accent-green);
   text-shadow: 0 0 30px rgba(29, 158, 117, 0.8);
 }
 
