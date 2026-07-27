@@ -21,6 +21,7 @@ import './styles/DailyQuestsScreen.css';
 import './styles/ProfileScreen.css';
 import './styles/CharacterCard.css';
 import './styles/DifficultyModal.css';
+import './styles/ThemeToggle.css';
 import { useCharacter } from './hooks/useCharacter';
 import { useTheme } from './hooks/useTheme';
 import { QUESTIONS_DB } from './data/questionsDB';
@@ -40,6 +41,7 @@ import ArenaBattle from './components/ArenaBattle';
 import DailyQuestsScreen from './components/DailyQuestsScreen';
 import ProfileScreen from './components/ProfileScreen';
 import DifficultyModal from './components/DifficultyModal';
+import ThemeToggle from './components/ThemeToggle';
 
 export default function App() {
   const { isDark, toggleTheme } = useTheme();
@@ -408,27 +410,37 @@ export default function App() {
         <ProfileScreen 
           character={character}
           onBack={() => setShowProfile(false)}
+          isDark={isDark}
+          toggleTheme={toggleTheme}
         />
       ) : showLegal ? (
         <LegalScreen 
           page={legalPage}
           onBack={() => setShowLegal(false)}
+          isDark={isDark}
+          toggleTheme={toggleTheme}
         />
       ) : showBadges ? (
         <BadgesScreen 
           character={character}
           onBack={() => setShowBadges(false)}
+          isDark={isDark}
+          toggleTheme={toggleTheme}
         />
       ) : showLeaderboard ? (
         <LeaderboardScreen 
           character={character}
           onBack={() => setShowLeaderboard(false)}
+          isDark={isDark}
+          toggleTheme={toggleTheme}
         />
       ) : showDailyQuests ? (
         <DailyQuestsScreen 
           character={character}
           onBack={() => setShowDailyQuests(false)}
           onClaimReward={handleClaimDailyReward}
+          isDark={isDark}
+          toggleTheme={toggleTheme}
         />
       ) : gameState === 'hub' ? (
         <HubScreen 
@@ -443,8 +455,6 @@ export default function App() {
           onEditName={() => setShowEditName(true)}
           onOpenBackup={() => setShowBackup(true)}
           onOpenProfile={() => setShowProfile(true)}
-          isDark={isDark}
-          toggleTheme={toggleTheme}
         />
       ) : gameState === 'equipment' ? (
         <EquipmentScreen 
@@ -452,12 +462,16 @@ export default function App() {
           onEquip={equipItem}
           onUnequip={unequipItem}
           onBack={goToHub}
+          isDark={isDark}
+          toggleTheme={toggleTheme}
         />
       ) : gameState === 'arena' ? (
         <ArenaScreen 
           character={character}
           onBack={goToHub}
           onStartDuel={handleStartDuel}
+          isDark={isDark}
+          toggleTheme={toggleTheme}
         />
       ) : gameState === 'arena-battle' && currentArenaOpponent ? (
         <ArenaBattle 
@@ -465,6 +479,8 @@ export default function App() {
           character={character}
           equipmentStats={equipmentStats}
           onBattleEnd={handleBattleEnd}
+          isDark={isDark}
+          toggleTheme={toggleTheme}
         />
       ) : currentUniverse === 'story' ? (
         <StoryBattleScreen 
@@ -481,6 +497,8 @@ export default function App() {
           onContinueNarrative={handleContinueNarrative}
           character={character}
           difficulty={selectedDifficulty}
+          isDark={isDark}
+          toggleTheme={toggleTheme}
         />
       ) : (
         <BattleScreen 
@@ -495,8 +513,12 @@ export default function App() {
           onBack={goToHub}
           character={character}
           difficulty={selectedDifficulty}
+          isDark={isDark}
+          toggleTheme={toggleTheme}
         />
       )}
+
+      <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
     </div>
     </div>
   );
