@@ -215,17 +215,6 @@
   box-shadow: 0 6px 20px rgba(216, 90, 48, 0.5);
 }
 
-.button-arena {
-  background: linear-gradient(135deg, #ffd700, #ffed4e);
-  color: #0f0a1f;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-}
-
-.button-arena:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
-}
-
 .hub-buttons {
   display: flex;
   gap: 20px;
@@ -244,8 +233,7 @@
 
   .button-equipment,
   .button-badges,
-  .button-leaderboard,
-  .button-arena {
+  .button-leaderboard {
     padding: 10px 16px;
     font-size: 12px;
   }

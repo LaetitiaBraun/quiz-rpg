@@ -3,6 +3,14 @@ import QuestCard from './QuestCard';
 import CharacterCard from './CharacterCard';
 
 export default function HubScreen({ character, onStartQuest, equipmentStats, onOpenEquipment, onOpenBadges, onOpenLeaderboard, onOpenArena, onEditName }) {
+  const handleQuestCardClick = (universe) => {
+    if (universe === 'arena') {
+      onOpenArena();
+    } else {
+      onStartQuest(universe);
+    }
+  };
+
   return (
     <div className="hub-screen">
       <CharacterCard character={character} equipmentStats={equipmentStats} />
@@ -20,32 +28,28 @@ export default function HubScreen({ character, onStartQuest, equipmentStats, onO
         <button className="button button-leaderboard" onClick={onOpenLeaderboard}>
           🏅 Classement
         </button>
-        <button className="button button-arena" onClick={onOpenArena}>
-          🏟️ Arena
-        </button>
       </div>
       
       <div className="quest-grid">
         <QuestCard 
           universe="anime"
           character={character}
-          onStart={onStartQuest}
+          onStart={handleQuestCardClick}
         />
         <QuestCard 
           universe="programming"
           character={character}
-          onStart={onStartQuest}
+          onStart={handleQuestCardClick}
         />
         <QuestCard 
           universe="story"
           character={character}
-          onStart={onStartQuest}
+          onStart={handleQuestCardClick}
         />
         <QuestCard 
           universe="arena"
           character={character}
-          onStart={onStartQuest}
-          disabled={true}
+          onStart={handleQuestCardClick}
         />
       </div>
     </div>

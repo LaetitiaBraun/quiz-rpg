@@ -26,7 +26,11 @@ export default function QuestCard({ universe, character, onStart, disabled }) {
       <div className="quest-title">{config.title}</div>
       <div className="quest-description">{config.description}</div>
       
-      {universe === 'story' ? (
+      {universe === 'arena' ? (
+        <div className="quest-progress">
+          {character.arenaWins || 0} victoires
+        </div>
+      ) : universe === 'story' ? (
         <div className="quest-progress">Chapitre {progress.chapter}</div>
       ) : (
         <div className="quest-progress">
