@@ -1,59 +1,71 @@
-.footer {
-  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-  border-top: 2px solid var(--border-color);
-  padding: 20px;
-  margin-top: 40px;
-  text-align: center;
-  color: var(--text-secondary);
-}
+/* Footer positioning is handled in index.html <style> tag */
+/* All positioning rules are in the HTML <style> to avoid conflicts */
 
 .footer-content {
   max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0 auto 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 0 20px;
 }
 
-.footer-text {
-  font-size: 12px;
+.footer-section {
+  text-align: left;
+}
+
+.footer-section h3 {
+  color: #c9a961;
+  margin-bottom: 15px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.footer-section p {
+  font-size: 13px;
   line-height: 1.6;
-  margin: 5px 0;
+  margin: 0;
+  color: #b8a8d8;
 }
 
 .footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 10px;
-  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.footer-link {
-  color: var(--text-primary);
+.footer-links li {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: #b8a8d8;
   text-decoration: none;
+  font-size: 13px;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #c9a961;
+}
+
+.footer-section a[href*="laetitiabraun"] {
+  color: #1d9e75;
+}
+
+.footer-section a[href*="laetitiabraun"]:hover {
+  color: #5dcaa5;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid rgba(127, 119, 221, 0.3);
   font-size: 12px;
-  transition: all 0.3s;
-}
-
-.footer-link:hover {
-  color: var(--accent-gold);
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-}
-
-@media (max-width: 768px) {
-  .footer {
-    padding: 15px;
-  }
-
-  .footer-text {
-    font-size: 11px;
-  }
-
-  .footer-link {
-    font-size: 11px;
-  }
-}
-
-@media (max-width: 480px) {
-  .footer-links {
-    gap: 10px;
-  }
+  color: #7f77dd;
+  margin: 0;
+  width: 100%;
 }

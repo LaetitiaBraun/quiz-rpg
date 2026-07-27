@@ -1,60 +1,68 @@
 .combo-display {
   position: fixed;
-  top: 80px;
+  top: 100px;
   right: 20px;
-  z-index: 100;
-  text-align: center;
-  pointer-events: none;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: slideIn 0.3s ease;
 }
 
 .combo-counter {
-  font-size: 48px;
+  background: linear-gradient(135deg, #ff6b6b, #ff8787);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
   font-weight: bold;
-  color: var(--accent-orange);
-  text-shadow: 0 0 20px rgba(255, 193, 7, 0.8);
-  animation: comboScale 0.3s ease-out;
-}
-
-.combo-text {
-  color: var(--text-primary);
   font-size: 16px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+  animation: pulse 0.5s ease;
 }
 
-@keyframes comboScale {
+.combo-bonus {
+  background: rgba(255, 215, 0, 0.2);
+  border: 2px solid #ffd700;
+  color: #ffd700;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  animation: slideIn 0.3s ease 0.1s backwards;
+}
+
+@keyframes slideIn {
   from {
-    transform: scale(1.3);
-    opacity: 1;
+    opacity: 0;
+    transform: translateX(50px);
   }
   to {
-    transform: scale(1);
     opacity: 1;
+    transform: translateX(0);
   }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 @media (max-width: 768px) {
   .combo-display {
-    top: 60px;
+    top: auto;
+    bottom: 100px;
     right: 10px;
   }
 
   .combo-counter {
-    font-size: 36px;
+    font-size: 14px;
+    padding: 10px 16px;
   }
 
-  .combo-text {
+  .combo-bonus {
     font-size: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .combo-counter {
-    font-size: 24px;
-  }
-
-  .combo-text {
-    font-size: 10px;
+    padding: 6px 12px;
   }
 }

@@ -1,49 +1,77 @@
 .arena-screen {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  gap: 30px;
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-}
-
-.arena-container {
-  width: 100%;
-  max-width: 900px;
+  padding: 20px;
 }
 
 .arena-header {
   text-align: center;
-  margin-bottom: 30px;
-}
-
-.arena-header h1 {
-  color: var(--text-primary);
-  font-size: 32px;
-  margin: 0 0 10px 0;
-}
-
-.arena-subtitle {
-  color: var(--text-secondary);
-  font-size: 16px;
-}
-
-.back-btn {
-  padding: 12px 24px;
-  border: 2px solid var(--accent-red);
-  background: var(--bg-overlay-tertiary);
-  color: var(--accent-red);
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s;
   margin-bottom: 20px;
 }
 
-.back-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px var(--bg-overlay-secondary);
-  background: var(--bg-overlay-tertiary);
+.arena-header h1 {
+  font-size: 36px;
+  color: #ffd700;
+  margin-bottom: 10px;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  letter-spacing: 2px;
+}
+
+.arena-subtitle {
+  color: #b8a8d8;
+  font-size: 16px;
+}
+
+.arena-stats {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.player-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.info-card {
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.1), rgba(127, 119, 221, 0.1));
+  border: 2px solid #c9a961;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-label {
+  font-size: 12px;
+  color: #7f77dd;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.info-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #c9a961;
+  text-shadow: 0 0 10px rgba(201, 169, 97, 0.3);
+}
+
+.opponents-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.opponents-section h2 {
+  font-size: 24px;
+  color: #c9a961;
+  margin-bottom: 25px;
+  text-align: center;
 }
 
 .opponents-grid {
@@ -53,124 +81,151 @@
 }
 
 .opponent-card {
-  background: var(--bg-secondary);
-  border: 2px solid var(--border-color);
+  background: rgba(83, 74, 183, 0.15);
+  border: 2px solid #7f77dd;
   border-radius: 12px;
   padding: 20px;
   text-align: center;
-  cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.opponent-card:hover {
+.opponent-card:hover:not(.disabled) {
+  background: rgba(83, 74, 183, 0.25);
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px var(--bg-overlay-secondary);
-  border-color: var(--accent-gold);
+  box-shadow: 0 8px 25px rgba(127, 119, 221, 0.3);
 }
 
-.opponent-rank {
-  display: inline-block;
-  background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold));
-  color: var(--bg-primary);
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 12px;
-  margin-bottom: 10px;
+.opponent-emoji {
+  font-size: 48px;
+  margin: 10px 0;
 }
 
 .opponent-name {
-  color: var(--text-primary);
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
-  margin-bottom: 8px;
+  color: #c9a961;
 }
 
 .opponent-level {
-  color: var(--text-secondary);
-  font-size: 14px;
-  margin-bottom: 15px;
+  font-size: 12px;
+  color: #b8a8d8;
+}
+
+.difficulty-badge {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .opponent-stats {
-  background: var(--bg-overlay-primary);
-  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 12px;
 }
 
-.opponent-stat-row {
+.stat-row {
   display: flex;
   justify-content: space-between;
-  color: var(--text-primary);
-  font-size: 13px;
-  margin: 5px 0;
+  padding: 5px 0;
+  color: #b8a8d8;
 }
 
-.opponent-stat-label {
-  color: var(--text-secondary);
-}
-
-.opponent-stat-value {
-  color: var(--accent-green);
-  font-weight: bold;
-}
-
-.opponent-reward {
-  background: var(--bg-overlay-tertiary);
-  border: 1px solid var(--accent-green);
+.reward-badge {
+  background: linear-gradient(135deg, rgba(93, 202, 165, 0.2), rgba(201, 169, 97, 0.2));
+  border: 1px solid #5dcaa5;
   border-radius: 6px;
-  padding: 10px;
-  color: var(--accent-green);
+  padding: 8px;
+  color: #5dcaa5;
   font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 15px;
+  font-size: 13px;
 }
 
-.challenge-btn {
+.button-challenge {
   width: 100%;
-  padding: 12px;
-  border: 2px solid var(--border-color);
-  background: var(--bg-overlay-primary);
-  color: var(--text-primary);
-  border-radius: 8px;
-  cursor: pointer;
+  padding: 10px;
+  font-size: 14px;
+  margin-top: 10px;
+  background: linear-gradient(135deg, #c9a961, #dab86f);
+  color: #0f0a1f;
+  border: none;
   font-weight: bold;
-  transition: all 0.3s;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
 }
 
-.challenge-btn:hover {
+.button-challenge:hover:not(.disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px var(--bg-overlay-secondary);
-  border-color: var(--accent-gold);
-  background: var(--bg-overlay-secondary);
+  box-shadow: 0 4px 15px rgba(201, 169, 97, 0.4);
+}
+
+.button-challenge.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.level-required {
+  font-size: 11px;
+  color: #d85a30;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.arena-info {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  background: rgba(127, 119, 221, 0.1);
+  border-left: 4px solid #7f77dd;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.arena-info h3 {
+  color: #c9a961;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.arena-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.arena-info li {
+  color: #b8a8d8;
+  padding: 8px 0;
+  padding-left: 20px;
+  position: relative;
+  font-size: 14px;
+}
+
+.arena-info li:before {
+  content: "⚔️";
+  position: absolute;
+  left: 0;
 }
 
 @media (max-width: 768px) {
-  .opponents-grid {
-    grid-template-columns: 1fr;
-  }
-
   .arena-header h1 {
     font-size: 24px;
   }
 
-  .opponent-card {
-    padding: 15px;
-  }
-}
-
-@media (max-width: 480px) {
-  .arena-container {
-    padding: 0 10px;
+  .player-info {
+    grid-template-columns: 1fr;
   }
 
-  .opponent-name {
-    font-size: 16px;
-  }
-
-  .challenge-btn {
-    padding: 10px;
+  .opponents-grid {
+    grid-template-columns: 1fr;
   }
 }

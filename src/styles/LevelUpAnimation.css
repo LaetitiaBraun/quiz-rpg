@@ -36,7 +36,7 @@
 .level-up-text {
   font-size: 64px;
   font-weight: bold;
-  color: var(--accent-gold);
+  color: #c9a961;
   text-shadow: 0 0 30px rgba(201, 169, 97, 0.8), 
                0 0 60px rgba(127, 119, 221, 0.6);
   margin: 20px 0;
@@ -46,7 +46,7 @@
 
 .level-up-number {
   font-size: 36px;
-  color: var(--accent-gold);
+  color: #ffd700;
   font-weight: bold;
   text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
   margin-top: 15px;
@@ -59,7 +59,7 @@
   left: 50%;
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, var(--bg-overlay-secondary) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(201, 169, 97, 0.3) 0%, transparent 70%);
   transform: translate(-50%, -50%);
   animation: levelUpGlow 1.2s ease-out;
   pointer-events: none;

@@ -12,18 +12,12 @@ import './styles/LeaderboardScreen.css';
 import './styles/Header.css';
 import './styles/Footer.css';
 import './styles/EditNameModal.css';
-import './styles/BackupModal.css';
 import './styles/LegalScreen.css';
 import './styles/ArenaScreen.css';
 import './styles/ArenaBattle.css';
 import './styles/ComboDisplay.css';
 import './styles/DailyQuestsScreen.css';
-import './styles/ProfileScreen.css';
-import './styles/CharacterCard.css';
-import './styles/DifficultyModal.css';
-import './styles/ThemeToggle.css';
 import { useCharacter } from './hooks/useCharacter';
-import { useTheme } from './hooks/useTheme';
 import { QUESTIONS_DB } from './data/questionsDB';
 import { SoundSystem } from './utils/SoundSystem';
 import HubScreen from './components/HubScreen';
@@ -34,19 +28,12 @@ import LevelUpAnimation from './components/LevelUpAnimation';
 import BadgesScreen from './components/BadgesScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
 import EditNameModal from './components/EditNameModal';
-import BackupModal from './components/BackupModal';
 import LegalScreen from './components/LegalScreen';
 import ArenaScreen from './components/ArenaScreen';
 import ArenaBattle from './components/ArenaBattle';
 import DailyQuestsScreen from './components/DailyQuestsScreen';
-import ProfileScreen from './components/ProfileScreen';
-import DifficultyModal from './components/DifficultyModal';
-import ThemeToggle from './components/ThemeToggle';
-import Header from './components/Header';
-import Footer from './components/Footer';
 
 export default function App() {
-  const { isDark, toggleTheme } = useTheme();
   const { character, setCharacter, addXP, equipItem, unequipItem, getEquipmentStats } = useCharacter();
   
   // Initialiser depuis localStorage
@@ -86,13 +73,6 @@ export default function App() {
   const [showDailyQuests, setShowDailyQuests] = useState(() => {
     return localStorage.getItem('quiz-rpg-showdailyquests') === 'true';
   });
-  const [showBackup, setShowBackup] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
-  const [showDifficultyModal, setShowDifficultyModal] = useState(false);
-  const [selectedDifficulty, setSelectedDifficulty] = useState(() => {
-    return parseInt(localStorage.getItem('quiz-rpg-difficulty') || '2');
-  });
-  const [pendingUniverse, setPendingUniverse] = useState(null);
 
   const equipmentStats = getEquipmentStats();
 
@@ -158,11 +138,6 @@ export default function App() {
     localStorage.setItem('quiz-rpg-showdailyquests', showDailyQuests.toString());
   }, [showDailyQuests]);
 
-  // Sauvegarder selectedDifficulty
-  useEffect(() => {
-    localStorage.setItem('quiz-rpg-difficulty', selectedDifficulty.toString());
-  }, [selectedDifficulty]);
-
   // Nettoyer localStorage si on est au hub
   useEffect(() => {
     if (gameState === 'hub') {
@@ -178,33 +153,15 @@ export default function App() {
   }, [gameState]);
 
   // ===== GAME LOGIC =====
-
-  // Filtrer les questions par difficulté
-  const getQuestionsByDifficulty = (universe, difficulty) => {
-    const questions = QUESTIONS_DB[universe];
-    return questions.filter(q => q.difficulty === difficulty);
-  };
-
-  const getQuestionsForCurrentBattle = () => {
-    if (!currentUniverse) return [];
-    return getQuestionsByDifficulty(currentUniverse, selectedDifficulty);
-  };
   
   const handleStartQuest = (universe) => {
-    setPendingUniverse(universe);
-    setShowDifficultyModal(true);
-  };
-
-  const handleSelectDifficulty = (difficulty) => {
-    setSelectedDifficulty(difficulty);
-    setCurrentUniverse(pendingUniverse);
+    setCurrentUniverse(universe);
     setGameState('battle');
     setCurrentQuestionIndex(0);
     setFeedback(null);
     setAnswered(false);
-    setShowDifficultyModal(false);
     // Show narrative at start for story quest
-    if (pendingUniverse === 'story') {
+    if (universe === 'story') {
       setShowNarrative(true);
     } else {
       setShowNarrative(false);
@@ -214,14 +171,11 @@ export default function App() {
   const handleAnswer = (selectedIndex) => {
     if (answered) return;
 
-    const filteredQuestions = getQuestionsForCurrentBattle();
-    const currentQuestion = filteredQuestions[currentQuestionIndex];
+    const questions = QUESTIONS_DB[currentUniverse];
+    const currentQuestion = questions[currentQuestionIndex];
     const isCorrect = selectedIndex === currentQuestion.correct;
 
-    // Appliquer le multiplicateur de difficulté
-    const difficultyMultiplier = selectedDifficulty === 1 ? 0.5 : selectedDifficulty === 2 ? 1 : 1.5;
-    const baseXp = isCorrect ? currentQuestion.xp : Math.floor(currentQuestion.xp * 0.3);
-    const xpGain = Math.floor(baseXp * difficultyMultiplier);
+    const xpGain = isCorrect ? currentQuestion.xp : Math.floor(currentQuestion.xp * 0.3);
     const result = addXP(xpGain, currentUniverse, currentQuestion.id, isCorrect, currentQuestion.act);
 
     // Trigger sound on click
@@ -244,8 +198,8 @@ export default function App() {
   };
 
   const handleNextQuestion = () => {
-    const filteredQuestions = getQuestionsForCurrentBattle();
-    if (currentQuestionIndex < filteredQuestions.length - 1) {
+    const questions = QUESTIONS_DB[currentUniverse];
+    if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setFeedback(null);
       setAnswered(false);
@@ -375,21 +329,12 @@ export default function App() {
   }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: isDark ? 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' : 'linear-gradient(135deg, #f5f3f9 0%, #e8e4f5 100%)' }}>
-      <Header />
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' }}>
       <LevelUpAnimation 
         level={newLevel} 
         show={showLevelUp} 
         onComplete={() => setShowLevelUp(false)} 
       />
-
-      {showDifficultyModal && (
-        <DifficultyModal 
-          onSelectDifficulty={handleSelectDifficulty}
-          onCancel={() => setShowDifficultyModal(false)}
-          universeName={pendingUniverse}
-        />
-      )}
 
       {showEditName && (
         <EditNameModal 
@@ -398,52 +343,28 @@ export default function App() {
           onClose={() => setShowEditName(false)}
         />
       )}
-
-      {showBackup && (
-        <BackupModal 
-          character={character}
-          onClose={() => setShowBackup(false)}
-          onCharacterLoad={setCharacter}
-        />
-      )}
-
-
+      
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '60vh' }}>
-      {showProfile ? (
-        <ProfileScreen 
-          character={character}
-          onBack={() => setShowProfile(false)}
-          isDark={isDark}
-          toggleTheme={toggleTheme}
-        />
-      ) : showLegal ? (
+      {showLegal ? (
         <LegalScreen 
           page={legalPage}
           onBack={() => setShowLegal(false)}
-          isDark={isDark}
-          toggleTheme={toggleTheme}
         />
       ) : showBadges ? (
         <BadgesScreen 
           character={character}
           onBack={() => setShowBadges(false)}
-          isDark={isDark}
-          toggleTheme={toggleTheme}
         />
       ) : showLeaderboard ? (
         <LeaderboardScreen 
           character={character}
           onBack={() => setShowLeaderboard(false)}
-          isDark={isDark}
-          toggleTheme={toggleTheme}
         />
       ) : showDailyQuests ? (
         <DailyQuestsScreen 
           character={character}
           onBack={() => setShowDailyQuests(false)}
           onClaimReward={handleClaimDailyReward}
-          isDark={isDark}
-          toggleTheme={toggleTheme}
         />
       ) : gameState === 'hub' ? (
         <HubScreen 
@@ -456,8 +377,6 @@ export default function App() {
           onOpenDailyQuests={() => setShowDailyQuests(true)}
           onOpenArena={handleOpenArena}
           onEditName={() => setShowEditName(true)}
-          onOpenBackup={() => setShowBackup(true)}
-          onOpenProfile={() => setShowProfile(true)}
         />
       ) : gameState === 'equipment' ? (
         <EquipmentScreen 
@@ -465,16 +384,12 @@ export default function App() {
           onEquip={equipItem}
           onUnequip={unequipItem}
           onBack={goToHub}
-          isDark={isDark}
-          toggleTheme={toggleTheme}
         />
       ) : gameState === 'arena' ? (
         <ArenaScreen 
           character={character}
           onBack={goToHub}
           onStartDuel={handleStartDuel}
-          isDark={isDark}
-          toggleTheme={toggleTheme}
         />
       ) : gameState === 'arena-battle' && currentArenaOpponent ? (
         <ArenaBattle 
@@ -482,15 +397,13 @@ export default function App() {
           character={character}
           equipmentStats={equipmentStats}
           onBattleEnd={handleBattleEnd}
-          isDark={isDark}
-          toggleTheme={toggleTheme}
         />
       ) : currentUniverse === 'story' ? (
         <StoryBattleScreen 
           universe={currentUniverse}
-          currentQuestion={getQuestionsForCurrentBattle()[currentQuestionIndex]}
+          currentQuestion={QUESTIONS_DB[currentUniverse][currentQuestionIndex]}
           currentQuestionIndex={currentQuestionIndex}
-          totalQuestions={getQuestionsForCurrentBattle().length}
+          totalQuestions={QUESTIONS_DB[currentUniverse].length}
           feedback={feedback}
           answered={answered}
           onAnswer={handleAnswer}
@@ -499,30 +412,21 @@ export default function App() {
           showNarrative={showNarrative}
           onContinueNarrative={handleContinueNarrative}
           character={character}
-          difficulty={selectedDifficulty}
-          isDark={isDark}
-          toggleTheme={toggleTheme}
         />
       ) : (
         <BattleScreen 
           universe={currentUniverse}
-          currentQuestion={getQuestionsForCurrentBattle()[currentQuestionIndex]}
+          currentQuestion={QUESTIONS_DB[currentUniverse][currentQuestionIndex]}
           currentQuestionIndex={currentQuestionIndex}
-          totalQuestions={getQuestionsForCurrentBattle().length}
+          totalQuestions={QUESTIONS_DB[currentUniverse].length}
           feedback={feedback}
           answered={answered}
           onAnswer={handleAnswer}
           onNext={handleNextQuestion}
           onBack={goToHub}
           character={character}
-          difficulty={selectedDifficulty}
-          isDark={isDark}
-          toggleTheme={toggleTheme}
         />
       )}
-
-      <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
-      <Footer />
     </div>
     </div>
   );
