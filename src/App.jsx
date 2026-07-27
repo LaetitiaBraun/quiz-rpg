@@ -12,6 +12,7 @@ import './styles/LeaderboardScreen.css';
 import './styles/Header.css';
 import './styles/Footer.css';
 import './styles/EditNameModal.css';
+import './styles/BackupModal.css';
 import './styles/LegalScreen.css';
 import './styles/ArenaScreen.css';
 import './styles/ArenaBattle.css';
@@ -28,6 +29,7 @@ import LevelUpAnimation from './components/LevelUpAnimation';
 import BadgesScreen from './components/BadgesScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
 import EditNameModal from './components/EditNameModal';
+import BackupModal from './components/BackupModal';
 import LegalScreen from './components/LegalScreen';
 import ArenaScreen from './components/ArenaScreen';
 import ArenaBattle from './components/ArenaBattle';
@@ -73,6 +75,7 @@ export default function App() {
   const [showDailyQuests, setShowDailyQuests] = useState(() => {
     return localStorage.getItem('quiz-rpg-showdailyquests') === 'true';
   });
+  const [showBackup, setShowBackup] = useState(false);
 
   const equipmentStats = getEquipmentStats();
 
@@ -343,6 +346,14 @@ export default function App() {
           onClose={() => setShowEditName(false)}
         />
       )}
+
+      {showBackup && (
+        <BackupModal 
+          character={character}
+          onClose={() => setShowBackup(false)}
+          onCharacterLoad={setCharacter}
+        />
+      )}
       
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '60vh' }}>
       {showLegal ? (
@@ -377,6 +388,7 @@ export default function App() {
           onOpenDailyQuests={() => setShowDailyQuests(true)}
           onOpenArena={handleOpenArena}
           onEditName={() => setShowEditName(true)}
+          onOpenBackup={() => setShowBackup(true)}
         />
       ) : gameState === 'equipment' ? (
         <EquipmentScreen 
