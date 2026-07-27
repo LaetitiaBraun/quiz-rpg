@@ -84,7 +84,9 @@ export default function ProfileScreen({ character, onBack }) {
             <div 
               className="xp-fill" 
               style={{ width: `${(character.xp / character.maxXp) * 100}%` }}
-            ></div>
+            >
+              {Math.round((character.xp / character.maxXp) * 100)}%
+            </div>
           </div>
           <div className="total-xp">XP Total: {character.totalXP || 0}</div>
         </div>
