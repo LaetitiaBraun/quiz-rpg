@@ -1,0 +1,231 @@
+.arena-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.arena-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.arena-header h1 {
+  font-size: 36px;
+  color: #ffd700;
+  margin-bottom: 10px;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  letter-spacing: 2px;
+}
+
+.arena-subtitle {
+  color: #b8a8d8;
+  font-size: 16px;
+}
+
+.arena-stats {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.player-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.info-card {
+  background: linear-gradient(135deg, rgba(201, 169, 97, 0.1), rgba(127, 119, 221, 0.1));
+  border: 2px solid #c9a961;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-label {
+  font-size: 12px;
+  color: #7f77dd;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.info-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #c9a961;
+  text-shadow: 0 0 10px rgba(201, 169, 97, 0.3);
+}
+
+.opponents-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.opponents-section h2 {
+  font-size: 24px;
+  color: #c9a961;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.opponents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.opponent-card {
+  background: rgba(83, 74, 183, 0.15);
+  border: 2px solid #7f77dd;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.opponent-card:hover:not(.disabled) {
+  background: rgba(83, 74, 183, 0.25);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(127, 119, 221, 0.3);
+}
+
+.opponent-emoji {
+  font-size: 48px;
+  margin: 10px 0;
+}
+
+.opponent-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #c9a961;
+}
+
+.opponent-level {
+  font-size: 12px;
+  color: #b8a8d8;
+}
+
+.difficulty-badge {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.opponent-stats {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  color: #b8a8d8;
+}
+
+.reward-badge {
+  background: linear-gradient(135deg, rgba(93, 202, 165, 0.2), rgba(201, 169, 97, 0.2));
+  border: 1px solid #5dcaa5;
+  border-radius: 6px;
+  padding: 8px;
+  color: #5dcaa5;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.button-challenge {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  margin-top: 10px;
+  background: linear-gradient(135deg, #c9a961, #dab86f);
+  color: #0f0a1f;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.button-challenge:hover:not(.disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(201, 169, 97, 0.4);
+}
+
+.button-challenge.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.level-required {
+  font-size: 11px;
+  color: #d85a30;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.arena-info {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  background: rgba(127, 119, 221, 0.1);
+  border-left: 4px solid #7f77dd;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.arena-info h3 {
+  color: #c9a961;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.arena-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.arena-info li {
+  color: #b8a8d8;
+  padding: 8px 0;
+  padding-left: 20px;
+  position: relative;
+  font-size: 14px;
+}
+
+.arena-info li:before {
+  content: "⚔️";
+  position: absolute;
+  left: 0;
+}
+
+@media (max-width: 768px) {
+  .arena-header h1 {
+    font-size: 24px;
+  }
+
+  .player-info {
+    grid-template-columns: 1fr;
+  }
+
+  .opponents-grid {
+    grid-template-columns: 1fr;
+  }
+}

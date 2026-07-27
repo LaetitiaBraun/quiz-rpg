@@ -1,0 +1,239 @@
+.arena-battle {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  min-height: 100vh;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.battle-container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 40px;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(31, 20, 76, 0.3), rgba(42, 25, 95, 0.3));
+  border: 2px solid #c9a961;
+  border-radius: 12px;
+  padding: 40px;
+  margin-top: 20px;
+}
+
+.combatant-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: rgba(83, 74, 183, 0.1);
+  border-radius: 10px;
+}
+
+.combatant-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #c9a961;
+  text-align: center;
+}
+
+.combatant-emoji {
+  font-size: 64px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.health-bar-container {
+  width: 100%;
+  height: 30px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid #7f77dd;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.health-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #5dcaa5, #1d9e75);
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.health-text {
+  font-size: 14px;
+  font-weight: bold;
+  color: #e0d7f7;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.stats-display {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 12px;
+  color: #b8a8d8;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.vs-indicator {
+  font-size: 36px;
+  font-weight: bold;
+  color: #c9a961;
+  text-shadow: 0 0 20px rgba(201, 169, 97, 0.5);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.battle-log {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #7f77dd;
+  border-radius: 8px;
+  padding: 20px;
+  height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.log-entry {
+  font-size: 14px;
+  color: #b8a8d8;
+  padding: 5px 10px;
+  background: rgba(127, 119, 221, 0.1);
+  border-radius: 4px;
+  border-left: 3px solid #7f77dd;
+}
+
+.log-entry:last-child {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.battle-controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  min-height: 60px;
+}
+
+.button-attack {
+  padding: 15px 40px;
+  font-size: 16px;
+  background: linear-gradient(135deg, #d85a30, #f07a42);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(216, 90, 48, 0.3);
+}
+
+.button-attack:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(216, 90, 48, 0.5);
+}
+
+.button-attack:active {
+  transform: translateY(-1px);
+}
+
+.waiting-text {
+  color: #c9a961;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.battle-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.result-text {
+  font-size: 36px;
+  font-weight: bold;
+  text-shadow: 0 0 20px rgba(201, 169, 97, 0.5);
+}
+
+.result-text.victory {
+  color: #5dcaa5;
+}
+
+.result-text.defeat {
+  color: #d85a30;
+}
+
+.button-finish {
+  padding: 12px 30px;
+  font-size: 16px;
+  background: linear-gradient(135deg, #7f77dd, #b8a8d8);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button-finish:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(127, 119, 221, 0.5);
+}
+
+@media (max-width: 768px) {
+  .battle-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .vs-indicator {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    margin: 10px 0;
+  }
+
+  .combatant-emoji {
+    font-size: 48px;
+  }
+
+  .battle-log {
+    height: 150px;
+    font-size: 12px;
+  }
+}

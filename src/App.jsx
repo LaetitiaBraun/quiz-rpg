@@ -13,6 +13,8 @@ import './styles/Header.css';
 import './styles/Footer.css';
 import './styles/EditNameModal.css';
 import './styles/LegalScreen.css';
+import './styles/ArenaScreen.css';
+import './styles/ArenaBattle.css';
 import { useCharacter } from './hooks/useCharacter';
 import { QUESTIONS_DB } from './data/questionsDB';
 import { SoundSystem } from './utils/SoundSystem';
@@ -25,6 +27,8 @@ import BadgesScreen from './components/BadgesScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
 import EditNameModal from './components/EditNameModal';
 import LegalScreen from './components/LegalScreen';
+import ArenaScreen from './components/ArenaScreen';
+import ArenaBattle from './components/ArenaBattle';
 
 export default function App() {
   const { character, setCharacter, addXP, equipItem, unequipItem, getEquipmentStats } = useCharacter();
@@ -41,6 +45,7 @@ export default function App() {
   const [showEditName, setShowEditName] = useState(false);
   const [showLegal, setShowLegal] = useState(false);
   const [legalPage, setLegalPage] = useState(null);
+  const [currentArenaOpponent, setCurrentArenaOpponent] = useState(null);
 
   const equipmentStats = getEquipmentStats();
 
@@ -126,6 +131,36 @@ export default function App() {
     setShowLegal(true);
   };
 
+  const handleOpenArena = () => {
+    setGameState('arena');
+  };
+
+  const handleStartDuel = (opponent) => {
+    setCurrentArenaOpponent(opponent);
+    setGameState('arena-battle');
+  };
+
+  const handleBattleEnd = (won) => {
+    if (won) {
+      const xpReward = currentArenaOpponent.reward;
+      const result = addXP(xpReward, 'arena', currentArenaOpponent.id);
+      
+      if (result.levelUp) {
+        setShowLevelUp(true);
+        setNewLevel(character.level + 1);
+      }
+
+      // Update arena stats
+      setCharacter(prev => ({
+        ...prev,
+        arenaWins: (prev.arenaWins || 0) + 1
+      }));
+    }
+    
+    setGameState('arena');
+    setCurrentArenaOpponent(null);
+  };
+
   // Setup footer legal links
   useEffect(() => {
     const mentionsLink = document.getElementById('legal-mentions');
@@ -177,6 +212,7 @@ export default function App() {
           onOpenEquipment={openEquipment}
           onOpenBadges={() => setShowBadges(true)}
           onOpenLeaderboard={() => setShowLeaderboard(true)}
+          onOpenArena={handleOpenArena}
           onEditName={() => setShowEditName(true)}
         />
       ) : gameState === 'equipment' ? (
@@ -185,6 +221,18 @@ export default function App() {
           onEquip={equipItem}
           onUnequip={unequipItem}
           onBack={goToHub}
+        />
+      ) : gameState === 'arena' ? (
+        <ArenaScreen 
+          character={character}
+          onBack={goToHub}
+          onStartDuel={handleStartDuel}
+        />
+      ) : gameState === 'arena-battle' && currentArenaOpponent ? (
+        <ArenaBattle 
+          opponent={currentArenaOpponent}
+          character={character}
+          onBattleEnd={handleBattleEnd}
         />
       ) : currentUniverse === 'story' ? (
         <StoryBattleScreen 
