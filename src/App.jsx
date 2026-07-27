@@ -19,6 +19,7 @@ import './styles/ArenaBattle.css';
 import './styles/ComboDisplay.css';
 import './styles/DailyQuestsScreen.css';
 import './styles/ProfileScreen.css';
+import './styles/CharacterCard.css';
 import { useCharacter } from './hooks/useCharacter';
 import { QUESTIONS_DB } from './data/questionsDB';
 import { SoundSystem } from './utils/SoundSystem';

@@ -1,4 +1,5 @@
 import { getEquipmentById } from '../data/equipmentDB';
+import '../styles/CharacterCard.css';
 
 export default function CharacterCard({ character, equipmentStats }) {
   const xpPercentage = (character.xp / character.maxXp) * 100;
