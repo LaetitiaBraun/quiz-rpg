@@ -98,10 +98,20 @@ export const useCharacter = () => {
     let newXp = character.xp;
     let levelUp = false;
     let newStreak = (character.perfectStreak || 0);
+    let newCombo = character.currentCombo || 0;
+    let comboBonus = 0;
 
     // Ajoute XP seulement si première fois que la question est réussie
     if (!alreadyCompleted && isCorrect) {
-      newXp = character.xp + xpAmount;
+      // Gérer le combo
+      newCombo = (character.currentCombo || 0) + 1;
+      
+      // Calcul du bonus combo (5% par niveau de combo, max 50%)
+      const comboMultiplier = Math.min(1 + (newCombo * 0.05), 1.5);
+      const bonusXp = Math.floor(xpAmount * (comboMultiplier - 1));
+      comboBonus = bonusXp;
+      
+      newXp = character.xp + xpAmount + bonusXp;
       
       let newLevel = character.level;
       let newMaxXp = character.maxXp;
@@ -141,8 +151,10 @@ export const useCharacter = () => {
         xp: newXp,
         level: newLevel,
         maxXp: newMaxXp,
-        totalXP: (character.totalXP || 0) + xpAmount,
+        totalXP: (character.totalXP || 0) + xpAmount + comboBonus,
         perfectStreak: newStreak,
+        currentCombo: newCombo,
+        maxCombo: Math.max(character.maxCombo || 0, newCombo),
         completedQuestions: {
           ...character.completedQuestions,
           [questionKey]: true
@@ -164,10 +176,11 @@ export const useCharacter = () => {
 
       setCharacter(updatedCharacter);
     } else if (!isCorrect) {
-      // Reset streak on wrong answer
+      // Reset combo et streak on wrong answer
       setCharacter({
         ...character,
-        perfectStreak: 0
+        perfectStreak: 0,
+        currentCombo: 0
       });
     } else {
       // Question déjà complétée - pas d'XP
@@ -181,8 +194,10 @@ export const useCharacter = () => {
       newLevel: character.level, 
       levelUp,
       alreadyCompleted,
-      xpGained: (alreadyCompleted || !isCorrect) ? 0 : xpAmount,
-      newStreak
+      xpGained: (alreadyCompleted || !isCorrect) ? 0 : xpAmount + comboBonus,
+      newStreak,
+      comboBonus,
+      currentCombo: newCombo
     };
   };
 

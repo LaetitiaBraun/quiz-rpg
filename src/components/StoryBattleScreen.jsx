@@ -2,6 +2,7 @@ import '../styles/BattleScreen.css';
 import '../styles/NarrativeScreen.css';
 import NarrativeScreen from './NarrativeScreen';
 import QuestionCard from './QuestionCard';
+import ComboDisplay from './ComboDisplay';
 
 export default function StoryBattleScreen({ 
   universe,
@@ -14,7 +15,8 @@ export default function StoryBattleScreen({
   onNext, 
   onBack,
   showNarrative,
-  onContinueNarrative
+  onContinueNarrative,
+  character
 }) {
   const narrative = currentQuestion?.narrative_before;
   const npc = currentQuestion?.npc;
@@ -35,6 +37,8 @@ export default function StoryBattleScreen({
   return (
     <div className="battle-screen">
       <button className="button button-back" onClick={onBack}>← Retour au Hub</button>
+      
+      <ComboDisplay combo={character?.currentCombo} comboBonus={feedback?.comboBonus} />
       
       <div style={{ marginBottom: '20px', textAlign: 'center' }}>
         <span style={{ color: '#7f77dd', fontSize: '14px' }}>

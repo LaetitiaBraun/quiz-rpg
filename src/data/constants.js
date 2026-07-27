@@ -34,6 +34,8 @@ export const INITIAL_CHARACTER = {
   health: 100,
   maxHealth: 100,
   perfectStreak: 0,
+  currentCombo: 0,
+  maxCombo: 0,
   stats: { strength: 10, intelligence: 12, wisdom: 10 },
   progress: {
     anime: { completed: 0, difficulty: 1 },
@@ -47,7 +49,12 @@ export const INITIAL_CHARACTER = {
     accessory: null
   },
   completedQuestions: {},
-  unlockedBadges: []
+  unlockedBadges: [],
+  dailyQuests: {
+    lastReset: null,
+    completed: [],
+    available: []
+  }
 };
 
 

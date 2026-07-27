@@ -15,6 +15,7 @@ import './styles/EditNameModal.css';
 import './styles/LegalScreen.css';
 import './styles/ArenaScreen.css';
 import './styles/ArenaBattle.css';
+import './styles/ComboDisplay.css';
 import { useCharacter } from './hooks/useCharacter';
 import { QUESTIONS_DB } from './data/questionsDB';
 import { SoundSystem } from './utils/SoundSystem';
@@ -179,7 +180,9 @@ export default function App() {
     setFeedback({
       correct: isCorrect,
       xpGain: result.xpGained,
-      alreadyCompleted: result.alreadyCompleted
+      alreadyCompleted: result.alreadyCompleted,
+      comboBonus: result.comboBonus || 0,
+      currentCombo: result.currentCombo || 0
     });
     setAnswered(true);
   };
@@ -353,6 +356,7 @@ export default function App() {
           onBack={goToHub}
           showNarrative={showNarrative}
           onContinueNarrative={handleContinueNarrative}
+          character={character}
         />
       ) : (
         <BattleScreen 
@@ -365,6 +369,7 @@ export default function App() {
           onAnswer={handleAnswer}
           onNext={handleNextQuestion}
           onBack={goToHub}
+          character={character}
         />
       )}
     </div>
