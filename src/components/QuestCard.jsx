@@ -9,6 +9,11 @@ export default function QuestCard({ universe, character, onStart, disabled }) {
   const config = UNIVERSE_CONFIG[universe];
   const progress = character.progress[universe] || { completed: 0, difficulty: 1 };
   const totalQuestions = QUESTIONS_DB[universe]?.length || 0;
+  
+  // Calculer le nombre total de chapitres (actes) pour Story Quest
+  const totalChapters = universe === 'story' 
+    ? Math.max(...(QUESTIONS_DB[universe]?.map(q => q.act || 1) || [1]))
+    : 0;
 
   const handleClick = () => {
     if (!disabled) {
@@ -31,7 +36,7 @@ export default function QuestCard({ universe, character, onStart, disabled }) {
           {character.arenaWins || 0} victoires
         </div>
       ) : universe === 'story' ? (
-        <div className="quest-progress">Chapitre {progress.chapter}</div>
+        <div className="quest-progress">Chapitre {progress.chapter} / {totalChapters}</div>
       ) : (
         <div className="quest-progress">
           {progress.completed} / {totalQuestions} questions
