@@ -3,7 +3,7 @@ import '../styles/ArenaBattle.css';
 import { getOpponentById } from '../data/arenaDB';
 import { SoundSystem } from '../utils/SoundSystem';
 
-export default function ArenaBattle({ opponent, character, onBattleEnd }) {
+export default function ArenaBattle({ opponent, character, equipmentStats, onBattleEnd }) {
   const [playerHealth, setPlayerHealth] = useState(100);
   const [opponentHealth, setOpponentHealth] = useState(100);
   const [battleLog, setBattleLog] = useState(['Le duel commence!']);
@@ -11,17 +11,28 @@ export default function ArenaBattle({ opponent, character, onBattleEnd }) {
   const [battleOver, setBattleOver] = useState(false);
   const [winner, setWinner] = useState(null);
 
-  const calculateDamage = (attacker, defender) => {
-    const baseDamage = attacker.stats.strength * 0.8;
+  const calculateDamage = (attacker, defender, isPlayer = false) => {
+    const attackerStats = isPlayer ? {
+      strength: character.stats.strength + (equipmentStats?.strength || 0),
+      wisdom: character.stats.wisdom + (equipmentStats?.wisdom || 0)
+    } : attacker.stats;
+
+    const defenderStats = isPlayer ? {
+      wisdom: character.stats.wisdom + (equipmentStats?.wisdom || 0)
+    } : {
+      wisdom: defender.stats.wisdom
+    };
+
+    const baseDamage = attackerStats.strength * 0.8;
     const variability = Math.random() * 10 - 5;
-    const defenseFactor = 1 - (defender.stats.wisdom * 0.02);
+    const defenseFactor = 1 - (defenderStats.wisdom * 0.02);
     return Math.max(5, Math.round((baseDamage + variability) * defenseFactor));
   };
 
   const playerAttack = () => {
     if (!isPlayerTurn || battleOver) return;
 
-    const damage = calculateDamage(character, opponent);
+    const damage = calculateDamage(character, opponent, true);
     const newOpponentHealth = Math.max(0, opponentHealth - damage);
     
     setOpponentHealth(newOpponentHealth);
@@ -40,7 +51,7 @@ export default function ArenaBattle({ opponent, character, onBattleEnd }) {
 
   const opponentAttack = () => {
     const opponentObj = getOpponentById(opponent.id);
-    const damage = calculateDamage(opponentObj, character);
+    const damage = calculateDamage(opponentObj, character, false);
     const newPlayerHealth = Math.max(0, playerHealth - damage);
     
     setPlayerHealth(newPlayerHealth);
@@ -83,9 +94,9 @@ export default function ArenaBattle({ opponent, character, onBattleEnd }) {
           </div>
           <div className="health-text">{Math.round(playerHealth)}/100 HP</div>
           <div className="stats-display">
-            <div>Force: {character.stats?.strength || 10}</div>
-            <div>Int: {character.stats?.intelligence || 10}</div>
-            <div>Sag: {character.stats?.wisdom || 10}</div>
+            <div>Force: {character.stats.strength + (equipmentStats?.strength || 0)}</div>
+            <div>Int: {character.stats.intelligence + (equipmentStats?.intelligence || 0)}</div>
+            <div>Sag: {character.stats.wisdom + (equipmentStats?.wisdom || 0)}</div>
           </div>
         </div>
 

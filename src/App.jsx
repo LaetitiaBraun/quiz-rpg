@@ -232,6 +232,7 @@ export default function App() {
         <ArenaBattle 
           opponent={currentArenaOpponent}
           character={character}
+          equipmentStats={equipmentStats}
           onBattleEnd={handleBattleEnd}
         />
       ) : currentUniverse === 'story' ? (
