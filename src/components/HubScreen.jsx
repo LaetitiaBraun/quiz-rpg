@@ -2,7 +2,7 @@ import '../styles/HubScreen.css';
 import QuestCard from './QuestCard';
 import CharacterCard from './CharacterCard';
 
-export default function HubScreen({ character, onStartQuest, equipmentStats, onOpenEquipment, onOpenBadges, onOpenLeaderboard, onOpenDailyQuests, onOpenArena, onEditName, onOpenBackup }) {
+export default function HubScreen({ character, onStartQuest, equipmentStats, onOpenEquipment, onOpenBadges, onOpenLeaderboard, onOpenDailyQuests, onOpenArena, onEditName, onOpenBackup, onOpenProfile }) {
   const handleQuestCardClick = (universe) => {
     if (universe === 'arena') {
       onOpenArena();
@@ -33,6 +33,9 @@ export default function HubScreen({ character, onStartQuest, equipmentStats, onO
         </button>
         <button className="button button-backup" onClick={onOpenBackup}>
           💾 Sauvegardes
+        </button>
+        <button className="button button-profile" onClick={onOpenProfile}>
+          📊 Profil
         </button>
       </div>
       
