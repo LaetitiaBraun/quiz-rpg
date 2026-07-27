@@ -2,184 +2,61 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Quiz RPG - The Hero's Destiny</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz RPG</title>
+    
+    <!-- Script pour appliquer le thème IMMÉDIATEMENT (évite le flash) -->
+    <script>
+      (function() {
+        const applyTheme = (isDark) => {
+          const root = document.documentElement;
+          
+          if (isDark) {
+            // DARK MODE
+            root.style.setProperty('--bg-primary', '#0f0a1f');
+            root.style.setProperty('--bg-secondary', '#1a0f2e');
+            root.style.setProperty('--bg-tertiary', '#2d1a52');
+            root.style.setProperty('--text-primary', '#b8a8d8');
+            root.style.setProperty('--text-secondary', '#7f9d8c');
+            root.style.setProperty('--text-tertiary', '#5a7a6f');
+            root.style.setProperty('--border-color', '#7f77dd');
+            root.style.setProperty('--accent-gold', '#ffd700');
+            root.style.setProperty('--accent-green', '#5dcaa5');
+            root.style.setProperty('--accent-red', '#ff6b6b');
+            root.style.setProperty('--accent-orange', '#ffc107');
+            root.style.setProperty('--bg-overlay-primary', 'rgba(127, 119, 221, 0.1)');
+            root.style.setProperty('--bg-overlay-secondary', 'rgba(31, 20, 76, 0.3)');
+            root.style.setProperty('--bg-overlay-tertiary', 'rgba(0, 0, 0, 0.2)');
+            document.body.style.backgroundColor = '#0f0a1f';
+          } else {
+            // LIGHT MODE
+            root.style.setProperty('--bg-primary', '#faf9fc');
+            root.style.setProperty('--bg-secondary', '#ffffff');
+            root.style.setProperty('--bg-tertiary', '#f0ecf8');
+            root.style.setProperty('--text-primary', '#0f0a1f');
+            root.style.setProperty('--text-secondary', '#2d1f4d');
+            root.style.setProperty('--text-tertiary', '#453366');
+            root.style.setProperty('--border-color', '#6b5598');
+            root.style.setProperty('--accent-gold', '#aa6600');
+            root.style.setProperty('--accent-green', '#0d5c42');
+            root.style.setProperty('--accent-red', '#aa1111');
+            root.style.setProperty('--accent-orange', '#c46a00');
+            root.style.setProperty('--bg-overlay-primary', 'rgba(107, 85, 152, 0.15)');
+            root.style.setProperty('--bg-overlay-secondary', 'rgba(107, 85, 152, 0.08)');
+            root.style.setProperty('--bg-overlay-tertiary', 'rgba(0, 0, 0, 0.05)');
+            document.body.style.backgroundColor = '#faf9fc';
+          }
+        };
 
-      html, body {
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow-x: hidden;
-      }
-
-      header, .app-header {
-        background: linear-gradient(135deg, rgba(31, 20, 76, 0.95), rgba(42, 25, 95, 0.95));
-        border-bottom: 2px solid #c9a961;
-        padding: 20px 0;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-        margin: 0 0 40px 0;
-        height: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .header-content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-      }
-
-      .header-logo {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        color: #b8a8d8;
-      }
-
-      .logo-icon {
-        font-size: 32px;
-      }
-
-      .header-logo h1 {
-        font-size: 28px;
-        font-weight: bold;
-        color: #ffd700;
-        margin: 0;
-      }
-
-      .logo-subtitle {
-        font-size: 12px;
-        color: #7f9d8c;
-        font-style: italic;
-        letter-spacing: 2px;
-      }
-
-      footer, .app-footer {
-        background: linear-gradient(135deg, rgba(31, 20, 76, 0.95), rgba(42, 25, 95, 0.95));
-        border-top: 2px solid #c9a961;
-        padding: 30px 20px 20px;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
-        color: #b8a8d8;
-        margin: 40px 0 0 0;
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .footer-content {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 30px;
-        width: 100%;
-        max-width: 1200px;
-        margin-bottom: 20px;
-      }
-
-      .footer-section h3 {
-        color: #ffd700;
-        margin-bottom: 10px;
-        font-size: 16px;
-      }
-
-      .footer-section p {
-        font-size: 14px;
-        line-height: 1.6;
-      }
-
-      .footer-links {
-        list-style: none;
-      }
-
-      .footer-links li {
-        margin-bottom: 8px;
-      }
-
-      .footer-links a {
-        color: #7f9d8c;
-        text-decoration: none;
-        transition: color 0.3s;
-      }
-
-      .footer-links a:hover {
-        color: #5dcaa5;
-      }
-
-      .footer-bottom {
-        text-align: center;
-        padding-top: 20px;
-        border-top: 1px solid rgba(127, 119, 221, 0.2);
-        width: 100%;
-        font-size: 12px;
-        color: #7f9d8c;
-      }
-
-      @media (max-width: 768px) {
-        .header-logo {
-          flex-direction: column;
-          gap: 5px;
-        }
-
-        .header-logo h1 {
-          font-size: 20px;
-        }
-
-        .logo-icon {
-          font-size: 24px;
-        }
-
-        .footer-content {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
+        const saved = localStorage.getItem('quiz-rpg-theme');
+        const isDark = saved ? saved === 'dark' : true;
+        applyTheme(isDark);
+      })();
+    </script>
   </head>
   <body>
-    <header class="app-header">
-      <div class="header-content">
-        <div class="header-logo">
-          <span class="logo-icon">🎮</span>
-          <h1>Quiz RPG</h1>
-          <span class="logo-subtitle">THE HERO'S DESTINY</span>
-        </div>
-      </div>
-    </header>
-
     <div id="root"></div>
-    
-    <footer class="app-footer">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>Quiz RPG</h3>
-          <p>Un jeu de quiz immersif avec progression RPG</p>
-        </div>
-        <div class="footer-section">
-          <h3>Liens Rapides</h3>
-          <ul class="footer-links">
-            <li><a href="#" id="legal-mentions">Mentions Légales</a></li>
-            <li><a href="#" id="legal-politique">Politique de Confidentialité</a></li>
-            <li><a href="#" id="legal-cookies">Gestion des Cookies</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h3>Contact</h3>
-          <p><a href="https://laetitiabraun.eu" target="_blank" rel="noopener noreferrer">Portfolio</a></p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Quiz RPG - Créé par Laetitia Braun</p>
-      </div>
-    </footer>
-
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
