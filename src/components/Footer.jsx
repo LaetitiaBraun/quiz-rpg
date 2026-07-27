@@ -29,7 +29,7 @@ export default function Footer({ onOpenLegal }) {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; 2024 Quiz RPG - Créé par Laetitia Braun</p>
+        <p>&copy; 2026 Quiz RPG - Créé par Laetitia Braun</p>
       </div>
     </footer>
   );
