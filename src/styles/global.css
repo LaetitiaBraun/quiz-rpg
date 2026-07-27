@@ -1,0 +1,71 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%);
+  color: #e0d7f7;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ===== BUTTONS ===== */
+.button {
+  padding: 12px 24px;
+  border: 2px solid #c9a961;
+  background: rgba(201, 169, 97, 0.1);
+  color: #c9a961;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background: rgba(201, 169, 97, 0.25);
+  transform: translateY(-2px);
+}
+
+.button-back {
+  align-self: flex-start;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+/* ===== UTILITY CLASSES ===== */
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: #a89fb8;
+}
+
+.text-accent {
+  color: #c9a961;
+}
+
+.gap-small {
+  gap: 15px;
+}
+
+.gap-medium {
+  gap: 20px;
+}
+
+.gap-large {
+  gap: 30px;
+}

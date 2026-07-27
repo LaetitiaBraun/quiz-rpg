@@ -1,0 +1,230 @@
+/* ===== LEVEL-UP ANIMATION ===== */
+@keyframes levelUpPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes levelUpGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(201, 169, 97, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 30px 15px rgba(201, 169, 97, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 0 30px rgba(201, 169, 97, 0);
+  }
+}
+
+@keyframes levelUpBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+}
+
+@keyframes levelUpText {
+  0% {
+    transform: translateY(30px) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* ===== VICTORY ANIMATION ===== */
+@keyframes victoryBounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  25% {
+    transform: translateY(-15px) scale(1.05);
+  }
+  50% {
+    transform: translateY(-30px) scale(1.1);
+  }
+  75% {
+    transform: translateY(-15px) scale(1.05);
+  }
+}
+
+@keyframes victoryGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(29, 158, 117, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(29, 158, 117, 0.8);
+  }
+}
+
+/* ===== DEFEAT ANIMATION ===== */
+@keyframes defeatShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes defeatFade {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.6;
+  }
+}
+
+/* ===== BUTTON ANIMATIONS ===== */
+@keyframes buttonHoverGlow {
+  0% {
+    box-shadow: 0 0 5px rgba(201, 169, 97, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(201, 169, 97, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(201, 169, 97, 0.5);
+  }
+}
+
+@keyframes buttonClick {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ===== PAGE TRANSITION ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ===== XP REWARD FLOAT ===== */
+@keyframes xpFloat {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-80px) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* ===== UTILITY CLASSES ===== */
+.animate-level-up {
+  animation: levelUpPulse 1s ease-out, levelUpGlow 1s ease-out;
+}
+
+.animate-level-up-text {
+  animation: levelUpText 1.5s ease-out forwards;
+}
+
+.animate-level-up-bounce {
+  animation: levelUpBounce 0.8s ease-out;
+}
+
+.animate-victory {
+  animation: victoryBounce 0.8s ease-out, victoryGlow 1s ease-in-out infinite;
+}
+
+.animate-defeat {
+  animation: defeatShake 0.5s ease-in-out, defeatFade 0.5s ease-out;
+}
+
+.animate-button-click {
+  animation: buttonClick 0.2s ease-out;
+}
+
+.animate-page-in {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-page-out {
+  animation: fadeOut 0.3s ease-out;
+}
+
+.animate-xp-float {
+  animation: xpFloat 1.5s ease-out forwards;
+}
+
+/* ===== PARTICLE CONTAINER ===== */
+.particle-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.particle {
+  position: fixed;
+  pointer-events: none;
+  box-shadow: 0 0 10px currentColor;
+}
+
+/* ===== FLOATING TEXT ===== */
+.floating-text {
+  position: fixed;
+  font-weight: bold;
+  font-size: 24px;
+  pointer-events: none;
+  z-index: 1000;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.floating-text.xp {
+  color: #ffd700;
+  animation: xpFloat 1.5s ease-out forwards;
+}
+
+.floating-text.level-up {
+  color: #c9a961;
+  font-size: 32px;
+  animation: levelUpText 1.5s ease-out forwards;
+}

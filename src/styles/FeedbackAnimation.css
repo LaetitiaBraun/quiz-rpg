@@ -1,0 +1,63 @@
+.feedback-animation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.correct-animation {
+  animation: victoryBounce 0.8s ease-out;
+}
+
+.correct-animation .feedback-icon {
+  font-size: 100px;
+  animation: victoryGlow 1s ease-in-out infinite;
+}
+
+.correct-animation .feedback-text {
+  color: #5dcaa5;
+  text-shadow: 0 0 30px rgba(29, 158, 117, 0.8);
+}
+
+.incorrect-animation {
+  animation: defeatShake 0.5s ease-in-out;
+}
+
+.incorrect-animation .feedback-icon {
+  font-size: 80px;
+  color: #f0997b;
+  text-shadow: 0 0 20px rgba(214, 90, 48, 0.8);
+  animation: pulse 0.6s ease-out;
+}
+
+.incorrect-animation .feedback-text {
+  color: #d85a30;
+  text-shadow: 0 0 20px rgba(214, 90, 48, 0.6);
+}
+
+.feedback-icon {
+  font-weight: bold;
+  filter: drop-shadow(0 0 10px currentColor);
+}
+
+.feedback-text {
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
