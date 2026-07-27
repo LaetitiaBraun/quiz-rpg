@@ -20,7 +20,9 @@ import './styles/ComboDisplay.css';
 import './styles/DailyQuestsScreen.css';
 import './styles/ProfileScreen.css';
 import './styles/CharacterCard.css';
+import './styles/DifficultyModal.css';
 import { useCharacter } from './hooks/useCharacter';
+import { useTheme } from './hooks/useTheme';
 import { QUESTIONS_DB } from './data/questionsDB';
 import { SoundSystem } from './utils/SoundSystem';
 import HubScreen from './components/HubScreen';
@@ -37,8 +39,10 @@ import ArenaScreen from './components/ArenaScreen';
 import ArenaBattle from './components/ArenaBattle';
 import DailyQuestsScreen from './components/DailyQuestsScreen';
 import ProfileScreen from './components/ProfileScreen';
+import DifficultyModal from './components/DifficultyModal';
 
 export default function App() {
+  const { isDark, toggleTheme } = useTheme();
   const { character, setCharacter, addXP, equipItem, unequipItem, getEquipmentStats } = useCharacter();
   
   // Initialiser depuis localStorage
@@ -80,6 +84,11 @@ export default function App() {
   });
   const [showBackup, setShowBackup] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showDifficultyModal, setShowDifficultyModal] = useState(false);
+  const [selectedDifficulty, setSelectedDifficulty] = useState(() => {
+    return parseInt(localStorage.getItem('quiz-rpg-difficulty') || '2');
+  });
+  const [pendingUniverse, setPendingUniverse] = useState(null);
 
   const equipmentStats = getEquipmentStats();
 
@@ -145,6 +154,11 @@ export default function App() {
     localStorage.setItem('quiz-rpg-showdailyquests', showDailyQuests.toString());
   }, [showDailyQuests]);
 
+  // Sauvegarder selectedDifficulty
+  useEffect(() => {
+    localStorage.setItem('quiz-rpg-difficulty', selectedDifficulty.toString());
+  }, [selectedDifficulty]);
+
   // Nettoyer localStorage si on est au hub
   useEffect(() => {
     if (gameState === 'hub') {
@@ -160,15 +174,33 @@ export default function App() {
   }, [gameState]);
 
   // ===== GAME LOGIC =====
+
+  // Filtrer les questions par difficulté
+  const getQuestionsByDifficulty = (universe, difficulty) => {
+    const questions = QUESTIONS_DB[universe];
+    return questions.filter(q => q.difficulty === difficulty);
+  };
+
+  const getQuestionsForCurrentBattle = () => {
+    if (!currentUniverse) return [];
+    return getQuestionsByDifficulty(currentUniverse, selectedDifficulty);
+  };
   
   const handleStartQuest = (universe) => {
-    setCurrentUniverse(universe);
+    setPendingUniverse(universe);
+    setShowDifficultyModal(true);
+  };
+
+  const handleSelectDifficulty = (difficulty) => {
+    setSelectedDifficulty(difficulty);
+    setCurrentUniverse(pendingUniverse);
     setGameState('battle');
     setCurrentQuestionIndex(0);
     setFeedback(null);
     setAnswered(false);
+    setShowDifficultyModal(false);
     // Show narrative at start for story quest
-    if (universe === 'story') {
+    if (pendingUniverse === 'story') {
       setShowNarrative(true);
     } else {
       setShowNarrative(false);
@@ -178,11 +210,14 @@ export default function App() {
   const handleAnswer = (selectedIndex) => {
     if (answered) return;
 
-    const questions = QUESTIONS_DB[currentUniverse];
-    const currentQuestion = questions[currentQuestionIndex];
+    const filteredQuestions = getQuestionsForCurrentBattle();
+    const currentQuestion = filteredQuestions[currentQuestionIndex];
     const isCorrect = selectedIndex === currentQuestion.correct;
 
-    const xpGain = isCorrect ? currentQuestion.xp : Math.floor(currentQuestion.xp * 0.3);
+    // Appliquer le multiplicateur de difficulté
+    const difficultyMultiplier = selectedDifficulty === 1 ? 0.5 : selectedDifficulty === 2 ? 1 : 1.5;
+    const baseXp = isCorrect ? currentQuestion.xp : Math.floor(currentQuestion.xp * 0.3);
+    const xpGain = Math.floor(baseXp * difficultyMultiplier);
     const result = addXP(xpGain, currentUniverse, currentQuestion.id, isCorrect, currentQuestion.act);
 
     // Trigger sound on click
@@ -205,8 +240,8 @@ export default function App() {
   };
 
   const handleNextQuestion = () => {
-    const questions = QUESTIONS_DB[currentUniverse];
-    if (currentQuestionIndex < questions.length - 1) {
+    const filteredQuestions = getQuestionsForCurrentBattle();
+    if (currentQuestionIndex < filteredQuestions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setFeedback(null);
       setAnswered(false);
@@ -336,12 +371,20 @@ export default function App() {
   }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' }}>
+    <div style={{ minHeight: '100vh', background: isDark ? 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' : 'linear-gradient(135deg, #f5f3f9 0%, #e8e4f5 100%)' }}>
       <LevelUpAnimation 
         level={newLevel} 
         show={showLevelUp} 
         onComplete={() => setShowLevelUp(false)} 
       />
+
+      {showDifficultyModal && (
+        <DifficultyModal 
+          onSelectDifficulty={handleSelectDifficulty}
+          onCancel={() => setShowDifficultyModal(false)}
+          universeName={pendingUniverse}
+        />
+      )}
 
       {showEditName && (
         <EditNameModal 
@@ -400,6 +443,8 @@ export default function App() {
           onEditName={() => setShowEditName(true)}
           onOpenBackup={() => setShowBackup(true)}
           onOpenProfile={() => setShowProfile(true)}
+          isDark={isDark}
+          toggleTheme={toggleTheme}
         />
       ) : gameState === 'equipment' ? (
         <EquipmentScreen 
@@ -424,9 +469,9 @@ export default function App() {
       ) : currentUniverse === 'story' ? (
         <StoryBattleScreen 
           universe={currentUniverse}
-          currentQuestion={QUESTIONS_DB[currentUniverse][currentQuestionIndex]}
+          currentQuestion={getQuestionsForCurrentBattle()[currentQuestionIndex]}
           currentQuestionIndex={currentQuestionIndex}
-          totalQuestions={QUESTIONS_DB[currentUniverse].length}
+          totalQuestions={getQuestionsForCurrentBattle().length}
           feedback={feedback}
           answered={answered}
           onAnswer={handleAnswer}
@@ -435,19 +480,21 @@ export default function App() {
           showNarrative={showNarrative}
           onContinueNarrative={handleContinueNarrative}
           character={character}
+          difficulty={selectedDifficulty}
         />
       ) : (
         <BattleScreen 
           universe={currentUniverse}
-          currentQuestion={QUESTIONS_DB[currentUniverse][currentQuestionIndex]}
+          currentQuestion={getQuestionsForCurrentBattle()[currentQuestionIndex]}
           currentQuestionIndex={currentQuestionIndex}
-          totalQuestions={QUESTIONS_DB[currentUniverse].length}
+          totalQuestions={getQuestionsForCurrentBattle().length}
           feedback={feedback}
           answered={answered}
           onAnswer={handleAnswer}
           onNext={handleNextQuestion}
           onBack={goToHub}
           character={character}
+          difficulty={selectedDifficulty}
         />
       )}
     </div>

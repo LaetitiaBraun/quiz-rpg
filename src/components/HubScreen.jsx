@@ -2,7 +2,7 @@ import '../styles/HubScreen.css';
 import QuestCard from './QuestCard';
 import CharacterCard from './CharacterCard';
 
-export default function HubScreen({ character, onStartQuest, equipmentStats, onOpenEquipment, onOpenBadges, onOpenLeaderboard, onOpenDailyQuests, onOpenArena, onEditName, onOpenBackup, onOpenProfile }) {
+export default function HubScreen({ character, onStartQuest, equipmentStats, onOpenEquipment, onOpenBadges, onOpenLeaderboard, onOpenDailyQuests, onOpenArena, onEditName, onOpenBackup, onOpenProfile, isDark, toggleTheme }) {
   const handleQuestCardClick = (universe) => {
     if (universe === 'arena') {
       onOpenArena();
@@ -13,6 +13,16 @@ export default function HubScreen({ character, onStartQuest, equipmentStats, onO
 
   return (
     <div className="hub-screen">
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
+        <button 
+          className="button button-theme" 
+          onClick={toggleTheme}
+          title={isDark ? 'Light mode' : 'Dark mode'}
+        >
+          {isDark ? '☀️ Light' : '🌙 Dark'}
+        </button>
+      </div>
+
       <CharacterCard character={character} equipmentStats={equipmentStats} />
       
       <div className="hub-buttons">

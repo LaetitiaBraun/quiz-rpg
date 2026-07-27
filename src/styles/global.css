@@ -1,3 +1,10 @@
+:root {
+  --bg-primary: #0f0a1f;
+  --bg-secondary: #1a0f2e;
+  --text-primary: #b8a8d8;
+  --text-secondary: #7f9d8c;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -15,8 +22,8 @@ html {
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%);
-  color: #e0d7f7;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  color: var(--text-primary);
   min-height: 100vh;
   transform: none !important;
   filter: none !important;
@@ -25,6 +32,7 @@ body {
   perspective: none !important;
   margin: 0 !important;
   padding: 0 !important;
+  transition: background 0.3s ease;
 }
 
 #root {
