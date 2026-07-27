@@ -1,5 +1,7 @@
+import { createPortal } from 'react-dom';
+
 export default function Header() {
-  return (
+  return createPortal(
     <header style={{
       position: 'fixed',
       top: 0,
@@ -20,6 +22,7 @@ export default function Header() {
           <span className="logo-subtitle">The Hero's Destiny</span>
         </div>
       </div>
-    </header>
+    </header>,
+    document.body
   );
 }

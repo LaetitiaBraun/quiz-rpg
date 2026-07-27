@@ -1,5 +1,7 @@
+import { createPortal } from 'react-dom';
+
 export default function Footer({ onOpenLegal }) {
-  return (
+  return createPortal(
     <footer style={{
       position: 'fixed',
       bottom: 0,
@@ -41,6 +43,7 @@ export default function Footer({ onOpenLegal }) {
       <div className="footer-bottom">
         <p>&copy; 2026 Quiz RPG - Créé par Laetitia Braun</p>
       </div>
-    </footer>
+    </footer>,
+    document.body
   );
 }
