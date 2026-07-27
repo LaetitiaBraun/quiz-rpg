@@ -358,15 +358,14 @@ export default function App() {
         />
       )}
 
-      {showProfile && (
+
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '60vh' }}>
+      {showProfile ? (
         <ProfileScreen 
           character={character}
           onBack={() => setShowProfile(false)}
         />
-      )}
-      
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '60vh' }}>
-      {showLegal ? (
+      ) : showLegal ? (
         <LegalScreen 
           page={legalPage}
           onBack={() => setShowLegal(false)}
