@@ -36,19 +36,26 @@ export const useTheme = () => {
       root.style.setProperty('--accent-orange', '#ffc107');
       document.body.style.backgroundColor = '#0f0a1f';
     } else {
-      // LIGHT MODE
-      root.style.setProperty('--bg-primary', '#f8f6fc');
+      // LIGHT MODE - PLUS LISIBLE!
+      root.style.setProperty('--bg-primary', '#faf9fc');
       root.style.setProperty('--bg-secondary', '#ffffff');
       root.style.setProperty('--bg-tertiary', '#f0ecf8');
-      root.style.setProperty('--text-primary', '#3d2566');
-      root.style.setProperty('--text-secondary', '#6b5b7d');
-      root.style.setProperty('--text-tertiary', '#8b7ba0');
-      root.style.setProperty('--border-color', '#b8a8d8');
-      root.style.setProperty('--accent-gold', '#d4a934');
-      root.style.setProperty('--accent-green', '#2d9b6f');
-      root.style.setProperty('--accent-red', '#c93838');
-      root.style.setProperty('--accent-orange', '#e89c1c');
-      document.body.style.backgroundColor = '#f8f6fc';
+      
+      // Texte: BEAUCOUP PLUS FONCÉ pour contraste
+      root.style.setProperty('--text-primary', '#1f0f3f');      // Très foncé
+      root.style.setProperty('--text-secondary', '#453366');    // Foncé
+      root.style.setProperty('--text-tertiary', '#5d4a7a');     // Moyen-foncé
+      
+      // Bordures: Plus foncées
+      root.style.setProperty('--border-color', '#8b77cc');
+      
+      // Accents: Plus saturés et visibles
+      root.style.setProperty('--accent-gold', '#cc8800');       // Or foncé
+      root.style.setProperty('--accent-green', '#1a7d5c');      // Vert foncé
+      root.style.setProperty('--accent-red', '#bb2222');        // Rouge foncé
+      root.style.setProperty('--accent-orange', '#d47c1a');     // Orange foncé
+      
+      document.body.style.backgroundColor = '#faf9fc';
     }
   };
 
