@@ -128,24 +128,25 @@ export default function App() {
     setShowLegal(true);
   };
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)', paddingTop: '120px' }}>
+    <>
       <Header />
       
-      <LevelUpAnimation 
-        level={newLevel} 
-        show={showLevelUp} 
-        onComplete={() => setShowLevelUp(false)} 
-      />
-
-      {showEditName && (
-        <EditNameModal 
-          currentName={character.name}
-          onSave={handleEditName}
-          onClose={() => setShowEditName(false)}
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)', paddingTop: '120px' }}>
+        <LevelUpAnimation 
+          level={newLevel} 
+          show={showLevelUp} 
+          onComplete={() => setShowLevelUp(false)} 
         />
-      )}
-      
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+
+        {showEditName && (
+          <EditNameModal 
+            currentName={character.name}
+            onSave={handleEditName}
+            onClose={() => setShowEditName(false)}
+          />
+        )}
+        
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         {showLegal ? (
           <LegalScreen 
             page={legalPage}
@@ -209,5 +210,6 @@ export default function App() {
 
       <Footer onOpenLegal={handleOpenLegal} />
     </div>
+    </>
   );
 }
