@@ -1,4 +1,4 @@
-header.app-header {
+.app-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -10,25 +10,29 @@ header.app-header {
   padding: 20px 0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
   margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-header.app-header .header-content {
+.header-content {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
-header.app-header .header-logo {
+.header-logo {
   display: flex;
   align-items: center;
   gap: 15px;
   text-align: center;
 }
 
-header.app-header .logo-icon {
+.logo-icon {
   font-size: 36px;
   animation: float 3s ease-in-out infinite;
 }
@@ -42,7 +46,7 @@ header.app-header .logo-icon {
   }
 }
 
-header.app-header .header-logo h1 {
+.header-logo h1 {
   color: #c9a961;
   font-size: 32px;
   margin: 0;
@@ -51,7 +55,7 @@ header.app-header .header-logo h1 {
   letter-spacing: 2px;
 }
 
-header.app-header .logo-subtitle {
+.logo-subtitle {
   color: #7f77dd;
   font-size: 12px;
   text-transform: uppercase;
@@ -62,19 +66,19 @@ header.app-header .logo-subtitle {
 }
 
 @media (max-width: 768px) {
-  header.app-header {
+  .app-header {
     padding: 15px 0;
   }
 
-  header.app-header .header-logo h1 {
+  .header-logo h1 {
     font-size: 24px;
   }
 
-  header.app-header .logo-icon {
+  .logo-icon {
     font-size: 28px;
   }
 
-  header.app-header .logo-subtitle {
+  .logo-subtitle {
     font-size: 10px;
   }
 }

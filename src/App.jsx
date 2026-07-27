@@ -210,7 +210,7 @@ export default function App() {
       </div>
 
       <Footer onOpenLegal={handleOpenLegal} />
-    </div>
+      <div style={{ height: '80px' }} />
     </>
   );
 }
