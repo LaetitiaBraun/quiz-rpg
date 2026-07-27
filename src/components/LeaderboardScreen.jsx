@@ -1,42 +1,50 @@
 import { useState, useEffect } from 'react';
 import '../styles/LeaderboardScreen.css';
+import { storageManager } from '../utils/StorageManager';
 
 export default function LeaderboardScreen({ character, onBack }) {
   const [leaderboard, setLeaderboard] = useState([]);
   const [playerRank, setPlayerRank] = useState(null);
 
   useEffect(() => {
-    // Charger le leaderboard depuis localStorage
-    const savedLeaderboard = localStorage.getItem('quizrpg_leaderboard');
-    let lb = savedLeaderboard ? JSON.parse(savedLeaderboard) : [];
+    const loadAndUpdateLeaderboard = async () => {
+      try {
+        // Charger depuis IndexedDB
+        let lb = await storageManager.loadLeaderboard();
 
-    // Ajouter ou mettre à jour le joueur actuel
-    const playerEntry = {
-      name: character.name,
-      level: character.level,
-      totalXP: character.totalXP || 0,
-      timestamp: new Date().toISOString()
+        // Ajouter ou mettre à jour le joueur actuel
+        const playerEntry = {
+          name: character.name,
+          level: character.level,
+          totalXP: character.totalXP || 0,
+          timestamp: new Date().toISOString()
+        };
+
+        // Supprimer ancienne entrée du même nom si elle existe
+        lb = lb.filter(entry => entry.name !== character.name);
+        
+        // Ajouter la nouvelle
+        lb.push(playerEntry);
+
+        // Trier par totalXP (descending)
+        lb.sort((a, b) => b.totalXP - a.totalXP);
+
+        // Garder seulement top 10
+        lb = lb.slice(0, 10);
+
+        // Sauvegarder dans IndexedDB
+        await storageManager.saveLeaderboard(lb);
+        setLeaderboard(lb);
+
+        // Trouver le rank du joueur actuel
+        const rank = lb.findIndex(entry => entry.name === character.name);
+        setPlayerRank(rank + 1);
+      } catch (error) {
+        console.warn('Leaderboard load/save failed:', error);
+      }
     };
 
-    // Supprimer ancienne entrée du même nom si elle existe
-    lb = lb.filter(entry => entry.name !== character.name);
-    
-    // Ajouter la nouvelle
-    lb.push(playerEntry);
-
-    // Trier par totalXP (descending)
-    lb.sort((a, b) => b.totalXP - a.totalXP);
-
-    // Garder seulement top 10
-    lb = lb.slice(0, 10);
-
-    // Sauvegarder
-    localStorage.setItem('quizrpg_leaderboard', JSON.stringify(lb));
-    setLeaderboard(lb);
-
-    // Trouver le rank du joueur actuel
-    const rank = lb.findIndex(entry => entry.name === character.name);
-    setPlayerRank(rank + 1);
+    loadAndUpdateLeaderboard();
   }, [character.name, character.level, character.totalXP]);
 
   return (

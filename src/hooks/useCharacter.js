@@ -1,32 +1,79 @@
 import { useState, useEffect } from 'react';
 import { INITIAL_CHARACTER } from '../data/constants';
 import { checkAndUnlockBadges } from '../data/badgesDB';
+import { storageManager } from '../utils/StorageManager';
 import { getEquipmentById } from '../data/equipmentDB';
 
 export const useCharacter = () => {
-  const [character, setCharacter] = useState(() => {
-    const saved = localStorage.getItem('quizrpg_character');
-    let data = saved ? JSON.parse(saved) : INITIAL_CHARACTER;
-    
-    // Migration: Ajoute equipment et inventory si manquants
-    if (!data.equipment) {
-      data.equipment = {
-        weapon: 'sword_wood',
-        armor: 'armor_leather',
-        accessory: null
-      };
-    }
-    if (!data.inventory) {
-      data.inventory = ['sword_wood', 'armor_leather', 'ring_wisdom'];
-    }
-    
-    return data;
-  });
+  const [character, setCharacter] = useState(INITIAL_CHARACTER);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  // Sauvegarde automatique
+  // Charger depuis IndexedDB au montage
   useEffect(() => {
-    localStorage.setItem('quizrpg_character', JSON.stringify(character));
-  }, [character]);
+    const loadCharacter = async () => {
+      try {
+        const saved = await storageManager.loadCharacter();
+        if (saved) {
+          // Migration: Ajoute fields manquants
+          if (!saved.equipment) {
+            saved.equipment = {
+              weapon: 'sword_wood',
+              armor: 'armor_leather',
+              accessory: null
+            };
+          }
+          if (!saved.inventory) {
+            saved.inventory = ['sword_wood', 'armor_leather', 'ring_wisdom'];
+          }
+          if (!saved.totalXP) {
+            saved.totalXP = 0;
+          }
+          if (!saved.perfectStreak) {
+            saved.perfectStreak = 0;
+          }
+          if (!saved.unlockedBadges) {
+            saved.unlockedBadges = [];
+          }
+          if (!saved.completedQuestions) {
+            saved.completedQuestions = {};
+          }
+
+          setCharacter(saved);
+        }
+      } catch (error) {
+        console.warn('IndexedDB load failed, using localStorage:', error);
+        const saved = localStorage.getItem('quizrpg_character');
+        if (saved) {
+          try {
+            setCharacter(JSON.parse(saved));
+          } catch (e) {
+            console.error('Failed to parse localStorage:', e);
+          }
+        }
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+
+    loadCharacter();
+  }, []);
+
+  // Sauvegarder dans IndexedDB quand character change (uniquement après chargement initial)
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const saveCharacter = async () => {
+      try {
+        await storageManager.saveCharacter(character);
+      } catch (error) {
+        console.warn('IndexedDB save failed, using localStorage:', error);
+        localStorage.setItem('quizrpg_character', JSON.stringify(character));
+      }
+    };
+
+    const debounceTimer = setTimeout(saveCharacter, 500);
+    return () => clearTimeout(debounceTimer);
+  }, [character, isLoaded]);
 
   // Ajoute XP et gère la montée de niveau (une seule fois par question)
   const addXP = (xpAmount, universe, questionId, isCorrect = true) => {
