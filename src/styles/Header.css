@@ -9,10 +9,6 @@
   border-bottom: 2px solid #c9a961;
   padding: 20px 0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .header-content {
@@ -22,7 +18,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
 }
 
 .header-logo {
@@ -38,19 +33,14 @@
 }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
 .header-logo h1 {
   color: #c9a961;
   font-size: 32px;
   margin: 0;
-  padding: 0;
   text-shadow: 0 0 20px rgba(201, 169, 97, 0.6);
   letter-spacing: 2px;
 }
@@ -60,25 +50,6 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin: 5px 0 0 0;
-  padding: 0;
+  margin-top: 5px;
   font-style: italic;
-}
-
-@media (max-width: 768px) {
-  .app-header {
-    padding: 15px 0;
-  }
-
-  .header-logo h1 {
-    font-size: 24px;
-  }
-
-  .logo-icon {
-    font-size: 28px;
-  }
-
-  .logo-subtitle {
-    font-size: 10px;
-  }
 }

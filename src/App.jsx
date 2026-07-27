@@ -130,9 +130,8 @@ export default function App() {
   return (
     <>
       <Header />
-      <div style={{ height: '120px' }} />
       
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 120px)', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' }}>
+      <div style={{ paddingTop: '120px', paddingBottom: '150px', minHeight: '100vh', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' }}>
         <LevelUpAnimation 
           level={newLevel} 
           show={showLevelUp} 
@@ -147,7 +146,7 @@ export default function App() {
           />
         )}
         
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '60vh' }}>
         {showLegal ? (
           <LegalScreen 
             page={legalPage}
@@ -211,7 +210,6 @@ export default function App() {
       </div>
 
       <Footer onOpenLegal={handleOpenLegal} />
-      <div style={{ height: '80px' }} />
     </>
   );
 }

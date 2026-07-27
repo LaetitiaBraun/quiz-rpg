@@ -1,34 +1,34 @@
 .app-footer {
-  background: linear-gradient(135deg, rgba(31, 20, 76, 0.95), rgba(42, 25, 95, 0.95));
-  border-top: 2px solid #c9a961;
-  color: #b8a8d8;
-  padding: 40px 20px 20px;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   width: 100%;
   z-index: 9999;
+  background: linear-gradient(135deg, rgba(31, 20, 76, 0.95), rgba(42, 25, 95, 0.95));
+  border-top: 2px solid #c9a961;
+  color: #b8a8d8;
+  padding: 30px 20px 20px;
 }
 
 .footer-content {
   max-width: 1200px;
-  margin: 0 auto 30px;
+  margin: 0 auto 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
 }
 
 .footer-section h3 {
   color: #c9a961;
-  margin-bottom: 15px;
-  font-size: 16px;
+  margin-bottom: 10px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .footer-section p {
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.6;
   margin: 0;
 }
@@ -40,26 +40,22 @@
 }
 
 .footer-links li {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .footer-links a {
   color: #b8a8d8;
   text-decoration: none;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  border-bottom: 1px solid transparent;
+  font-size: 12px;
+  transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
   color: #c9a961;
-  border-bottom-color: #c9a961;
 }
 
 .footer-section a[href*="laetitiabraun"] {
   color: #1d9e75;
-  text-decoration: none;
-  transition: color 0.3s ease;
 }
 
 .footer-section a[href*="laetitiabraun"]:hover {
@@ -68,23 +64,9 @@
 
 .footer-bottom {
   text-align: center;
-  padding-top: 20px;
+  padding-top: 15px;
   border-top: 1px solid rgba(127, 119, 221, 0.3);
-  font-size: 12px;
+  font-size: 11px;
   color: #7f77dd;
-}
-
-.footer-bottom p {
   margin: 0;
-}
-
-@media (max-width: 768px) {
-  .footer-content {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .app-footer {
-    padding: 30px 20px 15px;
-  }
 }

@@ -4,22 +4,19 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%);
   color: #e0d7f7;
   min-height: 100vh;
-  overflow-x: hidden;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 #root {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 .app-container {
@@ -36,43 +33,47 @@ html {
   color: #c9a961;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
   transition: all 0.3s ease;
+  font-size: 16px;
 }
 
 .button:hover {
-  background: rgba(201, 169, 97, 0.25);
+  background: rgba(201, 169, 97, 0.2);
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(201, 169, 97, 0.3);
+}
+
+.button:active {
+  transform: translateY(0);
 }
 
 .button-back {
-  align-self: flex-start;
-  padding: 10px 20px;
-  font-size: 14px;
+  background: rgba(127, 119, 221, 0.2);
+  border-color: #7f77dd;
+  color: #7f77dd;
+  margin-bottom: 20px;
 }
 
-/* ===== UTILITY CLASSES ===== */
-.text-center {
-  text-align: center;
+.button-back:hover {
+  background: rgba(127, 119, 221, 0.3);
+  box-shadow: 0 4px 12px rgba(127, 119, 221, 0.3);
 }
 
-.text-muted {
-  color: #a89fb8;
+/* ===== SCROLLBAR CUSTOM ===== */
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-.text-accent {
-  color: #c9a961;
+::-webkit-scrollbar-track {
+  background: rgba(31, 20, 76, 0.5);
 }
 
-.gap-small {
-  gap: 15px;
+::-webkit-scrollbar-thumb {
+  background: #7f77dd;
+  border-radius: 5px;
 }
 
-.gap-medium {
-  gap: 20px;
-}
-
-.gap-large {
-  gap: 30px;
+::-webkit-scrollbar-thumb:hover {
+  background: #c9a961;
 }
