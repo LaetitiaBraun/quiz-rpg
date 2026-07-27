@@ -32,9 +32,21 @@ import ArenaBattle from './components/ArenaBattle';
 
 export default function App() {
   const { character, setCharacter, addXP, equipItem, unequipItem, getEquipmentStats } = useCharacter();
-  const [gameState, setGameState] = useState('hub');
-  const [currentUniverse, setCurrentUniverse] = useState(null);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  
+  // Initialiser depuis localStorage
+  const [gameState, setGameState] = useState(() => {
+    return localStorage.getItem('quiz-rpg-gamestate') || 'hub';
+  });
+  const [currentUniverse, setCurrentUniverse] = useState(() => {
+    return localStorage.getItem('quiz-rpg-universe') || null;
+  });
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(() => {
+    return parseInt(localStorage.getItem('quiz-rpg-questionindex') || '0');
+  });
+  const [currentArenaOpponent, setCurrentArenaOpponent] = useState(() => {
+    const stored = localStorage.getItem('quiz-rpg-arena-opponent');
+    return stored ? JSON.parse(stored) : null;
+  });
   const [feedback, setFeedback] = useState(null);
   const [answered, setAnswered] = useState(false);
   const [showNarrative, setShowNarrative] = useState(true);
@@ -45,9 +57,45 @@ export default function App() {
   const [showEditName, setShowEditName] = useState(false);
   const [showLegal, setShowLegal] = useState(false);
   const [legalPage, setLegalPage] = useState(null);
-  const [currentArenaOpponent, setCurrentArenaOpponent] = useState(null);
 
   const equipmentStats = getEquipmentStats();
+
+  // Sauvegarder gameState dans localStorage à chaque changement
+  useEffect(() => {
+    localStorage.setItem('quiz-rpg-gamestate', gameState);
+  }, [gameState]);
+
+  // Sauvegarder currentUniverse
+  useEffect(() => {
+    if (currentUniverse) {
+      localStorage.setItem('quiz-rpg-universe', currentUniverse);
+    } else {
+      localStorage.removeItem('quiz-rpg-universe');
+    }
+  }, [currentUniverse]);
+
+  // Sauvegarder currentQuestionIndex
+  useEffect(() => {
+    localStorage.setItem('quiz-rpg-questionindex', currentQuestionIndex.toString());
+  }, [currentQuestionIndex]);
+
+  // Sauvegarder currentArenaOpponent
+  useEffect(() => {
+    if (currentArenaOpponent) {
+      localStorage.setItem('quiz-rpg-arena-opponent', JSON.stringify(currentArenaOpponent));
+    } else {
+      localStorage.removeItem('quiz-rpg-arena-opponent');
+    }
+  }, [currentArenaOpponent]);
+
+  // Nettoyer localStorage si on est au hub
+  useEffect(() => {
+    if (gameState === 'hub') {
+      localStorage.removeItem('quiz-rpg-universe');
+      localStorage.removeItem('quiz-rpg-questionindex');
+      localStorage.removeItem('quiz-rpg-arena-opponent');
+    }
+  }, [gameState]);
 
   // ===== GAME LOGIC =====
   
@@ -116,6 +164,10 @@ export default function App() {
     setCurrentUniverse(null);
     setFeedback(null);
     setAnswered(false);
+    // Nettoyer le localStorage pour le hub
+    localStorage.removeItem('quiz-rpg-universe');
+    localStorage.removeItem('quiz-rpg-questionindex');
+    localStorage.removeItem('quiz-rpg-arena-opponent');
   };
 
   const openEquipment = () => {
