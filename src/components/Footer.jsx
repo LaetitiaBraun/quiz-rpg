@@ -6,7 +6,7 @@ export default function Footer({ onOpenLegal }) {
       left: 0,
       right: 0,
       width: '100%',
-      zIndex: 9999,
+      zIndex: 9998,
       background: 'linear-gradient(135deg, rgba(31, 20, 76, 0.95), rgba(42, 25, 95, 0.95))',
       borderTop: '2px solid #c9a961',
       color: '#b8a8d8',

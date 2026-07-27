@@ -6,6 +6,11 @@
 
 html {
   scroll-behavior: smooth;
+  overflow: auto;
+  overflow-x: hidden;
+  transform: none;
+  filter: none;
+  opacity: 1;
 }
 
 body {
@@ -13,12 +18,17 @@ body {
   background: linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%);
   color: #e0d7f7;
   min-height: 100vh;
-  /* Important: pas de transform, filter, ou opacity ici */
+  overflow: auto;
+  transform: none;
+  filter: none;
+  opacity: 1;
 }
 
 #root {
   min-height: 100vh;
-  /* Important: pas de propriétés qui créent un stacking context */
+  transform: none;
+  filter: none;
+  opacity: 1;
 }
 
 .app-container {
