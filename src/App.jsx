@@ -49,14 +49,24 @@ export default function App() {
   });
   const [feedback, setFeedback] = useState(null);
   const [answered, setAnswered] = useState(false);
-  const [showNarrative, setShowNarrative] = useState(true);
+  const [showNarrative, setShowNarrative] = useState(() => {
+    return localStorage.getItem('quiz-rpg-shownarrative') !== 'false';
+  });
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [newLevel, setNewLevel] = useState(null);
-  const [showBadges, setShowBadges] = useState(false);
-  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [showBadges, setShowBadges] = useState(() => {
+    return localStorage.getItem('quiz-rpg-showbadges') === 'true';
+  });
+  const [showLeaderboard, setShowLeaderboard] = useState(() => {
+    return localStorage.getItem('quiz-rpg-showleaderboard') === 'true';
+  });
   const [showEditName, setShowEditName] = useState(false);
-  const [showLegal, setShowLegal] = useState(false);
-  const [legalPage, setLegalPage] = useState(null);
+  const [showLegal, setShowLegal] = useState(() => {
+    return localStorage.getItem('quiz-rpg-showlegal') === 'true';
+  });
+  const [legalPage, setLegalPage] = useState(() => {
+    return localStorage.getItem('quiz-rpg-legalpage') || null;
+  });
 
   const equipmentStats = getEquipmentStats();
 
@@ -88,12 +98,46 @@ export default function App() {
     }
   }, [currentArenaOpponent]);
 
+  // Sauvegarder showBadges
+  useEffect(() => {
+    localStorage.setItem('quiz-rpg-showbadges', showBadges.toString());
+  }, [showBadges]);
+
+  // Sauvegarder showLeaderboard
+  useEffect(() => {
+    localStorage.setItem('quiz-rpg-showleaderboard', showLeaderboard.toString());
+  }, [showLeaderboard]);
+
+  // Sauvegarder showLegal
+  useEffect(() => {
+    localStorage.setItem('quiz-rpg-showlegal', showLegal.toString());
+  }, [showLegal]);
+
+  // Sauvegarder legalPage
+  useEffect(() => {
+    if (legalPage) {
+      localStorage.setItem('quiz-rpg-legalpage', legalPage);
+    } else {
+      localStorage.removeItem('quiz-rpg-legalpage');
+    }
+  }, [legalPage]);
+
+  // Sauvegarder showNarrative
+  useEffect(() => {
+    localStorage.setItem('quiz-rpg-shownarrative', showNarrative.toString());
+  }, [showNarrative]);
+
   // Nettoyer localStorage si on est au hub
   useEffect(() => {
     if (gameState === 'hub') {
       localStorage.removeItem('quiz-rpg-universe');
       localStorage.removeItem('quiz-rpg-questionindex');
       localStorage.removeItem('quiz-rpg-arena-opponent');
+      localStorage.removeItem('quiz-rpg-showbadges');
+      localStorage.removeItem('quiz-rpg-showleaderboard');
+      localStorage.removeItem('quiz-rpg-showlegal');
+      localStorage.removeItem('quiz-rpg-legalpage');
+      localStorage.removeItem('quiz-rpg-shownarrative');
     }
   }, [gameState]);
 
@@ -164,10 +208,19 @@ export default function App() {
     setCurrentUniverse(null);
     setFeedback(null);
     setAnswered(false);
-    // Nettoyer le localStorage pour le hub
+    setShowBadges(false);
+    setShowLeaderboard(false);
+    setShowLegal(false);
+    setShowNarrative(true);
+    // Nettoyer le localStorage
     localStorage.removeItem('quiz-rpg-universe');
     localStorage.removeItem('quiz-rpg-questionindex');
     localStorage.removeItem('quiz-rpg-arena-opponent');
+    localStorage.removeItem('quiz-rpg-showbadges');
+    localStorage.removeItem('quiz-rpg-showleaderboard');
+    localStorage.removeItem('quiz-rpg-showlegal');
+    localStorage.removeItem('quiz-rpg-legalpage');
+    localStorage.removeItem('quiz-rpg-shownarrative');
   };
 
   const openEquipment = () => {
