@@ -44,10 +44,6 @@ export default function App() {
   const [showLegal, setShowLegal] = useState(false);
   const [legalPage, setLegalPage] = useState(null);
 
-  const setCharacter = (updatedCharacter) => {
-    // This will be called from useCharacter hook
-  };
-
   const equipmentStats = getEquipmentStats();
 
   // ===== GAME LOGIC =====
