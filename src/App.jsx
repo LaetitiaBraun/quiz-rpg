@@ -18,7 +18,11 @@ import './styles/ArenaScreen.css';
 import './styles/ArenaBattle.css';
 import './styles/ComboDisplay.css';
 import './styles/DailyQuestsScreen.css';
+import './styles/DifficultyModal.css';
+import './styles/ProfileScreen.css';
+import './styles/ThemeToggle.css';
 import { useCharacter } from './hooks/useCharacter';
+import { useTheme } from './hooks/useTheme';
 import { QUESTIONS_DB } from './data/questionsDB';
 import { SoundSystem } from './utils/SoundSystem';
 import HubScreen from './components/HubScreen';
@@ -34,9 +38,13 @@ import LegalScreen from './components/LegalScreen';
 import ArenaScreen from './components/ArenaScreen';
 import ArenaBattle from './components/ArenaBattle';
 import DailyQuestsScreen from './components/DailyQuestsScreen';
+import DifficultyModal from './components/DifficultyModal';
+import ProfileScreen from './components/ProfileScreen';
+import ThemeToggle from './components/ThemeToggle';
 
 export default function App() {
   const { character, setCharacter, addXP, equipItem, unequipItem, getEquipmentStats } = useCharacter();
+  const { isDark, toggleTheme } = useTheme();
   
   // Initialiser depuis localStorage
   const [gameState, setGameState] = useState(() => {
@@ -76,6 +84,9 @@ export default function App() {
     return localStorage.getItem('quiz-rpg-showdailyquests') === 'true';
   });
   const [showBackup, setShowBackup] = useState(false);
+  const [showDifficultyModal, setShowDifficultyModal] = useState(false);
+  const [pendingUniverse, setPendingUniverse] = useState(null);
+  const [showProfile, setShowProfile] = useState(false);
 
   const equipmentStats = getEquipmentStats();
 
@@ -158,13 +169,18 @@ export default function App() {
   // ===== GAME LOGIC =====
   
   const handleStartQuest = (universe) => {
-    setCurrentUniverse(universe);
+    setPendingUniverse(universe);
+    setShowDifficultyModal(true);
+  };
+
+  const handleSelectDifficulty = (level) => {
+    setShowDifficultyModal(false);
+    setCurrentUniverse(pendingUniverse);
     setGameState('battle');
     setCurrentQuestionIndex(0);
     setFeedback(null);
     setAnswered(false);
-    // Show narrative at start for story quest
-    if (universe === 'story') {
+    if (pendingUniverse === 'story') {
       setShowNarrative(true);
     } else {
       setShowNarrative(false);
@@ -332,12 +348,22 @@ export default function App() {
   }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' }}>
+    <div style={{ minHeight: '100vh', background: isDark ? 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' : 'linear-gradient(135deg, #f5f3f9 0%, #e8e4f5 100%)' }}>
+      <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
+
       <LevelUpAnimation 
         level={newLevel} 
         show={showLevelUp} 
         onComplete={() => setShowLevelUp(false)} 
       />
+
+      {showDifficultyModal && (
+        <DifficultyModal
+          onSelectDifficulty={handleSelectDifficulty}
+          onCancel={() => setShowDifficultyModal(false)}
+          universeName={pendingUniverse}
+        />
+      )}
 
       {showEditName && (
         <EditNameModal 
@@ -360,6 +386,11 @@ export default function App() {
         <LegalScreen 
           page={legalPage}
           onBack={() => setShowLegal(false)}
+        />
+      ) : showProfile ? (
+        <ProfileScreen
+          character={character}
+          onBack={() => setShowProfile(false)}
         />
       ) : showBadges ? (
         <BadgesScreen 
@@ -389,6 +420,7 @@ export default function App() {
           onOpenArena={handleOpenArena}
           onEditName={() => setShowEditName(true)}
           onOpenBackup={() => setShowBackup(true)}
+          onOpenProfile={() => setShowProfile(true)}
         />
       ) : gameState === 'equipment' ? (
         <EquipmentScreen 
