@@ -123,9 +123,14 @@ export const useCharacter = () => {
 
     let newXp = character.xp;
     let levelUp = false;
-    let newStreak = (character.perfectStreak || 0);
+    let newStreak = character.perfectStreak || 0;
     let newCombo = character.currentCombo || 0;
     let comboBonus = 0;
+
+    // Streak: toujours incrémenter sur bonne réponse, reset sur mauvaise
+    if (isCorrect) {
+      newStreak = (character.perfectStreak || 0) + 1;
+    }
 
     // Ajoute XP seulement si première fois que la question est réussie
     if (!alreadyCompleted && isCorrect) {
@@ -147,11 +152,6 @@ export const useCharacter = () => {
         levelUp = true;
         newMaxXp = Math.floor(character.maxXp * 1.1);
         newXp = newXp - character.maxXp;
-      }
-
-      // Track perfect streak
-      if (isCorrect) {
-        newStreak = (character.perfectStreak || 0) + 1;
       }
 
       // Calculer le nouveau chapitre si story quest
@@ -231,9 +231,10 @@ export const useCharacter = () => {
         }
       });
     } else {
-      // Question déjà complétée - pas d'XP
+      // Question déjà complétée - pas d'XP mais streak continue
       setCharacter({
         ...character,
+        perfectStreak: newStreak,
         completedQuestions: character.completedQuestions
       });
     }
