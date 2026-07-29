@@ -175,12 +175,50 @@ export default function App() {
 
   const handleSelectDifficulty = (level) => {
     setShowDifficultyModal(false);
-    setCurrentUniverse(pendingUniverse);
+    const universe = pendingUniverse;
+    const questions = QUESTIONS_DB[universe];
+    const completed = character.completedQuestions || {};
+
+    // Questions ratées (false) pour ce mode
+    const failedQuestions = questions
+      .map((q, i) => ({ q, i }))
+      .filter(({ q }) => completed[`${universe}_${q.id}`] === false);
+
+    // Questions jamais vues
+    const unseenQuestions = questions
+      .map((q, i) => ({ q, i }))
+      .filter(({ q }) => completed[`${universe}_${q.id}`] === undefined);
+
+    let startIndex = 0;
+
+    if (unseenQuestions.length === 0 && failedQuestions.length > 0) {
+      // Tout vu → rejouer uniquement les ratées
+      // On réorganise les questions pour mettre les ratées en premier
+      // mais comme on ne peut pas changer l'ordre facilement,
+      // on démarre à l'index de la première question ratée
+      startIndex = failedQuestions[0].i;
+    } else if (unseenQuestions.length > 0) {
+      // Il reste des questions non vues → reprendre là où on s'est arrêté
+      // Chercher la dernière question complétée (bonne ou mauvaise)
+      const lastSeenIndex = questions.reduce((last, q, i) => {
+        if (completed[`${universe}_${q.id}`] !== undefined) return i;
+        return last;
+      }, -1);
+      // Reprendre à la question suivante après la dernière vue
+      startIndex = lastSeenIndex >= 0 ? Math.min(lastSeenIndex + 1, questions.length - 1) : 0;
+      // Si la prochaine question n'est pas vue, c'est parfait
+      // Sinon chercher la première non vue
+      if (completed[`${universe}_${questions[startIndex]?.id}`] !== undefined) {
+        startIndex = unseenQuestions[0].i;
+      }
+    }
+
+    setCurrentUniverse(universe);
     setGameState('battle');
-    setCurrentQuestionIndex(0);
+    setCurrentQuestionIndex(startIndex);
     setFeedback(null);
     setAnswered(false);
-    if (pendingUniverse === 'story') {
+    if (universe === 'story') {
       setShowNarrative(true);
     } else {
       setShowNarrative(false);
@@ -362,6 +400,8 @@ export default function App() {
           onSelectDifficulty={handleSelectDifficulty}
           onCancel={() => setShowDifficultyModal(false)}
           universeName={pendingUniverse}
+          character={character}
+          questions={pendingUniverse ? QUESTIONS_DB[pendingUniverse] : []}
         />
       )}
 

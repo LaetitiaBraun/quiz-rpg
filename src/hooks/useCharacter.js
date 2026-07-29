@@ -220,11 +220,15 @@ export const useCharacter = () => {
 
       setCharacter(updatedCharacter);
     } else if (!isCorrect) {
-      // Reset combo et streak on wrong answer
+      // Reset combo et streak on wrong answer + tracker la question ratée
       setCharacter({
         ...character,
         perfectStreak: 0,
-        currentCombo: 0
+        currentCombo: 0,
+        completedQuestions: {
+          ...character.completedQuestions,
+          [questionKey]: false  // false = raté
+        }
       });
     } else {
       // Question déjà complétée - pas d'XP
