@@ -55,6 +55,7 @@
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s;
+  position: relative;
 }
 
 .xp-bar:hover {
@@ -71,6 +72,22 @@
   font-weight: bold;
   font-size: 14px;
   transition: width 0.3s ease;
+}
+
+.xp-percent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
 }
 
 .xp-text {

@@ -20,6 +20,7 @@ export default function CharacterCard({ character, equipmentStats }) {
             className="xp-fill" 
             style={{ width: `${xpPercentage}%` }}
           />
+          <div className="xp-percent">{Math.round(xpPercentage)}%</div>
         </div>
       </div>
       <div className="xp-text">
