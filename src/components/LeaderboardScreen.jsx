@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import '../styles/LeaderboardScreen.css';
 import { storageManager } from '../utils/StorageManager';
 
-export default function LeaderboardScreen({ character, onBack }) {
+export default function LeaderboardScreen({ character, onBack, t }) {
   const [leaderboard, setLeaderboard] = useState([]);
   const [playerRank, setPlayerRank] = useState(null);
 
@@ -52,7 +52,7 @@ export default function LeaderboardScreen({ character, onBack }) {
       <button className="button button-back" onClick={onBack}>← Retour au Hub</button>
 
       <div className="leaderboard-header">
-        <h1>🏅 Classement des Héros</h1>
+        <h1>{t?.leaderboardTitle || '🏅 Classement des Héros'}</h1>
         {playerRank && (
           <div className="player-rank-badge">
             <p>Ta position: <strong>#{playerRank}</strong></p>

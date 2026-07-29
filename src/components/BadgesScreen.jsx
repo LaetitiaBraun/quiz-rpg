@@ -1,7 +1,7 @@
 import '../styles/BadgesScreen.css';
 import { ALL_BADGES } from '../data/badgesDB';
 
-export default function BadgesScreen({ character, onBack }) {
+export default function BadgesScreen({ character, onBack, t }) {
   const unlockedBadgeIds = character.unlockedBadges || [];
   const unlockedCount = unlockedBadgeIds.length;
   const totalBadges = ALL_BADGES.length;
@@ -11,10 +11,10 @@ export default function BadgesScreen({ character, onBack }) {
 
   return (
     <div className="badges-screen">
-      <button className="button button-back" onClick={onBack}>← Retour au Hub</button>
+      <button className="button button-back" onClick={onBack}>{t?.back || '← Retour'} au Hub</button>
 
       <div className="badges-header">
-        <h1>🏆 Badges & Accomplissements</h1>
+        <h1>{t?.badgesTitle || '🏆 Badges & Accomplissements'}</h1>
         <div className="badges-progress">
           <div className="progress-bar">
             <div 

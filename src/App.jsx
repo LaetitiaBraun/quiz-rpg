@@ -41,10 +41,13 @@ import DailyQuestsScreen from './components/DailyQuestsScreen';
 import DifficultyModal from './components/DifficultyModal';
 import ProfileScreen from './components/ProfileScreen';
 import ThemeToggle from './components/ThemeToggle';
+import LanguageToggle from './components/LanguageToggle';
+import { useLanguage } from './hooks/useLanguage';
 
 export default function App() {
   const { character, setCharacter, addXP, equipItem, unequipItem, getEquipmentStats } = useCharacter();
   const { isDark, toggleTheme } = useTheme();
+  const { lang, t, setLanguage } = useLanguage();
   
   // Initialiser depuis localStorage
   const [gameState, setGameState] = useState(() => {
@@ -411,6 +414,7 @@ export default function App() {
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-gradient)' }}>
       <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
+      <LanguageToggle lang={lang} setLanguage={setLanguage} />
 
       <LevelUpAnimation 
         level={newLevel} 
@@ -427,6 +431,7 @@ export default function App() {
           questionsEasy={pendingUniverse ? getQuestions(pendingUniverse, 1) : []}
           questionsMedium={pendingUniverse ? getQuestions(pendingUniverse, 2) : []}
           questionsHard={pendingUniverse ? getQuestions(pendingUniverse, 3) : []}
+          t={t}
         />
       )}
 
@@ -451,6 +456,7 @@ export default function App() {
           <ProfileScreen
             character={character}
             onBack={() => setShowProfile(false)}
+          t={t}
           />
         </div>
       )}
@@ -465,17 +471,20 @@ export default function App() {
         <BadgesScreen 
           character={character}
           onBack={() => setShowBadges(false)}
+          t={t}
         />
       ) : showLeaderboard ? (
         <LeaderboardScreen 
           character={character}
           onBack={() => setShowLeaderboard(false)}
+          t={t}
         />
       ) : showDailyQuests ? (
         <DailyQuestsScreen 
           character={character}
           onBack={() => setShowDailyQuests(false)}
           onClaimReward={handleClaimDailyReward}
+          t={t}
         />
       ) : gameState === 'hub' ? (
         <HubScreen 
@@ -490,6 +499,7 @@ export default function App() {
           onEditName={() => setShowEditName(true)}
           onOpenBackup={() => setShowBackup(true)}
           onOpenProfile={() => setShowProfile(true)}
+          t={t}
         />
       ) : gameState === 'equipment' ? (
         <EquipmentScreen 

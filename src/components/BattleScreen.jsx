@@ -28,6 +28,7 @@ export default function BattleScreen({
         currentIndex={currentQuestionIndex}
         totalQuestions={totalQuestions}
         feedback={feedback}
+        t={t}
         answered={answered}
         onAnswer={onAnswer}
         onNext={onNext}

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import '../styles/DailyQuestsScreen.css';
 import { DAILY_QUESTS, checkDailyQuestCompletion } from '../data/dailyQuestsDB';
 
-export default function DailyQuestsScreen({ character, onBack, onClaimReward }) {
+export default function DailyQuestsScreen({ character, onBack, onClaimReward, t }) {
   const [quests, setQuests] = useState([]);
   const [claimedToday, setClaimedToday] = useState({});
   const [claimFlash, setClaimFlash] = useState(null);
@@ -51,16 +51,16 @@ export default function DailyQuestsScreen({ character, onBack, onClaimReward }) 
 
   return (
     <div className="daily-quests-screen">
-      <button className="button button-back" onClick={onBack}>← Retour au Hub</button>
+      <button className="button button-back" onClick={onBack}>{t?.backToHub || '← Retour au Hub'}</button>
 
       <div className="daily-header">
-        <h1>📅 Quêtes Quotidiennes</h1>
-        <p className="reset-info">Reset à minuit</p>
+        <h1>{t?.dailyQuestsTitle || '📅 Quêtes Quotidiennes'}</h1>
+        <p className="reset-info">{t?.resetAtMidnight || 'Reset à minuit'}</p>
       </div>
 
       <div className="reward-summary">
         <div className="total-reward">
-          <span className="reward-label">XP gagnés aujourd'hui</span>
+          <span className="reward-label">{t?.todayXP || "XP gagnés aujourd'hui"}</span>
           <span className="reward-value">⭐ {claimedXP} XP</span>
         </div>
         {pendingXP > 0 && (
@@ -100,7 +100,7 @@ export default function DailyQuestsScreen({ character, onBack, onClaimReward }) 
                 <span className="reward-amount">⭐ {quest.reward} XP</span>
                 {quest.completed ? (
                   claimedToday[quest.id] ? (
-                    <div className="claimed-badge">✓ Claimée</div>
+                    <div className="claimed-badge">{t?.claimed || '✓ Claimée'}</div>
                   ) : (
                     <button
                       className="button button-claim"
@@ -110,7 +110,7 @@ export default function DailyQuestsScreen({ character, onBack, onClaimReward }) 
                     </button>
                   )
                 ) : (
-                  <div className="incomplete-badge">Pas finie</div>
+                  <div className="incomplete-badge">{t?.notFinished || 'Pas finie'}</div>
                 )}
               </div>
             </div>
