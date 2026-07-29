@@ -145,7 +145,10 @@ export const useCharacter = () => {
     }
 
     const questionKey = `${universe}_${questionId}`;
-    const alreadyCompleted = character.completedQuestions[questionKey];
+    // true = réussi, false = raté, undefined = jamais vu
+    const previousResult = character.completedQuestions[questionKey];
+    // On considère "déjà complété" seulement si précédemment RÉUSSI (true)
+    const alreadyCompleted = previousResult === true;
 
     let newXp = character.xp;
     let levelUp = false;
