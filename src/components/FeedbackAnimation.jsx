@@ -1,44 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { SoundSystem } from '../utils/SoundSystem';
-import { useParticles, ParticleCanvas } from '../utils/ParticleSystem';
 
 export default function FeedbackAnimation({ correct, onComplete }) {
-  const { particles, createConfetti } = useParticles();
+  const timerRef = useRef(null);
 
   useEffect(() => {
     if (correct) {
       SoundSystem.playVictory();
-      SoundSystem.playReward();
-      // Confetti au centre et sur les côtés
-      createConfetti(window.innerWidth / 2, window.innerHeight / 3, 50);
-      createConfetti(window.innerWidth / 4, window.innerHeight / 2, 25);
-      createConfetti((window.innerWidth * 3) / 4, window.innerHeight / 2, 25);
     } else {
       SoundSystem.playDefeat();
     }
 
-    const timer = setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       onComplete && onComplete();
-    }, 500);
+    }, 1500);
 
-    return () => clearTimeout(timer);
-  }, [correct, createConfetti, onComplete]);
+    return () => clearTimeout(timerRef.current);
+  }, [correct]);
 
   return (
-    <>
-      <ParticleCanvas particles={particles} />
-      {correct && (
-        <div className="feedback-animation correct-animation">
-          <div className="feedback-icon">✨</div>
-          <div className="feedback-text">CORRECT!</div>
-        </div>
-      )}
-      {!correct && (
-        <div className="feedback-animation incorrect-animation">
-          <div className="feedback-icon">✗</div>
-          <div className="feedback-text">INCORRECT!</div>
-        </div>
-      )}
-    </>
+    <div className={`feedback-animation ${correct ? 'correct-animation' : 'incorrect-animation'}`}>
+      <div className="feedback-icon">{correct ? '✓' : '✗'}</div>
+      <div className="feedback-text">{correct ? 'CORRECT !' : 'INCORRECT !'}</div>
+    </div>
   );
 }
