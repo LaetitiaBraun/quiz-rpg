@@ -424,7 +424,9 @@ export default function App() {
           onCancel={() => setShowDifficultyModal(false)}
           universeName={pendingUniverse}
           character={character}
-          questions={pendingUniverse ? pendingUniverse ? getQuestions(pendingUniverse, 1) : [] : []}
+          questionsEasy={pendingUniverse ? getQuestions(pendingUniverse, 1) : []}
+          questionsMedium={pendingUniverse ? getQuestions(pendingUniverse, 2) : []}
+          questionsHard={pendingUniverse ? getQuestions(pendingUniverse, 3) : []}
         />
       )}
 
