@@ -24,10 +24,18 @@ export default function QuestCard({ universe, character, onStart, disabled }) {
     progressPct = (storyDone / totalStory) * 100;
   } else {
     // Pour anime et programming: compter toutes les questions réussies (tous niveaux)
+    // Nouvelles clés: anime_easy_1, anime_medium_1, anime_hard_1
+    // Anciennes clés: anime_1 (avant le changement de structure)
     const easyDone   = Object.keys(completed).filter(k => k.startsWith(`${universe}_easy_`)   && completed[k] === true).length;
     const mediumDone = Object.keys(completed).filter(k => k.startsWith(`${universe}_medium_`) && completed[k] === true).length;
     const hardDone   = Object.keys(completed).filter(k => k.startsWith(`${universe}_hard_`)   && completed[k] === true).length;
-    const totalDone  = easyDone + mediumDone + hardDone;
+    // Anciennes clés format: "anime_1", "programming_3" etc.
+    const oldDone    = Object.keys(completed).filter(k => {
+      if (!k.startsWith(`${universe}_`)) return false;
+      const suffix = k.slice(universe.length + 1);
+      return /^\d+$/.test(suffix) && completed[k] === true;
+    }).length;
+    const totalDone  = easyDone + mediumDone + hardDone + oldDone;
     const totalAll   = (QUESTIONS_DB[`${universe}_easy`]?.length || 25) * 3;
     progressText = `${totalDone} / ${totalAll} questions`;
     progressPct = (totalDone / totalAll) * 100;
