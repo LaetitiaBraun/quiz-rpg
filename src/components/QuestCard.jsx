@@ -2,50 +2,56 @@ import { UNIVERSE_CONFIG } from '../data/constants';
 import { QUESTIONS_DB } from '../data/questionsDB';
 
 export default function QuestCard({ universe, character, onStart, disabled }) {
-  if (!character || !character.progress) {
-    return null;
-  }
+  if (!character || !character.progress) return null;
 
   const config = UNIVERSE_CONFIG[universe];
-  const progress = character.progress[universe] || { completed: 0, difficulty: 1 };
-  const totalQuestions = QUESTIONS_DB[universe]?.length || 0;
-  
-  // Calculer le nombre total de chapitres (actes) pour Story Quest
-  const totalChapters = universe === 'story' 
-    ? Math.max(...(QUESTIONS_DB[universe]?.map(q => q.act || 1) || [1]))
-    : 0;
+  const completed = character.completedQuestions || {};
 
-  const handleClick = () => {
-    if (!disabled) {
-      onStart(universe);
-    }
+  // Calculer le nombre de questions réussies pour cet univers (tous niveaux)
+  const countDone = (prefix) => {
+    return Object.keys(completed).filter(k => k.startsWith(prefix + '_') && completed[k] === true).length;
   };
 
+  let progressText = '';
+  let progressPct = 0;
+
+  if (universe === 'arena') {
+    progressText = `${character.arenaWins || 0} victoires`;
+  } else if (universe === 'story') {
+    const storyDone = countDone('story');
+    const totalStory = QUESTIONS_DB.story?.length || 15;
+    progressText = `${storyDone} / ${totalStory} questions`;
+    progressPct = (storyDone / totalStory) * 100;
+  } else {
+    // Pour anime et programming: compter toutes les questions réussies (tous niveaux)
+    const easyDone   = Object.keys(completed).filter(k => k.startsWith(`${universe}_easy_`)   && completed[k] === true).length;
+    const mediumDone = Object.keys(completed).filter(k => k.startsWith(`${universe}_medium_`) && completed[k] === true).length;
+    const hardDone   = Object.keys(completed).filter(k => k.startsWith(`${universe}_hard_`)   && completed[k] === true).length;
+    const totalDone  = easyDone + mediumDone + hardDone;
+    const totalAll   = (QUESTIONS_DB[`${universe}_easy`]?.length || 25) * 3;
+    progressText = `${totalDone} / ${totalAll} questions`;
+    progressPct = (totalDone / totalAll) * 100;
+  }
+
   return (
-    <div 
+    <div
       className="quest-card"
-      onClick={handleClick}
+      onClick={() => !disabled && onStart(universe)}
       style={{ opacity: disabled ? 0.5 : 1, cursor: disabled ? 'not-allowed' : 'pointer' }}
     >
       <div className="quest-icon">{config.icon}</div>
       <div className="quest-title">{config.title}</div>
       <div className="quest-description">{config.description}</div>
-      
-      {universe === 'arena' ? (
-        <div className="quest-progress">
-          {character.arenaWins || 0} victoires
-        </div>
-      ) : universe === 'story' ? (
-        <div className="quest-progress">Chapitre {progress.chapter} / {totalChapters}</div>
-      ) : (
-        <div className="quest-progress">
-          {progress.completed} / {totalQuestions} questions
+
+      {universe !== 'arena' && progressPct > 0 && (
+        <div className="quest-progress-bar-mini">
+          <div className="quest-progress-bar-fill-mini" style={{ width: `${progressPct}%` }} />
         </div>
       )}
-      
-      {disabled && (
-        <div className="quest-progress">En développement</div>
-      )}
+
+      <div className="quest-progress">{progressText}</div>
+
+      {disabled && <div className="quest-progress">En développement</div>}
     </div>
   );
 }
