@@ -14,12 +14,12 @@ export default function CharacterCard({ character, equipmentStats }) {
       <div className="character-name">{character.name}</div>
       <div className="character-level">Niveau {character.level}</div>
       
-      <div className="xp-bar">
-        <div 
-          className="xp-fill" 
-          style={{ width: `${xpPercentage}%` }}
-        >
-          {Math.round(xpPercentage)}%
+      <div className="xp-bar-container">
+        <div className="xp-bar">
+          <div 
+            className="xp-fill" 
+            style={{ width: `${xpPercentage}%` }}
+          />
         </div>
       </div>
       <div className="xp-text">
@@ -48,21 +48,21 @@ export default function CharacterCard({ character, equipmentStats }) {
       <div className="stats-grid">
         <div className="stat-box">
           <div className="stat-value">{totalStats.strength}</div>
-          <div className="stat-label">Force</div>
+          <div className="stat-label">FORCE</div>
           {equipmentStats?.strength > 0 && (
             <div className="stat-bonus">+{equipmentStats.strength}</div>
           )}
         </div>
         <div className="stat-box">
           <div className="stat-value">{totalStats.intelligence}</div>
-          <div className="stat-label">Intelligence</div>
+          <div className="stat-label">INTELLIGENCE</div>
           {equipmentStats?.intelligence > 0 && (
             <div className="stat-bonus">+{equipmentStats.intelligence}</div>
           )}
         </div>
         <div className="stat-box">
           <div className="stat-value">{totalStats.wisdom}</div>
-          <div className="stat-label">Sagesse</div>
+          <div className="stat-label">SAGESSE</div>
           {equipmentStats?.wisdom > 0 && (
             <div className="stat-bonus">+{equipmentStats.wisdom}</div>
           )}
