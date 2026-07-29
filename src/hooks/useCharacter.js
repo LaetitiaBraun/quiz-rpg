@@ -132,8 +132,6 @@ export const useCharacter = () => {
   const addXP = (xpAmount, universe, questionId, isCorrect = true, questionAct = null) => {
     const questionKey = `${universe}_${questionId}`;
 
-    // On lit le state actuel via une ref pour éviter le stale closure
-    // et on retourne le résultat via un objet partagé
     const result = { levelUp: false, alreadyCompleted: false, xpGained: 0, comboBonus: 0, currentCombo: 0 };
 
     setCharacter(prev => {
@@ -214,15 +212,22 @@ export const useCharacter = () => {
         updated.unlockedBadges = unlockedBadges;
         updated.newlyUnlockedBadges = newBadges;
 
+        // Sauvegarde immédiate sans debounce
+        localStorage.setItem('quizrpg_character', JSON.stringify(updated));
+        storageManager.saveCharacter(updated).catch(() => {});
+
         return updated;
 
       } else if (!isCorrect) {
         result.currentCombo = 0;
-        return {
+        const failedUpdate = {
           ...prev,
           currentCombo: 0,
           completedQuestions: { ...cq, [questionKey]: false }
         };
+        localStorage.setItem('quizrpg_character', JSON.stringify(failedUpdate));
+        storageManager.saveCharacter(failedUpdate).catch(() => {});
+        return failedUpdate;
       } else {
         // Déjà réussi - rien ne change
         result.currentCombo = prev.currentCombo || 0;
