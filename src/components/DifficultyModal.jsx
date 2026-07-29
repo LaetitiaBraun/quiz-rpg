@@ -5,15 +5,15 @@ export default function DifficultyModal({ onSelectDifficulty, onCancel, universe
   const completed = character?.completedQuestions || {};
 
   // Compte les questions réussies pour un pool donné
-  const countProgress = (questions, prefix) => {
+  const countProgress = (questions, prefix, isLegacyFallback = false) => {
     let done = 0;
     let failed = 0;
     questions.forEach(q => {
       const v = completed[`${prefix}_${q.id}`];
-      // Aussi compter les anciennes clés sans suffixe (ex: anime_1)
-      const vOld = completed[`${universeName}_${q.id}`];
+      // Les anciennes clés (anime_1, programming_3) comptent SEULEMENT pour le niveau facile
+      const vOld = isLegacyFallback ? completed[`${universeName}_${q.id}`] : undefined;
       if (v === true || vOld === true) done++;
-      else if (v === false) failed++;
+      else if (v === false && vOld !== true) failed++;
     });
     return { done, failed, total: questions.length };
   };
@@ -26,11 +26,11 @@ export default function DifficultyModal({ onSelectDifficulty, onCancel, universe
       stats: countProgress(questionsEasy, 'story') }
   ] : [
     { level: 1, name: 'Facile',    emoji: '🟢', description: 'Questions accessibles', xpMultiplier: 0.5, color: '#5dcaa5',
-      stats: countProgress(questionsEasy,   `${universeName}_easy`) },
+      stats: countProgress(questionsEasy,   `${universeName}_easy`, true) },
     { level: 2, name: 'Moyen',     emoji: '🟡', description: 'Connaissances solides',  xpMultiplier: 1,   color: '#ffc107',
-      stats: countProgress(questionsMedium, `${universeName}_medium`) },
+      stats: countProgress(questionsMedium, `${universeName}_medium`, false) },
     { level: 3, name: 'Difficile', emoji: '🔴', description: 'Expert seulement !',      xpMultiplier: 1.5, color: '#ff6b6b',
-      stats: countProgress(questionsHard,   `${universeName}_hard`) },
+      stats: countProgress(questionsHard,   `${universeName}_hard`, false) },
   ];
 
   return (
