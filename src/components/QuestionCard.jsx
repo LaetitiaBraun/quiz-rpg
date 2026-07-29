@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FeedbackAnimation from './FeedbackAnimation';
 
 export default function QuestionCard({ 
@@ -10,14 +10,28 @@ export default function QuestionCard({
   onAnswer, 
   onNext 
 }) {
-  const [showFeedback, setShowFeedback] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(false);
+
+  // Afficher l'animation dès qu'on a un feedback
+  useEffect(() => {
+    if (feedback) {
+      setShowAnimation(true);
+    } else {
+      setShowAnimation(false);
+    }
+  }, [feedback]);
+
+  const handleNext = () => {
+    setShowAnimation(false);
+    onNext();
+  };
 
   return (
     <div className="question-box">
-      {feedback && !showFeedback && (
+      {showAnimation && feedback && (
         <FeedbackAnimation 
           correct={feedback.correct} 
-          onComplete={() => setShowFeedback(true)}
+          onComplete={() => setShowAnimation(false)}
         />
       )}
       
@@ -61,8 +75,8 @@ export default function QuestionCard({
           )}
           
           <div className="button-container">
-            <button className="button" onClick={onNext}>
-              {currentIndex < totalQuestions - 1 ? 'Question suivante' : 'Terminer cette quête'}
+            <button className="button" onClick={handleNext}>
+              Suivant →
             </button>
           </div>
         </div>

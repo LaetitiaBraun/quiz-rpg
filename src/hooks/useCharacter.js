@@ -145,18 +145,19 @@ export const useCharacter = () => {
     }
 
     const questionKey = `${universe}_${questionId}`;
-    // true = réussi, false = raté, undefined = jamais vu
     const previousResult = character.completedQuestions[questionKey];
-    // On considère "déjà complété" seulement si précédemment RÉUSSI (true)
-    const alreadyCompleted = previousResult === true;
+    // true = déjà réussi, false = raté, undefined = jamais vu
+    const alreadySucceeded = previousResult === true;
+    const wasFailed = previousResult === false;
+    const isFirstTime = previousResult === undefined;
 
     let newXp = character.xp;
     let levelUp = false;
     let newCombo = character.currentCombo || 0;
     let comboBonus = 0;
 
-    // Ajoute XP seulement si première fois que la question est réussie
-    if (!alreadyCompleted && isCorrect) {
+    // Ajoute XP si : première fois réussie OU question ratée qu'on rattrape
+    if ((isFirstTime || wasFailed) && isCorrect) {
       // Gérer le combo
       newCombo = (character.currentCombo || 0) + 1;
       
@@ -178,13 +179,17 @@ export const useCharacter = () => {
       }
 
       // Calculer le nouveau chapitre si story quest
-      let updatedProgress = {
-        ...character.progress,
-        [universe]: {
-          ...character.progress[universe],
-          completed: character.progress[universe].completed + 1
-        }
-      };
+      // On incrémente completed seulement si c'est la première fois (pas une ratée rattrapée)
+      let updatedProgress = { ...character.progress };
+      if (isFirstTime) {
+        updatedProgress = {
+          ...character.progress,
+          [universe]: {
+            ...character.progress[universe],
+            completed: character.progress[universe].completed + 1
+          }
+        };
+      }
 
       // Mettre à jour le chapitre pour story quest basé sur l'acte
       if (universe === 'story' && questionAct) {
@@ -242,7 +247,7 @@ export const useCharacter = () => {
 
       setCharacter(updatedCharacter);
     } else if (!isCorrect) {
-      // Reset combo sur mauvaise réponse + tracker la question ratée
+      // Reset combo + tracker la question ratée
       setCharacter({
         ...character,
         currentCombo: 0,
@@ -252,18 +257,15 @@ export const useCharacter = () => {
         }
       });
     } else {
-      // Question déjà complétée - pas d'XP, on ne touche pas au streak
-      setCharacter({
-        ...character,
-        completedQuestions: character.completedQuestions
-      });
+      // Question déjà réussie - pas d'XP
+      setCharacter({ ...character });
     }
 
     return { 
       newLevel: character.level, 
       levelUp,
-      alreadyCompleted,
-      xpGained: (alreadyCompleted || !isCorrect) ? 0 : xpAmount + comboBonus,
+      alreadyCompleted: alreadySucceeded,
+      xpGained: (alreadySucceeded || !isCorrect) ? 0 : xpAmount + comboBonus,
       comboBonus,
       currentCombo: newCombo
     };
