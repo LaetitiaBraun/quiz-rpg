@@ -87,8 +87,16 @@ export default function App() {
   const [showDifficultyModal, setShowDifficultyModal] = useState(false);
   const [pendingUniverse, setPendingUniverse] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
+  const [currentDifficulty, setCurrentDifficulty] = useState(1);
 
   const equipmentStats = getEquipmentStats();
+
+  // Helper: retourne le bon pool de questions selon univers + difficulté
+  const getQuestions = (universe, difficulty) => {
+    if (universe === 'story') return QUESTIONS_DB.story || [];
+    const suffix = difficulty === 1 ? 'easy' : difficulty === 2 ? 'medium' : 'hard';
+    return QUESTIONS_DB[`${universe}_${suffix}`] || QUESTIONS_DB[universe] || [];
+  };
 
   // Sauvegarder gameState dans localStorage à chaque changement
   useEffect(() => {
@@ -176,65 +184,42 @@ export default function App() {
   const handleSelectDifficulty = (level) => {
     setShowDifficultyModal(false);
     const universe = pendingUniverse;
-    const questions = QUESTIONS_DB[universe];
+    setCurrentDifficulty(level);
+    const questions = getQuestions(universe, level);
     const completed = character.completedQuestions || {};
+    const diffKey = universe === "story" ? "story" : `${universe}_${level === 1 ? "easy" : level === 2 ? "medium" : "hard"}`;
 
-    // Questions ratées (false) pour ce mode
-    const failedQuestions = questions
-      .map((q, i) => ({ q, i }))
-      .filter(({ q }) => completed[`${universe}_${q.id}`] === false);
-
-    // Questions jamais vues
-    const unseenQuestions = questions
-      .map((q, i) => ({ q, i }))
-      .filter(({ q }) => completed[`${universe}_${q.id}`] === undefined);
+    const failedQuestions = questions.map((q, i) => ({ q, i })).filter(({ q }) => completed[`${diffKey}_${q.id}`] === false);
+    const unseenQuestions = questions.map((q, i) => ({ q, i })).filter(({ q }) => completed[`${diffKey}_${q.id}`] === undefined);
 
     let startIndex = 0;
-
     if (unseenQuestions.length === 0 && failedQuestions.length > 0) {
-      // Tout vu → rejouer uniquement les ratées
-      // On réorganise les questions pour mettre les ratées en premier
-      // mais comme on ne peut pas changer l'ordre facilement,
-      // on démarre à l'index de la première question ratée
       startIndex = failedQuestions[0].i;
     } else if (unseenQuestions.length > 0) {
-      // Il reste des questions non vues → reprendre là où on s'est arrêté
-      // Chercher la dernière question complétée (bonne ou mauvaise)
-      const lastSeenIndex = questions.reduce((last, q, i) => {
-        if (completed[`${universe}_${q.id}`] !== undefined) return i;
-        return last;
-      }, -1);
-      // Reprendre à la question suivante après la dernière vue
+      const lastSeenIndex = questions.reduce((last, q, i) => completed[`${diffKey}_${q.id}`] !== undefined ? i : last, -1);
       startIndex = lastSeenIndex >= 0 ? Math.min(lastSeenIndex + 1, questions.length - 1) : 0;
-      // Si la prochaine question n'est pas vue, c'est parfait
-      // Sinon chercher la première non vue
-      if (completed[`${universe}_${questions[startIndex]?.id}`] !== undefined) {
-        startIndex = unseenQuestions[0].i;
-      }
+      if (completed[`${diffKey}_${questions[startIndex]?.id}`] !== undefined) startIndex = unseenQuestions[0].i;
     }
 
     setCurrentUniverse(universe);
-    setGameState('battle');
+    setGameState("battle");
     setCurrentQuestionIndex(startIndex);
     setFeedback(null);
     setAnswered(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (universe === 'story') {
-      setShowNarrative(true);
-    } else {
-      setShowNarrative(false);
-    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (universe === "story") setShowNarrative(true);
+    else setShowNarrative(false);
   };
-
   const handleAnswer = (selectedIndex) => {
     if (answered) return;
 
-    const questions = QUESTIONS_DB[currentUniverse];
+    const questions = getQuestions(currentUniverse, currentDifficulty);
     const currentQuestion = questions[currentQuestionIndex];
     const isCorrect = selectedIndex === currentQuestion.correct;
 
     const xpGain = isCorrect ? currentQuestion.xp : Math.floor(currentQuestion.xp * 0.3);
-    const result = addXP(xpGain, currentUniverse, currentQuestion.id, isCorrect, currentQuestion.act);
+    const diffSuffix = currentUniverse === "story" ? "story" : `${currentUniverse}_${currentDifficulty === 1 ? "easy" : currentDifficulty === 2 ? "medium" : "hard"}`;
+    const result = addXP(xpGain, diffSuffix, currentQuestion.id, isCorrect, currentQuestion.act);
 
     // Trigger sound on click
     SoundSystem.playClick();
@@ -257,14 +242,15 @@ export default function App() {
   };
 
   const handleNextQuestion = () => {
-    const questions = QUESTIONS_DB[currentUniverse];
+    const questions = getQuestions(currentUniverse, currentDifficulty);
 
     // Scroll en haut à chaque nouvelle question
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Simuler l'état mis à jour de completedQuestions avec la réponse actuelle
     const currentQuestion = questions[currentQuestionIndex];
-    const currentKey = `${currentUniverse}_${currentQuestion.id}`;
+    const diffSuffix2 = currentUniverse === "story" ? "story" : `${currentUniverse}_${currentDifficulty === 1 ? "easy" : currentDifficulty === 2 ? "medium" : "hard"}`;
+    const currentKey = `${diffSuffix2}_${currentQuestion.id}`;
     const lastCorrect = feedback?.lastAnswerCorrect;
 
     const completed = {
@@ -277,7 +263,7 @@ export default function App() {
       .map((q, i) => ({ q, i }))
       .filter(({ q, i }) => {
         if (i === currentQuestionIndex) return false;
-        return completed[`${currentUniverse}_${q.id}`] === false;
+        return completed[`${diffSuffix2}_${q.id}`] === false;
       });
 
     // Questions non vues après la position actuelle
@@ -285,7 +271,7 @@ export default function App() {
       .map((q, i) => ({ q, i }))
       .filter(({ q, i }) =>
         i > currentQuestionIndex &&
-        completed[`${currentUniverse}_${q.id}`] === undefined
+        completed[`${diffSuffix2}_${q.id}`] === undefined
       );
 
     if (nextUnseen.length > 0) {
@@ -438,7 +424,7 @@ export default function App() {
           onCancel={() => setShowDifficultyModal(false)}
           universeName={pendingUniverse}
           character={character}
-          questions={pendingUniverse ? QUESTIONS_DB[pendingUniverse] : []}
+          questions={pendingUniverse ? pendingUniverse ? getQuestions(pendingUniverse, 1) : [] : []}
         />
       )}
 
@@ -526,9 +512,9 @@ export default function App() {
       ) : currentUniverse === 'story' ? (
         <StoryBattleScreen 
           universe={currentUniverse}
-          currentQuestion={QUESTIONS_DB[currentUniverse][currentQuestionIndex]}
+          currentQuestion={getQuestions(currentUniverse, currentDifficulty)[currentQuestionIndex]}
           currentQuestionIndex={currentQuestionIndex}
-          totalQuestions={QUESTIONS_DB[currentUniverse].length}
+          totalQuestions={getQuestions(currentUniverse, currentDifficulty).length}
           feedback={feedback}
           answered={answered}
           onAnswer={handleAnswer}
@@ -541,9 +527,9 @@ export default function App() {
       ) : (
         <BattleScreen 
           universe={currentUniverse}
-          currentQuestion={QUESTIONS_DB[currentUniverse][currentQuestionIndex]}
+          currentQuestion={getQuestions(currentUniverse, currentDifficulty)[currentQuestionIndex]}
           currentQuestionIndex={currentQuestionIndex}
-          totalQuestions={QUESTIONS_DB[currentUniverse].length}
+          totalQuestions={getQuestions(currentUniverse, currentDifficulty).length}
           feedback={feedback}
           answered={answered}
           onAnswer={handleAnswer}
