@@ -18,10 +18,12 @@ export default function QuestCard({ universe, character, onStart, disabled }) {
   if (universe === 'arena') {
     progressText = `${character.arenaWins || 0} victoires`;
   } else if (universe === 'story') {
+    const storyQuestions = QUESTIONS_DB.story || [];
+    const maxAct = Math.max(...storyQuestions.map(q => q.act || 1));
+    const currentChapter = character.progress?.story?.chapter || 1;
     const storyDone = countDone('story');
-    const totalStory = QUESTIONS_DB.story?.length || 15;
-    progressText = `${storyDone} / ${totalStory} questions`;
-    progressPct = (storyDone / totalStory) * 100;
+    progressText = `Chapitre ${currentChapter} / ${maxAct}`;
+    progressPct = (storyDone / storyQuestions.length) * 100;
   } else {
     // Pour anime et programming: compter toutes les questions réussies (tous niveaux)
     // Nouvelles clés: anime_easy_1, anime_medium_1, anime_hard_1
