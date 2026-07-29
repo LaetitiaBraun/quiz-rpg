@@ -7,24 +7,13 @@ export default function DailyQuestsScreen({ character, onBack, onClaimReward }) 
   const [claimedToday, setClaimedToday] = useState({});
 
   useEffect(() => {
-    // Vérifier si on doit reset les quêtes (minuit)
-    const lastReset = character.dailyQuests?.lastReset;
-    const today = new Date().toDateString();
-    
-    // Si la date a changé, réinitialiser les quêtes
-    if (lastReset !== today) {
-      // Les quêtes seront réinitialisées au prochain chargement
-      // Pour l'instant on affiche les quêtes actuelles
-    }
-
-    // Initialiser les quêtes
     const initialQuests = DAILY_QUESTS.map(quest => ({
       ...quest,
-      completed: checkDailyQuestCompletion(quest, character)
+      completed: checkDailyQuestCompletion(quest, character),
+      currentProgress: getQuestProgress(quest, character)
     }));
     setQuests(initialQuests);
 
-    // Vérifier les récompenses déjà claimées
     const claimed = {};
     (character.dailyQuests?.completed || []).forEach(questId => {
       claimed[questId] = true;
@@ -32,11 +21,18 @@ export default function DailyQuestsScreen({ character, onBack, onClaimReward }) 
     setClaimedToday(claimed);
   }, [character]);
 
+  const getQuestProgress = (quest, character) => {
+    const progress = character.dailyQuests?.progress || {};
+    if (quest.id === 'daily_1') return progress.correctAnswers || 0;
+    if (quest.id === 'daily_2') return character.maxCombo || 0;
+    if (quest.id === 'daily_3') return progress.storyAnswers || 0;
+    if (quest.id === 'daily_4') return progress.codeAnswers || 0;
+    if (quest.id === 'daily_5') return progress.animeAnswers || 0;
+    return 0;
+  };
+
   const handleClaimReward = (quest) => {
-    setClaimedToday(prev => ({
-      ...prev,
-      [quest.id]: true
-    }));
+    setClaimedToday(prev => ({ ...prev, [quest.id]: true }));
     onClaimReward(quest);
   };
 
@@ -61,41 +57,50 @@ export default function DailyQuestsScreen({ character, onBack, onClaimReward }) 
       </div>
 
       <div className="quests-list">
-        {quests.map(quest => (
-          <div 
-            key={quest.id}
-            className={`quest-item ${quest.completed ? 'completed' : 'incomplete'}`}
-          >
-            <div className="quest-info">
-              <div className="quest-title">{quest.title}</div>
-              <div className="quest-description">{quest.description}</div>
-              <div className="quest-difficulty" style={{ 
-                color: quest.difficulty === 'Facile' ? '#5dcaa5' : 
-                       quest.difficulty === 'Moyen' ? '#c9a961' : '#d85a30'
-              }}>
-                {quest.difficulty}
+        {quests.map(quest => {
+          const progressPct = Math.min((quest.currentProgress / quest.goal) * 100, 100);
+          return (
+            <div
+              key={quest.id}
+              className={`quest-item ${quest.completed ? 'completed' : 'incomplete'}`}
+            >
+              <div className="quest-info">
+                <div className="quest-title">{quest.title}</div>
+                <div className="quest-description">{quest.description}</div>
+                <div className="quest-progress-bar">
+                  <div className="quest-progress-fill" style={{ width: `${progressPct}%` }} />
+                </div>
+                <div className="quest-progress-text">
+                  {Math.min(quest.currentProgress, quest.goal)} / {quest.goal}
+                </div>
+                <div className="quest-difficulty" style={{
+                  color: quest.difficulty === 'Facile' ? '#5dcaa5' :
+                         quest.difficulty === 'Moyen' ? '#c9a961' : '#d85a30'
+                }}>
+                  {quest.difficulty}
+                </div>
+              </div>
+
+              <div className="quest-reward">
+                <span className="reward-amount">⭐ {quest.reward} XP</span>
+                {quest.completed ? (
+                  claimedToday[quest.id] ? (
+                    <div className="claimed-badge">✓ Claimée</div>
+                  ) : (
+                    <button
+                      className="button button-claim"
+                      onClick={() => handleClaimReward(quest)}
+                    >
+                      Claim
+                    </button>
+                  )
+                ) : (
+                  <div className="incomplete-badge">Pas finie</div>
+                )}
               </div>
             </div>
-
-            <div className="quest-reward">
-              <span className="reward-amount">⭐ {quest.reward} XP</span>
-              {quest.completed ? (
-                claimedToday[quest.id] ? (
-                  <div className="claimed-badge">✓ Claimée</div>
-                ) : (
-                  <button 
-                    className="button button-claim"
-                    onClick={() => handleClaimReward(quest)}
-                  >
-                    Claim
-                  </button>
-                )
-              ) : (
-                <div className="incomplete-badge">Pas finie</div>
-              )}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="daily-info">

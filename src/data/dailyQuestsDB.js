@@ -71,7 +71,6 @@ export const QUICK_QUESTS = [
 ];
 
 export const generateDailyQuests = () => {
-  // Reset le progrès des quêtes mais garde les IDs
   return DAILY_QUESTS.map(quest => ({
     ...quest,
     progress: 0,
@@ -80,25 +79,23 @@ export const generateDailyQuests = () => {
 };
 
 export const checkDailyQuestCompletion = (quest, character) => {
+  // Utiliser character.dailyQuests.progress (le bon chemin!)
+  const progress = character.dailyQuests?.progress || {};
+
   if (quest.id === 'daily_1') {
-    // Compte les questions correctes d'aujourd'hui
-    return (character.dailyQuestProgress?.correctAnswers || 0) >= quest.goal;
+    return (progress.correctAnswers || 0) >= quest.goal;
   }
   if (quest.id === 'daily_2') {
-    // Vérifie le combo max
     return (character.maxCombo || 0) >= quest.goal;
   }
   if (quest.id === 'daily_3') {
-    // Compte les questions story complétées
-    return (character.dailyQuestProgress?.storyAnswers || 0) >= quest.goal;
+    return (progress.storyAnswers || 0) >= quest.goal;
   }
   if (quest.id === 'daily_4') {
-    // Compte les questions code complétées
-    return (character.dailyQuestProgress?.codeAnswers || 0) >= quest.goal;
+    return (progress.codeAnswers || 0) >= quest.goal;
   }
   if (quest.id === 'daily_5') {
-    // Compte les questions anime complétées
-    return (character.dailyQuestProgress?.animeAnswers || 0) >= quest.goal;
+    return (progress.animeAnswers || 0) >= quest.goal;
   }
   return false;
 };
