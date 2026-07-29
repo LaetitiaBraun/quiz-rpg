@@ -130,147 +130,108 @@ export const useCharacter = () => {
 
   // Ajoute XP et gère la montée de niveau (une seule fois par question)
   const addXP = (xpAmount, universe, questionId, isCorrect = true, questionAct = null) => {
-    // Initialise completedQuestions si n'existe pas
-    if (!character.completedQuestions) {
-      character.completedQuestions = {};
-    }
+    const questionKey = `${universe}_${questionId}`;
 
-    // Initialiser daily quests progress s'il n'existe pas
-    if (!character.dailyQuests) {
-      character.dailyQuests = {
+    // On lit le state actuel via une ref pour éviter le stale closure
+    // et on retourne le résultat via un objet partagé
+    const result = { levelUp: false, alreadyCompleted: false, xpGained: 0, comboBonus: 0, currentCombo: 0 };
+
+    setCharacter(prev => {
+      const cq = prev.completedQuestions || {};
+      const previousResult = cq[questionKey];
+      const alreadySucceeded = previousResult === true;
+      const wasFailed = previousResult === false;
+      const isFirstTime = previousResult === undefined;
+
+      result.alreadyCompleted = alreadySucceeded;
+
+      const dailyQuests = prev.dailyQuests || {
         lastReset: new Date().toDateString(),
         completed: [],
         progress: { correctAnswers: 0, storyAnswers: 0, codeAnswers: 0, animeAnswers: 0 }
       };
-    }
 
-    const questionKey = `${universe}_${questionId}`;
-    const previousResult = character.completedQuestions[questionKey];
-    // true = déjà réussi, false = raté, undefined = jamais vu
-    const alreadySucceeded = previousResult === true;
-    const wasFailed = previousResult === false;
-    const isFirstTime = previousResult === undefined;
+      if ((isFirstTime || wasFailed) && isCorrect) {
+        const newCombo = (prev.currentCombo || 0) + 1;
+        const comboMultiplier = Math.min(1 + (newCombo * 0.05), 1.5);
+        const bonusXp = Math.floor(xpAmount * (comboMultiplier - 1));
+        result.comboBonus = bonusXp;
+        result.currentCombo = newCombo;
+        result.xpGained = xpAmount + bonusXp;
 
-    let newXp = character.xp;
-    let levelUp = false;
-    let newCombo = character.currentCombo || 0;
-    let comboBonus = 0;
+        let newXp = prev.xp + xpAmount + bonusXp;
+        let newLevel = prev.level;
+        let newMaxXp = prev.maxXp;
 
-    // Ajoute XP si : première fois réussie OU question ratée qu'on rattrape
-    if ((isFirstTime || wasFailed) && isCorrect) {
-      // Gérer le combo
-      newCombo = (character.currentCombo || 0) + 1;
-      
-      // Calcul du bonus combo (5% par niveau de combo, max 50%)
-      const comboMultiplier = Math.min(1 + (newCombo * 0.05), 1.5);
-      const bonusXp = Math.floor(xpAmount * (comboMultiplier - 1));
-      comboBonus = bonusXp;
-      
-      newXp = character.xp + xpAmount + bonusXp;
-      
-      let newLevel = character.level;
-      let newMaxXp = character.maxXp;
+        if (newXp >= prev.maxXp) {
+          newLevel += 1;
+          result.levelUp = true;
+          newMaxXp = Math.floor(prev.maxXp * 1.1);
+          newXp = newXp - prev.maxXp;
+        }
 
-      if (newXp >= character.maxXp) {
-        newLevel += 1;
-        levelUp = true;
-        newMaxXp = Math.floor(character.maxXp * 1.1);
-        newXp = newXp - character.maxXp;
-      }
+        // Progress: incrémenter seulement si première fois
+        let updatedProgress = { ...prev.progress };
+        if (isFirstTime) {
+          updatedProgress = {
+            ...prev.progress,
+            [universe]: {
+              ...prev.progress[universe],
+              completed: (prev.progress[universe]?.completed || 0) + 1
+            }
+          };
+        }
+        if (universe === 'story' && questionAct) {
+          updatedProgress.story = {
+            ...updatedProgress.story,
+            chapter: Math.max(updatedProgress.story?.chapter || 1, questionAct)
+          };
+        }
 
-      // Calculer le nouveau chapitre si story quest
-      // On incrémente completed seulement si c'est la première fois (pas une ratée rattrapée)
-      let updatedProgress = { ...character.progress };
-      if (isFirstTime) {
-        updatedProgress = {
-          ...character.progress,
-          [universe]: {
-            ...character.progress[universe],
-            completed: character.progress[universe].completed + 1
-          }
+        // Daily quests
+        const dp = { ...dailyQuests.progress };
+        dp.correctAnswers = (dp.correctAnswers || 0) + 1;
+        if (universe === 'story') dp.storyAnswers = (dp.storyAnswers || 0) + 1;
+        else if (universe === 'programming') dp.codeAnswers = (dp.codeAnswers || 0) + 1;
+        else if (universe === 'anime') dp.animeAnswers = (dp.animeAnswers || 0) + 1;
+
+        const updated = {
+          ...prev,
+          xp: newXp,
+          level: newLevel,
+          maxXp: newMaxXp,
+          totalXP: (prev.totalXP || 0) + xpAmount + bonusXp,
+          currentCombo: newCombo,
+          maxCombo: Math.max(prev.maxCombo || 0, newCombo),
+          completedQuestions: { ...cq, [questionKey]: true },
+          progress: updatedProgress,
+          dailyQuests: { ...dailyQuests, progress: dp }
         };
-      }
 
-      // Mettre à jour le chapitre pour story quest basé sur l'acte
-      if (universe === 'story' && questionAct) {
-        updatedProgress.story = {
-          ...updatedProgress.story,
-          chapter: Math.max(updatedProgress.story.chapter || 1, questionAct)
+        const newBadges = checkAndUnlockBadges(updated);
+        const unlockedBadges = [...(prev.unlockedBadges || [])];
+        newBadges.forEach(b => { if (!unlockedBadges.includes(b.id)) unlockedBadges.push(b.id); });
+        updated.unlockedBadges = unlockedBadges;
+        updated.newlyUnlockedBadges = newBadges;
+
+        return updated;
+
+      } else if (!isCorrect) {
+        result.currentCombo = 0;
+        return {
+          ...prev,
+          currentCombo: 0,
+          completedQuestions: { ...cq, [questionKey]: false }
         };
+      } else {
+        // Déjà réussi - rien ne change
+        result.currentCombo = prev.currentCombo || 0;
+        return prev;
       }
+    });
 
-      // Tracker les daily quests
-      const newDailyProgress = {
-        ...character.dailyQuests.progress,
-        correctAnswers: (character.dailyQuests.progress.correctAnswers || 0) + 1
-      };
-
-      if (universe === 'story') {
-        newDailyProgress.storyAnswers = (newDailyProgress.storyAnswers || 0) + 1;
-      } else if (universe === 'programming') {
-        newDailyProgress.codeAnswers = (newDailyProgress.codeAnswers || 0) + 1;
-      } else if (universe === 'anime') {
-        newDailyProgress.animeAnswers = (newDailyProgress.animeAnswers || 0) + 1;
-      }
-
-      // Nouveau personnage avec tracking
-      const updatedCharacter = {
-        ...character,
-        xp: newXp,
-        level: newLevel,
-        maxXp: newMaxXp,
-        totalXP: (character.totalXP || 0) + xpAmount + comboBonus,
-        currentCombo: newCombo,
-        maxCombo: Math.max(character.maxCombo || 0, newCombo),
-        completedQuestions: {
-          ...character.completedQuestions,
-          [questionKey]: true
-        },
-        progress: updatedProgress,
-        dailyQuests: {
-          ...character.dailyQuests,
-          progress: newDailyProgress
-        }
-      };
-
-      // Vérifier et débloquer les badges
-      const newBadges = checkAndUnlockBadges(updatedCharacter);
-      const unlockedBadges = character.unlockedBadges || [];
-      newBadges.forEach(badge => {
-        if (!unlockedBadges.includes(badge.id)) {
-          unlockedBadges.push(badge.id);
-        }
-      });
-
-      updatedCharacter.unlockedBadges = unlockedBadges;
-      updatedCharacter.newlyUnlockedBadges = newBadges;
-
-      setCharacter(updatedCharacter);
-    } else if (!isCorrect) {
-      // Reset combo + tracker la question ratée
-      setCharacter({
-        ...character,
-        currentCombo: 0,
-        completedQuestions: {
-          ...character.completedQuestions,
-          [questionKey]: false
-        }
-      });
-    } else {
-      // Question déjà réussie - pas d'XP
-      setCharacter({ ...character });
-    }
-
-    return { 
-      newLevel: character.level, 
-      levelUp,
-      alreadyCompleted: alreadySucceeded,
-      xpGained: (alreadySucceeded || !isCorrect) ? 0 : xpAmount + comboBonus,
-      comboBonus,
-      currentCombo: newCombo
-    };
+    return result;
   };
-
   // Équipe un objet
   const equipItem = (equipmentId) => {
     const equipment = getEquipmentById(equipmentId);
