@@ -1,27 +1,37 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { SoundSystem } from '../utils/SoundSystem';
 
-export default function FeedbackAnimation({ correct, onComplete }) {
+export default function FeedbackAnimation({ correct, onComplete, onDismiss }) {
   const timerRef = useRef(null);
 
   useEffect(() => {
     if (correct) {
-      SoundSystem.playVictory();
+      SoundSystem.playVictory?.();
     } else {
-      SoundSystem.playDefeat();
+      SoundSystem.playDefeat?.();
     }
 
+    // Disparaît automatiquement après 1.2s
     timerRef.current = setTimeout(() => {
-      onComplete && onComplete();
-    }, 1500);
+      onComplete?.();
+    }, 1200);
 
     return () => clearTimeout(timerRef.current);
-  }, [correct]);
+  }, []);
+
+  const handleClick = () => {
+    clearTimeout(timerRef.current);
+    onComplete?.();
+  };
 
   return (
-    <div className={`feedback-animation ${correct ? 'correct-animation' : 'incorrect-animation'}`}>
+    <div
+      className={`feedback-animation ${correct ? 'correct-animation' : 'incorrect-animation'}`}
+      onClick={handleClick}
+    >
       <div className="feedback-icon">{correct ? '✓' : '✗'}</div>
       <div className="feedback-text">{correct ? 'CORRECT !' : 'INCORRECT !'}</div>
+      <div className="feedback-hint">Cliquer pour continuer</div>
     </div>
   );
 }

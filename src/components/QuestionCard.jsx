@@ -12,14 +12,17 @@ export default function QuestionCard({
 }) {
   const [showAnimation, setShowAnimation] = useState(false);
 
-  // Afficher l'animation dès qu'on a un feedback
   useEffect(() => {
     if (feedback) {
       setShowAnimation(true);
     } else {
       setShowAnimation(false);
     }
-  }, [feedback]);
+  }, [feedback, currentIndex]);
+
+  const dismissAnimation = () => {
+    setShowAnimation(false);
+  };
 
   const handleNext = () => {
     setShowAnimation(false);
@@ -30,8 +33,8 @@ export default function QuestionCard({
     <div className="question-box">
       {showAnimation && feedback && (
         <FeedbackAnimation 
-          correct={feedback.correct} 
-          onComplete={() => setShowAnimation(false)}
+          correct={feedback.correct}
+          onComplete={dismissAnimation}
         />
       )}
       
@@ -52,7 +55,7 @@ export default function QuestionCard({
             } ${
               answered && idx !== question.correct && feedback && !feedback.correct ? 'incorrect' : ''
             }`}
-            onClick={() => onAnswer(idx)}
+            onClick={() => !answered && onAnswer(idx)}
             disabled={answered}
           >
             {answer}
@@ -60,7 +63,7 @@ export default function QuestionCard({
         ))}
       </div>
 
-      {feedback && (
+      {feedback && !showAnimation && (
         <div>
           <div className={`feedback-message ${feedback.correct ? 'success' : 'error'}`}>
             {feedback.correct ? '✓ Correct!' : '✗ Incorrect!'}

@@ -1,65 +1,64 @@
 .feedback-animation {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 12px;
-  animation: feedbackAppear 0.3s ease-out forwards;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.15);
+  animation: feedbackAppear 0.25s ease-out forwards;
+  cursor: pointer;
 }
 
 @keyframes feedbackAppear {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -60%) scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .correct-animation .feedback-icon {
-  font-size: 64px;
+  font-size: 72px;
   color: #5dcaa5;
-  filter: drop-shadow(0 0 12px rgba(93, 202, 165, 0.6));
+  filter: drop-shadow(0 0 16px rgba(93, 202, 165, 0.8));
+  animation: popIn 0.3s ease-out;
 }
 
 .correct-animation .feedback-text {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   color: #5dcaa5;
-  text-shadow: 0 0 15px rgba(93, 202, 165, 0.5);
+  text-shadow: 0 0 20px rgba(93, 202, 165, 0.6);
 }
 
 .incorrect-animation .feedback-icon {
-  font-size: 64px;
+  font-size: 72px;
   color: #ff6b6b;
-  filter: drop-shadow(0 0 12px rgba(255, 107, 107, 0.6));
+  filter: drop-shadow(0 0 16px rgba(255, 107, 107, 0.8));
+  animation: popIn 0.3s ease-out;
 }
 
 .incorrect-animation .feedback-text {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   color: #ff6b6b;
-  text-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+  text-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
 }
 
-.feedback-icon {
-  font-weight: bold;
+@keyframes popIn {
+  0%   { transform: scale(0.5); }
+  70%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
 }
 
-.feedback-text {
-  animation: fadeInUp 0.3s ease-out;
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+.feedback-hint {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 8px;
+  letter-spacing: 1px;
 }
