@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import '../styles/DailyQuestsScreen.css';
-import { DAILY_QUESTS, checkDailyQuestCompletion, generateDailyQuests } from '../data/dailyQuestsDB';
+import { DAILY_QUESTS, checkDailyQuestCompletion } from '../data/dailyQuestsDB';
 
 export default function DailyQuestsScreen({ character, onBack, onClaimReward }) {
   const [quests, setQuests] = useState([]);
   const [claimedToday, setClaimedToday] = useState({});
+  const [claimFlash, setClaimFlash] = useState(null);
 
   useEffect(() => {
     const initialQuests = DAILY_QUESTS.map(quest => ({
@@ -33,10 +34,18 @@ export default function DailyQuestsScreen({ character, onBack, onClaimReward }) 
 
   const handleClaimReward = (quest) => {
     setClaimedToday(prev => ({ ...prev, [quest.id]: true }));
+    setClaimFlash(quest.id);
+    setTimeout(() => setClaimFlash(null), 1000);
     onClaimReward(quest);
   };
 
-  const totalReward = quests.reduce((sum, quest) => {
+  // XP déjà claimé aujourd'hui
+  const claimedXP = quests.reduce((sum, quest) => {
+    return sum + (claimedToday[quest.id] ? quest.reward : 0);
+  }, 0);
+
+  // XP encore disponible à claimer
+  const pendingXP = quests.reduce((sum, quest) => {
     return sum + (quest.completed && !claimedToday[quest.id] ? quest.reward : 0);
   }, 0);
 
@@ -51,18 +60,24 @@ export default function DailyQuestsScreen({ character, onBack, onClaimReward }) 
 
       <div className="reward-summary">
         <div className="total-reward">
-          <span className="reward-label">Récompense totale</span>
-          <span className="reward-value">⭐ {totalReward} XP</span>
+          <span className="reward-label">XP gagnés aujourd'hui</span>
+          <span className="reward-value">⭐ {claimedXP} XP</span>
         </div>
+        {pendingXP > 0 && (
+          <div className="pending-reward">
+            <span className="pending-label">🎁 {pendingXP} XP à réclamer !</span>
+          </div>
+        )}
       </div>
 
       <div className="quests-list">
         {quests.map(quest => {
           const progressPct = Math.min((quest.currentProgress / quest.goal) * 100, 100);
+          const isFlashing = claimFlash === quest.id;
           return (
             <div
               key={quest.id}
-              className={`quest-item ${quest.completed ? 'completed' : 'incomplete'}`}
+              className={`quest-item ${quest.completed ? 'completed' : 'incomplete'} ${isFlashing ? 'claim-flash' : ''}`}
             >
               <div className="quest-info">
                 <div className="quest-title">{quest.title}</div>

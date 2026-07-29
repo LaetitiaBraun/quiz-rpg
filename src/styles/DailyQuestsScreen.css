@@ -31,6 +31,9 @@
   border-radius: 12px;
   padding: 20px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .total-reward {
@@ -51,6 +54,31 @@
   font-weight: bold;
   color: #5dcaa5;
   text-shadow: 0 0 10px rgba(93, 202, 165, 0.3);
+}
+
+.pending-reward {
+  margin-top: 6px;
+}
+
+.pending-label {
+  font-size: 15px;
+  font-weight: bold;
+  color: #c9a961;
+  animation: pulse-gold 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse-gold {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.claim-flash {
+  animation: flash-green 0.8s ease-out;
+}
+
+@keyframes flash-green {
+  0%   { background: rgba(93, 202, 165, 0.35); box-shadow: 0 0 20px rgba(93, 202, 165, 0.5); }
+  100% { background: inherit; box-shadow: none; }
 }
 
 .quests-list {
