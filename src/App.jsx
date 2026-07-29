@@ -218,6 +218,7 @@ export default function App() {
     setCurrentQuestionIndex(startIndex);
     setFeedback(null);
     setAnswered(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     if (universe === 'story') {
       setShowNarrative(true);
     } else {
@@ -249,22 +250,58 @@ export default function App() {
       xpGain: result.xpGained,
       alreadyCompleted: result.alreadyCompleted,
       comboBonus: result.comboBonus || 0,
-      currentCombo: result.currentCombo || 0
+      currentCombo: result.currentCombo || 0,
+      lastAnswerCorrect: isCorrect  // pour handleNextQuestion
     });
     setAnswered(true);
   };
 
   const handleNextQuestion = () => {
     const questions = QUESTIONS_DB[currentUniverse];
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
+
+    // Scroll en haut à chaque nouvelle question
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Simuler l'état mis à jour de completedQuestions avec la réponse actuelle
+    const currentQuestion = questions[currentQuestionIndex];
+    const currentKey = `${currentUniverse}_${currentQuestion.id}`;
+    const lastCorrect = feedback?.lastAnswerCorrect;
+
+    const completed = {
+      ...(character.completedQuestions || {}),
+      [currentKey]: lastCorrect === true ? true : (lastCorrect === false ? false : (character.completedQuestions || {})[currentKey])
+    };
+
+    // Questions encore ratées (excluant la question actuelle si on vient de la réussir)
+    const remainingFailed = questions
+      .map((q, i) => ({ q, i }))
+      .filter(({ q, i }) => {
+        if (i === currentQuestionIndex) return false;
+        return completed[`${currentUniverse}_${q.id}`] === false;
+      });
+
+    // Questions non vues après la position actuelle
+    const nextUnseen = questions
+      .map((q, i) => ({ q, i }))
+      .filter(({ q, i }) =>
+        i > currentQuestionIndex &&
+        completed[`${currentUniverse}_${q.id}`] === undefined
+      );
+
+    if (nextUnseen.length > 0) {
+      // Il reste des questions non vues → aller à la prochaine
+      setCurrentQuestionIndex(nextUnseen[0].i);
       setFeedback(null);
       setAnswered(false);
-      // Show narrative for story quest
-      if (currentUniverse === 'story') {
-        setShowNarrative(true);
-      }
+      if (currentUniverse === 'story') setShowNarrative(true);
+    } else if (remainingFailed.length > 0) {
+      // Plus de questions non vues mais des ratées → aller à la prochaine ratée
+      setCurrentQuestionIndex(remainingFailed[0].i);
+      setFeedback(null);
+      setAnswered(false);
+      if (currentUniverse === 'story') setShowNarrative(true);
     } else {
+      // Tout vu et rien de raté → retour au hub
       goToHub();
     }
   };
