@@ -380,17 +380,21 @@ export default function App() {
           onCharacterLoad={setCharacter}
         />
       )}
+
+      {showProfile && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 500, overflowY: 'auto', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' }}>
+          <ProfileScreen
+            character={character}
+            onBack={() => setShowProfile(false)}
+          />
+        </div>
+      )}
       
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '60vh' }}>
       {showLegal ? (
         <LegalScreen 
           page={legalPage}
           onBack={() => setShowLegal(false)}
-        />
-      ) : showProfile ? (
-        <ProfileScreen
-          character={character}
-          onBack={() => setShowProfile(false)}
         />
       ) : showBadges ? (
         <BadgesScreen 
