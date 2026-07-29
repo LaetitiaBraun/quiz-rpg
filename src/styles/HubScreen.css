@@ -300,6 +300,18 @@
   box-shadow: 0 6px 20px rgba(201, 169, 97, 0.5);
 }
 
+.button-profile {
+  background: linear-gradient(135deg, #c9a961, #dab86f);
+  color: white;
+  box-shadow: 0 4px 15px rgba(201, 169, 97, 0.3);
+  border: 2px solid #c9a961;
+}
+
+.button-profile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(201, 169, 97, 0.5);
+}
+
 .hub-buttons {
   display: flex;
   gap: 20px;

@@ -214,8 +214,9 @@
 
 .stat-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 20px var(--bg-overlay-secondary);
-  border-color: var(--accent-green);
+  box-shadow: 0 8px 25px rgba(29, 158, 117, 0.4);
+  border-color: #5dcaa5;
+  background: rgba(29, 158, 117, 0.25);
 }
 
 .stat-value {
