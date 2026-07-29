@@ -22,7 +22,15 @@ export const useCharacter = () => {
   useEffect(() => {
     const loadCharacter = async () => {
       try {
-        const saved = await storageManager.loadCharacter();
+        // Essayer localStorage d'abord (plus fiable sur Vercel/navigateur)
+        const lsSaved = localStorage.getItem('quizrpg_character');
+        let saved = lsSaved ? JSON.parse(lsSaved) : null;
+
+        // Si pas dans localStorage, essayer IndexedDB
+        if (!saved) {
+          saved = await storageManager.loadCharacter();
+        }
+
         if (saved) {
           // Migration: Ajoute fields manquants
           if (!saved.equipment) {
@@ -111,21 +119,13 @@ export const useCharacter = () => {
     loadCharacter();
   }, []);
 
-  // Sauvegarder dans IndexedDB quand character change (uniquement après chargement initial)
+  // Sauvegarder IMMÉDIATEMENT à chaque changement (pas de debounce)
   useEffect(() => {
     if (!isLoaded) return;
-
-    const saveCharacter = async () => {
-      try {
-        await storageManager.saveCharacter(character);
-      } catch (error) {
-        console.warn('IndexedDB save failed, using localStorage:', error);
-        localStorage.setItem('quizrpg_character', JSON.stringify(character));
-      }
-    };
-
-    const debounceTimer = setTimeout(saveCharacter, 500);
-    return () => clearTimeout(debounceTimer);
+    // Sauvegarde synchrone localStorage en premier (toujours fiable)
+    localStorage.setItem('quizrpg_character', JSON.stringify(character));
+    // Sauvegarde IndexedDB en arrière-plan
+    storageManager.saveCharacter(character).catch(() => {});
   }, [character, isLoaded]);
 
   // Ajoute XP et gère la montée de niveau (une seule fois par question)
@@ -212,10 +212,6 @@ export const useCharacter = () => {
         updated.unlockedBadges = unlockedBadges;
         updated.newlyUnlockedBadges = newBadges;
 
-        // Sauvegarde immédiate sans debounce
-        localStorage.setItem('quizrpg_character', JSON.stringify(updated));
-        storageManager.saveCharacter(updated).catch(() => {});
-
         return updated;
 
       } else if (!isCorrect) {
@@ -225,8 +221,6 @@ export const useCharacter = () => {
           currentCombo: 0,
           completedQuestions: { ...cq, [questionKey]: false }
         };
-        localStorage.setItem('quizrpg_character', JSON.stringify(failedUpdate));
-        storageManager.saveCharacter(failedUpdate).catch(() => {});
         return failedUpdate;
       } else {
         // Déjà réussi - rien ne change
