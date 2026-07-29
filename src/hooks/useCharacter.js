@@ -65,6 +65,32 @@ export const useCharacter = () => {
             };
           }
 
+          // === STREAK DE JOURS CONSÉCUTIFS ===
+          const todayStr = new Date().toDateString();
+          const lastPlayedStr = saved.lastPlayedDate;
+
+          if (!lastPlayedStr) {
+            // Première fois → streak = 1
+            saved.perfectStreak = 1;
+            saved.lastPlayedDate = todayStr;
+          } else if (lastPlayedStr === todayStr) {
+            // Déjà joué aujourd'hui → streak inchangé
+          } else {
+            // Vérifier si c'était hier
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayStr = yesterday.toDateString();
+
+            if (lastPlayedStr === yesterdayStr) {
+              // Joué hier → streak +1
+              saved.perfectStreak = (saved.perfectStreak || 0) + 1;
+            } else {
+              // Plus d'un jour de pause → streak reset à 1
+              saved.perfectStreak = 1;
+            }
+            saved.lastPlayedDate = todayStr;
+          }
+
           setCharacter(saved);
         }
       } catch (error) {
@@ -123,14 +149,8 @@ export const useCharacter = () => {
 
     let newXp = character.xp;
     let levelUp = false;
-    let newStreak = character.perfectStreak || 0;
     let newCombo = character.currentCombo || 0;
     let comboBonus = 0;
-
-    // Streak: toujours incrémenter sur bonne réponse, reset sur mauvaise
-    if (isCorrect) {
-      newStreak = (character.perfectStreak || 0) + 1;
-    }
 
     // Ajoute XP seulement si première fois que la question est réussie
     if (!alreadyCompleted && isCorrect) {
@@ -192,7 +212,6 @@ export const useCharacter = () => {
         level: newLevel,
         maxXp: newMaxXp,
         totalXP: (character.totalXP || 0) + xpAmount + comboBonus,
-        perfectStreak: newStreak,
         currentCombo: newCombo,
         maxCombo: Math.max(character.maxCombo || 0, newCombo),
         completedQuestions: {
@@ -220,21 +239,19 @@ export const useCharacter = () => {
 
       setCharacter(updatedCharacter);
     } else if (!isCorrect) {
-      // Reset combo et streak on wrong answer + tracker la question ratée
+      // Reset combo sur mauvaise réponse + tracker la question ratée
       setCharacter({
         ...character,
-        perfectStreak: 0,
         currentCombo: 0,
         completedQuestions: {
           ...character.completedQuestions,
-          [questionKey]: false  // false = raté
+          [questionKey]: false
         }
       });
     } else {
-      // Question déjà complétée - pas d'XP mais streak continue
+      // Question déjà complétée - pas d'XP, on ne touche pas au streak
       setCharacter({
         ...character,
-        perfectStreak: newStreak,
         completedQuestions: character.completedQuestions
       });
     }
@@ -244,7 +261,6 @@ export const useCharacter = () => {
       levelUp,
       alreadyCompleted,
       xpGained: (alreadyCompleted || !isCorrect) ? 0 : xpAmount + comboBonus,
-      newStreak,
       comboBonus,
       currentCombo: newCombo
     };
