@@ -386,7 +386,7 @@ export default function App() {
   }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: isDark ? 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' : 'linear-gradient(135deg, #f5f3f9 0%, #e8e4f5 100%)' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg-gradient)' }}>
       <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
 
       <LevelUpAnimation 
@@ -422,7 +422,7 @@ export default function App() {
       )}
 
       {showProfile && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 500, overflowY: 'auto', background: 'linear-gradient(135deg, #0f0a1f 0%, #1a0f2e 100%)' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 500, overflowY: 'auto', background: 'var(--bg-gradient)' }}>
           <ProfileScreen
             character={character}
             onBack={() => setShowProfile(false)}

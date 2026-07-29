@@ -25,6 +25,7 @@ body {
   perspective: none !important;
   margin: 0 !important;
   padding: 0 !important;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 #root {
