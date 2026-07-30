@@ -553,6 +553,7 @@ export default function App() {
           onNext={handleNextQuestion}
           onBack={goToHub}
           character={character}
+          t={t}
         />
       )}
     </div>

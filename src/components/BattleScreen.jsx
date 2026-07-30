@@ -13,7 +13,8 @@ export default function BattleScreen({
   onAnswer, 
   onNext, 
   onBack,
-  character
+  character,
+  t
 }) {
   return (
     <div className="battle-screen">
