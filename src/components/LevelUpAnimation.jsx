@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SoundSystem } from '../utils/SoundSystem';
 
-export default function LevelUpAnimation({ level, show, onComplete }) {
+export default function LevelUpAnimation({ level, show, onComplete, t }) {
   const [visible, setVisible] = useState(show);
 
   useEffect(() => {
@@ -23,10 +23,10 @@ export default function LevelUpAnimation({ level, show, onComplete }) {
       <div className="level-up-content animate-level-up-bounce">
         <div className="level-up-stars">⭐</div>
         <div className="level-up-text animate-level-up-text">
-          LEVEL UP!
+          {t?.levelUp || 'LEVEL UP!'}
         </div>
         <div className="level-up-number">
-          Niveau {level}
+          {t?.newLevel ? t.newLevel(level) : `Niveau ${level}`}
         </div>
         <div className="level-up-shine"></div>
       </div>

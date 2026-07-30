@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../styles/ArenaScreen.css';
 import { ARENA_OPPONENTS, getOpponentById, getDifficultyColor, getRecommendedLevel } from '../data/arenaDB';
 
-export default function ArenaScreen({ character, onBack, onStartDuel }) {
+export default function ArenaScreen({ character, onBack, onStartDuel, t }) {
   const [selectedOpponent, setSelectedOpponent] = useState(null);
 
   const handleChallenge = (opponent) => {
@@ -40,7 +40,7 @@ export default function ArenaScreen({ character, onBack, onStartDuel }) {
       </div>
 
       <div className="opponents-section">
-        <h2>Opposants Disponibles</h2>
+        <h2{t?.chooseOpponent || 'Opposants Disponibles'}</h2>
         
         <div className="opponents-grid">
           {ARENA_OPPONENTS.map(opponent => (

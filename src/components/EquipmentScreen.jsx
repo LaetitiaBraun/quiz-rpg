@@ -1,7 +1,7 @@
 import '../styles/EquipmentScreen.css';
 import { getEquipmentById, getAvailableEquipment, getRarityColor } from '../data/equipmentDB';
 
-export default function EquipmentScreen({ character, onEquip, onUnequip, onBack }) {
+export default function EquipmentScreen({ character, onEquip, onUnequip, onBack, t }) {
   const equipmentStats = calculateEquipmentStats(character.equipment);
   const availableEquipment = getAvailableEquipment(character.level);
 
@@ -12,7 +12,7 @@ export default function EquipmentScreen({ character, onEquip, onUnequip, onBack 
       <div className="equipment-container">
         {/* Équipement Actuellement Équipé */}
         <div className="equipped-section">
-          <h2 className="section-title">⚔️ Équipement Équipé</h2>
+          <h2 className="section-title">{t?.equipmentTitle || '⚔️ Équipement'} Équipé</h2>
           
           <div className="equipment-slots">
             <EquipmentSlot 

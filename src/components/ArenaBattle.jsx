@@ -3,10 +3,10 @@ import '../styles/ArenaBattle.css';
 import { getOpponentById } from '../data/arenaDB';
 import { SoundSystem } from '../utils/SoundSystem';
 
-export default function ArenaBattle({ opponent, character, equipmentStats, onBattleEnd }) {
+export default function ArenaBattle({ opponent, character, equipmentStats, onBattleEnd, t }) {
   const [playerHealth, setPlayerHealth] = useState(100);
   const [opponentHealth, setOpponentHealth] = useState(100);
-  const [battleLog, setBattleLog] = useState(['Le duel commence!']);
+  const [battleLog, setBattleLog] = useState([{t?.arenaTitle || 'Le duel commence!'}]);
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [battleOver, setBattleOver] = useState(false);
   const [winner, setWinner] = useState(null);
@@ -144,7 +144,7 @@ export default function ArenaBattle({ opponent, character, equipmentStats, onBat
         ) : (
           <div className="battle-result">
             <div className={`result-text ${winner === 'player' ? 'victory' : 'defeat'}`}>
-              {winner === 'player' ? '🎉 VICTOIRE!' : '💀 DÉFAITE!'}
+              {winner === 'player' ? '{t?.victory || '🎉 VICTOIRE!'}' : '{t?.defeat || '💀 DÉFAITE!'}'}
             </div>
             <button 
               className="button button-finish"

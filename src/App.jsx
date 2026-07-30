@@ -419,7 +419,8 @@ export default function App() {
       <LevelUpAnimation 
         level={newLevel} 
         show={showLevelUp} 
-        onComplete={() => setShowLevelUp(false)} 
+        onComplete={() => setShowLevelUp(false)}
+        t={t} 
       />
 
       {showDifficultyModal && (
@@ -440,6 +441,7 @@ export default function App() {
           currentName={character.name}
           onSave={handleEditName}
           onClose={() => setShowEditName(false)}
+          t={t}
         />
       )}
 
@@ -448,6 +450,7 @@ export default function App() {
           character={character}
           onClose={() => setShowBackup(false)}
           onCharacterLoad={setCharacter}
+          t={t}
         />
       )}
 
@@ -513,6 +516,7 @@ export default function App() {
           character={character}
           onBack={goToHub}
           onStartDuel={handleStartDuel}
+          t={t}
         />
       ) : gameState === 'arena-battle' && currentArenaOpponent ? (
         <ArenaBattle 
@@ -520,6 +524,7 @@ export default function App() {
           character={character}
           equipmentStats={equipmentStats}
           onBattleEnd={handleBattleEnd}
+          t={t}
         />
       ) : currentUniverse === 'story' ? (
         <StoryBattleScreen 
