@@ -43,10 +43,10 @@ export default function BadgesScreen({ character, onBack, t }) {
                 <h3 className="badge-name">{badge.name}</h3>
                 <p className="badge-description">{badge.description}</p>
                 <p className="badge-rarity">
-                  {badge.rarity === 'common' && {t?.common || '● Commun'}}
-                  {badge.rarity === 'uncommon' && {t?.uncommon || '● Peu Commun'}}
-                  {badge.rarity === 'rare' && {t?.rare || '● Rare'}}
-                  {badge.rarity === 'epic' && {t?.epic || '● Épique'}}
+                  {badge.rarity === 'common' && (t?.common || '● Commun')}
+                  {badge.rarity === 'uncommon' && (t?.uncommon || '● Peu Commun')}
+                  {badge.rarity === 'rare' && (t?.rare || '● Rare')}
+                  {badge.rarity === 'epic' && (t?.epic || '● Épique')}
                 </p>
               </div>
 
