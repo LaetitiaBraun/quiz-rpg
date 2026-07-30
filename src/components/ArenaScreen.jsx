@@ -40,7 +40,7 @@ export default function ArenaScreen({ character, onBack, onStartDuel, t }) {
       </div>
 
       <div className="opponents-section">
-        <h2{t?.chooseOpponent || 'Opposants Disponibles'}</h2>
+        <h2>{t?.chooseOpponent || 'Opposants Disponibles'}</h2>
         
         <div className="opponents-grid">
           {ARENA_OPPONENTS.map(opponent => (

@@ -12,7 +12,7 @@ export default function EquipmentScreen({ character, onEquip, onUnequip, onBack,
       <div className="equipment-container">
         {/* Équipement Actuellement Équipé */}
         <div className="equipped-section">
-          <h2 className="section-title">{t?.equipmentTitle || '⚔️ Équipement'} Équipé</h2>
+          <h2 className="section-title">{t?.equipmentTitle || '⚔️ Équipement'}</h2>
           
           <div className="equipment-slots">
             <EquipmentSlot 
