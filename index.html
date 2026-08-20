@@ -16,7 +16,7 @@
     
     <!-- Icons -->
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <!-- Le lien manifest est injecté automatiquement par vite-plugin-pwa au build -->
+    <link rel="manifest" href="/manifest.json" />
     
     <!-- Open Graph -->
     <meta property="og:title" content="Quiz RPG - The Hero's Destiny" />
@@ -66,6 +66,24 @@
         letter-spacing: 3px;
         text-transform: uppercase;
         margin-left: 10px;
+      }
+      @media (max-width: 640px) {
+        .app-header {
+          padding: 10px 12px;
+          justify-content: flex-start;
+        }
+        .header-content {
+          gap: 6px;
+        }
+        .logo-icon { font-size: 20px; }
+        .app-header h1 {
+          font-size: 14px;
+          letter-spacing: 1px;
+          white-space: nowrap;
+        }
+        .logo-subtitle {
+          display: none;
+        }
       }
       .app-footer {
         background: linear-gradient(135deg, rgba(31, 20, 76, 0.98), rgba(15, 10, 31, 0.98));
