@@ -21,6 +21,7 @@ import './styles/DailyQuestsScreen.css';
 import './styles/DifficultyModal.css';
 import './styles/ProfileScreen.css';
 import './styles/ThemeToggle.css';
+import './styles/InstallButton.css';
 import { useCharacter } from './hooks/useCharacter';
 import { useTheme } from './hooks/useTheme';
 import { QUESTIONS_DB } from './data/questionsDB';
@@ -42,6 +43,7 @@ import DifficultyModal from './components/DifficultyModal';
 import ProfileScreen from './components/ProfileScreen';
 import ThemeToggle from './components/ThemeToggle';
 import LanguageToggle from './components/LanguageToggle';
+import InstallButton from './components/InstallButton';
 import { useLanguage } from './hooks/useLanguage';
 
 export default function App() {
@@ -415,6 +417,7 @@ export default function App() {
     <div style={{ minHeight: '100vh', background: 'var(--bg-gradient)' }}>
       <ThemeToggle isDark={isDark} toggleTheme={toggleTheme} />
       <LanguageToggle lang={lang} setLanguage={setLanguage} />
+      <InstallButton />
 
       <LevelUpAnimation 
         level={newLevel} 
