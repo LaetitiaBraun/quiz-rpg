@@ -455,7 +455,7 @@ export default function App() {
       )}
 
       {showProfile && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 500, overflowY: 'auto', background: 'var(--bg-gradient)' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 500, overflowY: 'auto', overflowX: 'hidden', maxWidth: '100vw', background: 'var(--bg-gradient)' }}>
           <ProfileScreen
             character={character}
             onBack={() => setShowProfile(false)}

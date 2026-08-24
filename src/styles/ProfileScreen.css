@@ -323,9 +323,20 @@
 }
 
 /* Responsive */
+@media (max-width: 900px) {
+  .stats-grid,
+  .character-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
 @media (max-width: 768px) {
+  .profile-screen {
+    padding: 10px;
+  }
+
   .profile-container {
-    padding: 20px;
+    padding: 16px;
   }
 
   .profile-header {
@@ -338,15 +349,15 @@
   }
 
   .stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 
   .universe-progress {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 
   .character-stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 
   .stat-card {
