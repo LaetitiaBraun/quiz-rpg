@@ -42,10 +42,15 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 40px;
-        position: sticky;
+        position: fixed;
         top: 0;
+        left: 0;
+        right: 0;
         z-index: 1000;
+        box-sizing: border-box;
+      }
+      .app-shell {
+        padding-top: 118px;
       }
       .header-content {
         display: flex;
@@ -72,6 +77,9 @@
           padding: 10px 155px 10px 12px;
           justify-content: flex-start;
         }
+        .app-shell {
+          padding-top: 96px;
+        }
         .header-content {
           gap: 6px;
           max-width: 100%;
@@ -96,6 +104,9 @@
       @media (max-width: 380px) {
         .app-header {
           padding-right: 140px;
+        }
+        .app-shell {
+          padding-top: 90px;
         }
         .app-header h1 {
           font-size: 11px;
