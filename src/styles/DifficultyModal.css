@@ -157,8 +157,8 @@
 }
 
 /* Responsive */
-@media (max-width: 480px) {
-  .difficulty-modal { padding: 20px; }
+@media (max-width: 640px) {
+  .difficulty-modal { padding: 20px; width: 94%; }
   .difficulty-grid { grid-template-columns: 1fr; gap: 10px; }
   .difficulty-card { flex-direction: row; padding: 14px 16px; justify-content: flex-start; gap: 14px; }
   .difficulty-emoji { font-size: 28px; }
