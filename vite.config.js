@@ -56,8 +56,7 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot}'],
-        navigateFallback: '/index.html',
+        globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,gif,webp,woff,woff2,ttf,eot}'],
         runtimeCaching: [
           {
             urlPattern: ({ request }) => request.mode === 'navigate',
