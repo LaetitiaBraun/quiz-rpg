@@ -120,7 +120,7 @@
 }
 
 /* Stats Grid */
-.stats-grid {
+.profile-stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
@@ -324,7 +324,7 @@
 
 /* Responsive */
 @media (max-width: 900px) {
-  .stats-grid,
+  .profile-stats-grid,
   .character-stats-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
@@ -348,7 +348,7 @@
     font-size: 24px;
   }
 
-  .stats-grid {
+  .profile-stats-grid {
     grid-template-columns: 1fr !important;
   }
 

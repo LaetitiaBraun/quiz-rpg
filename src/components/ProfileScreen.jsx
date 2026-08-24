@@ -51,7 +51,7 @@ export default function ProfileScreen({ character, onBack, t }) {
           <div className="total-xp">{t?.totalXP || 'XP Total:'} {character.totalXP || 0}</div>
         </div>
 
-        <div className="stats-grid">
+        <div className="profile-stats-grid">
           <div className="stat-card">
             <div className="stat-icon">📊</div>
             <div className="stat-content">
