@@ -74,10 +74,6 @@
   margin-bottom: 20px;
 }
 
-.difficulty-grid-story {
-  grid-template-columns: 1fr;
-}
-
 .difficulty-card {
   padding: 20px 12px;
   border: 2px solid var(--border-color);
@@ -163,8 +159,10 @@
 /* Responsive */
 @media (max-width: 640px) {
   .difficulty-modal { padding: 20px; width: 94%; }
-  .difficulty-grid { grid-template-columns: 1fr !important; gap: 10px; }
-  .difficulty-card { flex-direction: row; padding: 14px 16px; justify-content: flex-start; gap: 14px; }
+  .difficulty-grid { grid-template-columns: 1fr; gap: 10px; }
+  .difficulty-card { flex-direction: column; align-items: flex-start; padding: 16px; gap: 8px; }
+  .difficulty-card h3 { margin: 0; }
+  .xp-multiplier { align-self: flex-end; }
   .difficulty-emoji { font-size: 28px; }
 }
 
