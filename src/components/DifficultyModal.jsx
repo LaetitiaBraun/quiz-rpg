@@ -36,7 +36,7 @@ export default function DifficultyModal({ onSelectDifficulty, onCancel, universe
           <button className="close-btn" onClick={onCancel}>✕</button>
         </div>
 
-        <div className="difficulty-grid" style={{ gridTemplateColumns: isStory ? '1fr' : 'repeat(3, 1fr)' }}>
+        <div className={`difficulty-grid ${isStory ? 'difficulty-grid-story' : ''}`}>
           {levels.map((diff) => {
             const { done, failed, total } = diff.stats;
             const pct = total > 0 ? Math.round((done / total) * 100) : 0;
